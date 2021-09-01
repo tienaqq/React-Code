@@ -1,12 +1,13 @@
 import "antd/dist/antd.css";
+import Course from "components/Course";
 import Home from "components/Home";
 import Login from "components/Login";
 import Register from "components/Register";
 import { paths } from "constants/paths";
+import Latest from "containers/Latest";
 import AuthenticatedGuard from "guards/AuthenticatedGuard";
 import MemberRole from "guards/MemberRole";
 import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
-import Latest from "containers/Latest";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
@@ -27,6 +28,14 @@ function App() {
           <UnauthenticatedGuard>
             <Login />
           </UnauthenticatedGuard>
+        </Route>
+
+        <Route path={paths.COURSE}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <Course />
+            </MemberRole>
+          </AuthenticatedGuard>
         </Route>
 
         <Route path={paths.LATEST}>

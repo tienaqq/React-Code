@@ -9,6 +9,7 @@ import CourseFlashcard from "components/Latest/CourseFlashcard";
 import CourseInfo from "components/Latest/CourseInfo";
 import CourseMain from "components/Latest/CourseMain";
 import LessonDetail from "components/Latest/LessonDetail";
+import SendRequestLesson from "components/Latest/SendRequestLesson";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -120,6 +121,7 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
           </div>
         </div>
       </div>
+      <SendRequestLesson />
     </LayoutWithoutFooter>
   );
 };

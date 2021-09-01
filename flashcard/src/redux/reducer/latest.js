@@ -8,7 +8,10 @@ const initialState = {
   flashcards: [],
   flashcard: {},
   type: "subject",
-  isShowModal: false,
+  isRequestLesson: false,
+  lessonRequest: {},
+  isRequestSubject: false,
+  subjectRequest: {},
 };
 
 const SET_SUBJECT = "SET_SUBJECT";
@@ -16,7 +19,12 @@ const SET_LESSONS = "SET_LESSONS";
 const ADD_FLASHCARDS = "ADD_FLASHCARDS";
 const SET_FLASHCARD_DETAIL = "SET_FLASHCARD_DETAIL";
 const SET_TYPE_VIEW = "SET_TYPE_VIEW";
-const SET_SHOW_MODAL = "SET_SHOW_MODAL";
+
+const SET_SHOW_MODAL_REQUEST_LESSON = "SET_SHOW_MODAL_REQUEST_LESSON";
+const SET_LESSON_REQUEST = "SET_LESSON_REQUEST";
+
+const SET_SHOW_MODAL_REQUEST_SUBJECT = "SET_SHOW_MODAL_REQUEST_SUBJECT";
+const SET_SUBJECT_REQUEST = "SET_SUBJECT_REQUEST";
 
 export const setSubject = (items) => ({
   type: SET_SUBJECT,
@@ -38,8 +46,12 @@ export const setTypeView = (payload) => ({
   type: SET_TYPE_VIEW,
   payload: payload,
 });
-export const setShowModal = (payload) => ({
-  type: SET_SHOW_MODAL,
+export const setShowModalLesson = (payload) => ({
+  type: SET_SHOW_MODAL_REQUEST_LESSON,
+  payload: payload,
+});
+export const setLessonRequest = (payload) => ({
+  type: SET_LESSON_REQUEST,
   payload: payload,
 });
 
@@ -49,6 +61,7 @@ export const fetchSubject = (id) => async (dispatch) => {
 };
 export const fetchLessons = (id) => async (dispatch) => {
   const res = await lessonAPI.getLessonBySubId({ subjectId: id });
+  console.log(res);
   dispatch(setLessons(res.lession));
 };
 export const fetchFlashcards = (id) => async (dispatch) => {
@@ -87,10 +100,26 @@ const latestReducer = (state = initialState, action) => {
         type: action.payload,
       };
 
-    case SET_SHOW_MODAL:
+    case SET_SHOW_MODAL_REQUEST_LESSON:
       return {
         ...state,
-        isShowModal: action.payload,
+        isRequestLesson: action.payload,
+      };
+    case SET_LESSON_REQUEST:
+      return {
+        ...state,
+        lessonRequest: action.payload,
+      };
+
+    case SET_SHOW_MODAL_REQUEST_SUBJECT:
+      return {
+        ...state,
+        isRequestSubject: action.payload,
+      };
+    case SET_SUBJECT_REQUEST:
+      return {
+        ...state,
+        subjectRequest: action.payload,
       };
 
     default:

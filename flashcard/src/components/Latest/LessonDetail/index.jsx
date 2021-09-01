@@ -1,15 +1,15 @@
+import { SketchOutlined } from "@ant-design/icons";
 import { Button, Collapse, Descriptions, Spin, Typography } from "antd";
 import { backStatus } from "constants/backStatus";
+import Moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SketchOutlined } from "@ant-design/icons";
-import "./index.css";
-import Moment from "moment";
 import {
   setFlashcardDetail,
-  setShowModal,
+  setShowModalLesson,
   setTypeView,
 } from "redux/reducer/latest";
+import "./index.css";
 
 const { Panel } = Collapse;
 const { Text } = Typography;
@@ -21,7 +21,6 @@ function LessonDetail(props) {
   const { flashcards } = useSelector((state) => state.latest);
 
   const [lesson, setLesson] = useState(null);
-  const [flashcard, setFlashcard] = useState(null);
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -69,7 +68,7 @@ function LessonDetail(props) {
   };
 
   const enrol = (lesson) => {
-    dispatch(setShowModal(true));
+    dispatch(setShowModalLesson(true));
   };
 
   return (

@@ -1,15 +1,16 @@
-import { Collapse, Space, Descriptions, Button, Typography, Spin } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { Button, Collapse, Descriptions, Space, Typography } from "antd";
 import { backStatus } from "constants/backStatus";
-import "./index.css";
-import { SketchOutlined } from "@ant-design/icons";
-import {
-  setFlashcardDetail,
-  setShowModal,
-  setTypeView,
-} from "redux/reducer/latest";
 import Moment from "moment";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFlashcardDetail,
+  setLessonRequest,
+  setShowModalLesson,
+  setTypeView,
+} from "redux/reducer/latest";
+import "./index.css";
 
 const { Panel } = Collapse;
 const { Text } = Typography;
@@ -26,7 +27,7 @@ function CourseMain() {
     let dis = [];
     lessons?.map((item) => {
       console.log(item);
-      if (item.joinStatus === "Joined") {
+      if (item.joinStatus === "Join") {
         dis.push(item.lessionId);
       }
     });
@@ -62,9 +63,8 @@ function CourseMain() {
   };
 
   const enrol = (lesson) => {
-    console.log(lesson);
-    return;
-    dispatch(setShowModal(true));
+    dispatch(setLessonRequest(lesson));
+    dispatch(setShowModalLesson(true));
   };
 
   return (
@@ -95,10 +95,21 @@ function CourseMain() {
                     {Moment(lesson.createdDate).format("YYYY-MM-DD")}
                   </Descriptions.Item>
 
-                  {lesson.joinStatus === "Not join" && (
+                  {lesson?.statusId === 1 && (
                     <Descriptions.Item span={3}>
-                      <SketchOutlined />
-                      {" " + 100}
+                      Joined
+                      <Button
+                        type="text"
+                        shape="circle"
+                        className="icon__joined"
+                        icon={<CheckCircleOutlined />}
+                      />
+                    </Descriptions.Item>
+                  )}
+
+                  {lesson.joinStatus === "Not join" && (
+                    <Descriptions.Item span={3} label="Point">
+                      100
                     </Descriptions.Item>
                   )}
 
@@ -110,15 +121,11 @@ function CourseMain() {
                     </Descriptions.Item>
                   )}
 
-                  {lesson.joinStatus === "Waiting" && (
+                  {lesson.joinStatus === "Waiting from author" && (
                     <Descriptions.Item span={3}>
                       Waiting author accept
                     </Descriptions.Item>
                   )}
-
-                  <Descriptions.Item span={3}>
-                    {lesson.joinStatus}
-                  </Descriptions.Item>
                 </Descriptions>
               </div>
             </div>
@@ -129,5 +136,3 @@ function CourseMain() {
   );
 }
 export default CourseMain;
-
-// loading={lesson.joinStatus === "Joined" ? false : true}

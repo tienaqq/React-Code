@@ -4,6 +4,7 @@
 }
 .lesson__child {
   width: 100%;
+  min-height: 150px;
   display: grid;
   grid-template-columns: 4fr 1fr;
   grid-gap: 20px;
@@ -20,4 +21,11 @@
   .lesson__child {
     grid-template-columns: 1fr;
   }
+}
+
+.icon__joined {
+  color: #4bb543;
+}
+.icon__no-joined {
+  color: #fd1a02;
 }

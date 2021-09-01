@@ -16,14 +16,14 @@ import {
   Typography,
 } from "antd";
 import subjectAPI from "apis/subject";
+import Notification from "components/Notification";
 import { backStatus } from "constants/backStatus";
 import images from "constants/images";
 import Layout from "layouts/Layout";
 import Moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { savePostId } from "redux/action/user";
 import "./index.css";
 
 const { Panel } = Collapse;
@@ -51,30 +51,34 @@ function Course() {
     getInterest();
   }, []);
 
-  const checkPublic = async (id) => {
-    const response = await subjectAPI.checkPublic({ subjectId: id });
-    if (response.status === "Success") {
-      history.push(`/latest?post=${id}`);
-    }
-    if (response.status === "Failed") {
-      confirm({
-        title: "Notification",
-        icon: <ExclamationCircleOutlined />,
-        content: response.message,
-        onOk() {
-          savePublic(id);
-        },
-        onCancel() {},
-      });
-    }
-  };
-
-  const savePublic = async (id) => {
-    const response = await subjectAPI.saveRelation({ subjectId: id });
-    if (response.status === "Success") {
-      history.push(`/latest?post=${id}`);
-    } else {
-      Notification("error", response.message);
+  const join = (item) => {
+    const id = item?.subjectId;
+    const point = item?.point_require;
+    console.log(item);
+    switch (item.joinStatus) {
+      case "Not join":
+        confirm({
+          title: "Notification",
+          icon: <ExclamationCircleOutlined />,
+          content: `Do you agree to use ${point} points to change the course?`,
+          async onOk() {
+            const res = await subjectAPI.saveRelation({ subjectId: id });
+            console.log(res);
+            if (res.status === "Success") {
+              Notification("success", res.message);
+              history.push(`/latest?post=${id}`);
+            } else {
+              Notification("error", res.message);
+            }
+          },
+          onCancel() {},
+        });
+        break;
+      case "Join":
+        history.push(`/latest?post=${id}`);
+        break;
+      default:
+        break;
     }
   };
 
@@ -128,7 +132,7 @@ function Course() {
                                   <Button
                                     key="button"
                                     type="text"
-                                    onClick={() => checkPublic(sub?.subjectId)}
+                                    onClick={() => join(sub)}
                                   >
                                     {sub?.joinStatus}
                                     <CaretRightOutlined />
