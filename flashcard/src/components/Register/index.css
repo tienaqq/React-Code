@@ -1,0 +1,78 @@
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
+.register-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+.register-wrap {
+  width: 1024px;
+  background: #fff;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  border: 1px solid #eee;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+.register-form {
+  display: flex;
+  justify-content: center;
+}
+.register-form form {
+  width: 580px;
+  margin-top: 80px;
+}
+.register-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.form-input {
+  border-radius: 5px;
+}
+.register-image {
+  width: 100%;
+  position: relative;
+}
+.register-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.register-image__link {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  color: white;
+  font-size: 15px;
+  font-family: "Open sans", sans-serif;
+}
+.register-term {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #a9a9a9;
+  font-weight: 500;
+}
+@media screen and (max-width: 1023px) {
+  .register-form form {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+  .register-wrap {
+    grid-template-columns: 1fr;
+  }
+  .register-image img {
+    max-height: 200px;
+    object-fit: cover;
+  }
+}

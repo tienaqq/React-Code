@@ -1,0 +1,66 @@
+.main__header {
+  width: 100vw;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10%;
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+}
+.logo {
+  max-width: 170px;
+  width: 100%;
+  cursor: pointer;
+}
+.nav__links {
+  margin: 0;
+  list-style: none;
+  font-size: 16px;
+  color: #555;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.nav__links li {
+  display: inline-block;
+  padding: 0 8px;
+}
+.nav__links li a {
+  transition: all 0.3s ease 0s;
+}
+.nav__links li a:hover {
+  color: #108ee9;
+}
+.nav__menus {
+  width: 200px;
+  border-radius: 5px;
+  min-height: 400px;
+}
+.user__title {
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  color: #6a727f;
+  font-weight: 600;
+}
+.user__child {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #6a727f;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 767px) {
+  header {
+    padding: 10px 5px;
+  }
+  .nav-member__point {
+    display: none;
+  }
+  .nav-member__point > button {
+    display: none;
+  }
+}

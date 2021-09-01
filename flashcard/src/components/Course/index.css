@@ -1,0 +1,41 @@
+.course__container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 20px auto;
+}
+.course__container_2 {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto 20px auto;
+}
+.course__banner {
+  position: relative;
+}
+.course__info {
+  background-color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(10%, 20%);
+  padding: 30px 20px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+}
+.course__title {
+  font-size: 40px;
+  line-height: 56px;
+  font-weight: 800;
+  color: #393e46;
+  font: "Raleway", sans-serif;
+  text-transform: uppercase;
+}
+@media screen and (max-width: 767px) {
+  .course__info {
+    position: relative;
+    transform: translate(0, 0);
+  }
+  .course__title {
+    background-color: #ffffff;
+    font-size: 20px;
+    line-height: 1;
+  }
+}

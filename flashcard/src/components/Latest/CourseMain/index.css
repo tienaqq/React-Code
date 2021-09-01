@@ -1,0 +1,23 @@
+.lesson__wrapper {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.lesson__child {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-gap: 20px;
+}
+.lesson__child-list {
+  width: 100%;
+  min-height: 50px;
+  border-right: 1px solid #eee;
+}
+.lesson__child-tool {
+  width: 100%;
+}
+@media screen and (max-width: 767px) {
+  .lesson__child {
+    grid-template-columns: 1fr;
+  }
+}
