@@ -65,8 +65,21 @@ export const fetchLessons = (id) => async (dispatch) => {
 };
 export const fetchFlashcards = (id) => async (dispatch) => {
   const res = await flashcardAPI.getFlashcardByLessonId({ lessionId: id });
+  console.log(res);
   dispatch(setFlashcards(res.flashcard));
 };
+
+function filterDuplicate(arr) {
+  const filtered = arr?.reduce((acc, current) => {
+    const x = acc.find((item) => item.flashcardId === current.flashcardId);
+    if (!x) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
+  return filtered;
+}
 
 const latestReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -85,7 +98,9 @@ const latestReducer = (state = initialState, action) => {
     case ADD_FLASHCARDS:
       return {
         ...state,
-        flashcards: [...state.flashcards, action.payload],
+        flashcards: filterDuplicate(
+          [...state.flashcards].concat(action.payload)
+        ),
       };
 
     case SET_FLASHCARD_DETAIL:

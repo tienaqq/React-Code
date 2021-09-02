@@ -36,23 +36,21 @@ function CourseMain() {
 
   const findFlashcard = (id) => {
     let children = [];
-    flashcards?.map((flashcard) => {
-      flashcard.map((item) => {
-        if (item.lessionId === id) {
-          children.push(
-            <Descriptions.Item key={item.flashcardId}>
-              <Button
-                type="text"
-                disabled={list.indexOf(item.lessionId) < 0}
-                onClick={() => selected(item)}
-                className="btn--hover"
-              >
-                {item.flashcardName}
-              </Button>
-            </Descriptions.Item>
-          );
-        }
-      });
+    flashcards.map((item) => {
+      if (item.lessionId === id) {
+        children.push(
+          <Descriptions.Item key={item.flashcardId}>
+            <Button
+              type="text"
+              disabled={list.indexOf(item.lessionId) < 0}
+              onClick={() => selected(item)}
+              className="btn--hover"
+            >
+              {item.flashcardName}
+            </Button>
+          </Descriptions.Item>
+        );
+      }
     });
     return children;
   };

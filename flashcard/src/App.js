@@ -1,4 +1,5 @@
 import "antd/dist/antd.css";
+import NotFound from "components/404";
 import Course from "components/Course";
 import Home from "components/Home";
 import Login from "components/Login";
@@ -44,6 +45,10 @@ function App() {
               <Latest />
             </MemberRole>
           </AuthenticatedGuard>
+        </Route>
+
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </Router>
