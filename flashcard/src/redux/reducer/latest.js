@@ -61,7 +61,6 @@ export const fetchSubject = (id) => async (dispatch) => {
 };
 export const fetchLessons = (id) => async (dispatch) => {
   const res = await lessonAPI.getLessonBySubId({ subjectId: id });
-  console.log(res);
   dispatch(setLessons(res.lession));
 };
 export const fetchFlashcards = (id) => async (dispatch) => {

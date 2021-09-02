@@ -10,6 +10,7 @@ import CourseInfo from "components/Latest/CourseInfo";
 import CourseMain from "components/Latest/CourseMain";
 import LessonDetail from "components/Latest/LessonDetail";
 import SendRequestLesson from "components/Latest/SendRequestLesson";
+import TestList from "components/Latest/TestList";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -116,6 +117,7 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
                 {type === "subject" && <CourseMain />}
                 {type === "lesson" && <LessonDetail code={code} />}
                 {type === "flashcard" && <CourseFlashcard />}
+                {type === "test" && <TestList post={post} />}
               </Spin>
             </div>
           </div>
