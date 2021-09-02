@@ -38,7 +38,7 @@ html {
 }
 .app__second-child {
   width: 100%;
-  max-width: 960px;
+  max-width: 1200px;
 }
 
 @media screen and (max-width: 1023px) {

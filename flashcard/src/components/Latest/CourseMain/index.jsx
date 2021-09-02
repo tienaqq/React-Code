@@ -4,11 +4,11 @@ import { backStatus } from "constants/backStatus";
 import Moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import {
   setFlashcardDetail,
   setLessonRequest,
   setShowModalLesson,
-  setTypeView,
 } from "redux/reducer/latest";
 import "./index.css";
 
@@ -17,6 +17,8 @@ const { Text } = Typography;
 
 function CourseMain() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  let { post } = useParams();
   const { lessons } = useSelector((state) => state.latest);
   const { flashcards } = useSelector((state) => state.latest);
 
@@ -56,8 +58,8 @@ function CourseMain() {
   };
 
   const selected = (item) => {
-    dispatch(setTypeView("flashcard"));
     dispatch(setFlashcardDetail(item));
+    history.push(`/latest/${post}/flashcard`);
   };
 
   const enrol = (lesson) => {
@@ -66,71 +68,73 @@ function CourseMain() {
   };
 
   return (
-    <Space direction="vertical" size={15}>
-      {lessons?.map((lesson, index) => (
-        <Collapse
-          defaultActiveKey={array}
-          key={lesson?.lessionId}
-          className="lesson__wrapper"
-        >
-          <Panel
-            header={lesson?.lessionName}
-            key={index}
-            extra={backStatus(lesson?.statusId)}
+    <div className="app__first-child">
+      <Space direction="vertical" size={15}>
+        {lessons?.map((lesson, index) => (
+          <Collapse
+            defaultActiveKey={array}
+            key={lesson?.lessionId}
+            className="lesson__wrapper"
           >
-            <div className="lesson__child">
-              <div className="lesson__child-list">
-                <Descriptions size="small" column={2}>
-                  <Text type="secondary" span={2}>
-                    {lesson.lessionDescription}
-                  </Text>
-                  {findFlashcard(lesson?.lessionId)}
-                </Descriptions>
+            <Panel
+              header={lesson?.lessionName}
+              key={index}
+              extra={backStatus(lesson?.statusId)}
+            >
+              <div className="lesson__child">
+                <div className="lesson__child-list">
+                  <Descriptions size="small" column={2}>
+                    <Text type="secondary" span={2}>
+                      {lesson.lessionDescription}
+                    </Text>
+                    {findFlashcard(lesson?.lessionId)}
+                  </Descriptions>
+                </div>
+                <div className="lesson__child-tool">
+                  <Descriptions size="small" column={3}>
+                    <Descriptions.Item label="Publish" span={3}>
+                      {Moment(lesson.createdDate).format("YYYY-MM-DD")}
+                    </Descriptions.Item>
+
+                    {lesson?.statusId === 1 && (
+                      <Descriptions.Item span={3}>
+                        Joined
+                        <Button
+                          type="text"
+                          shape="circle"
+                          className="icon__joined"
+                          icon={<CheckCircleOutlined />}
+                        />
+                      </Descriptions.Item>
+                    )}
+
+                    {lesson.joinStatus === "Not join" && (
+                      <Descriptions.Item span={3} label="Point">
+                        100
+                      </Descriptions.Item>
+                    )}
+
+                    {lesson.joinStatus === "Not join" && (
+                      <Descriptions.Item span={3}>
+                        <Button type="primary" onClick={() => enrol(lesson)}>
+                          Enrol me
+                        </Button>
+                      </Descriptions.Item>
+                    )}
+
+                    {lesson.joinStatus === "Waiting from author" && (
+                      <Descriptions.Item span={3}>
+                        Waiting author accept
+                      </Descriptions.Item>
+                    )}
+                  </Descriptions>
+                </div>
               </div>
-              <div className="lesson__child-tool">
-                <Descriptions size="small" column={3}>
-                  <Descriptions.Item label="Publish" span={3}>
-                    {Moment(lesson.createdDate).format("YYYY-MM-DD")}
-                  </Descriptions.Item>
-
-                  {lesson?.statusId === 1 && (
-                    <Descriptions.Item span={3}>
-                      Joined
-                      <Button
-                        type="text"
-                        shape="circle"
-                        className="icon__joined"
-                        icon={<CheckCircleOutlined />}
-                      />
-                    </Descriptions.Item>
-                  )}
-
-                  {lesson.joinStatus === "Not join" && (
-                    <Descriptions.Item span={3} label="Point">
-                      100
-                    </Descriptions.Item>
-                  )}
-
-                  {lesson.joinStatus === "Not join" && (
-                    <Descriptions.Item span={3}>
-                      <Button type="primary" onClick={() => enrol(lesson)}>
-                        Enrol me
-                      </Button>
-                    </Descriptions.Item>
-                  )}
-
-                  {lesson.joinStatus === "Waiting from author" && (
-                    <Descriptions.Item span={3}>
-                      Waiting author accept
-                    </Descriptions.Item>
-                  )}
-                </Descriptions>
-              </div>
-            </div>
-          </Panel>
-        </Collapse>
-      ))}
-    </Space>
+            </Panel>
+          </Collapse>
+        ))}
+      </Space>
+    </div>
   );
 }
 export default CourseMain;

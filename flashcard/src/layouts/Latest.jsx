@@ -12,20 +12,23 @@ import LessonDetail from "components/Latest/LessonDetail";
 import SendRequestLesson from "components/Latest/SendRequestLesson";
 import TestList from "components/Latest/TestList";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { setTypeView } from "redux/reducer/latest";
+import { useSelector } from "react-redux";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import LayoutWithoutFooter from "./LayoutWithoutFooter";
 
 const { SubMenu } = Menu;
 
 const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
-  const dispatch = useDispatch();
-  let { search } = useLocation();
-  let query = new URLSearchParams(search);
-  const post = query.get("post");
+  const history = useHistory();
+  let { path } = useRouteMatch();
+  let { post } = useParams();
 
-  const { type } = useSelector((state) => state.latest);
   const [loading, setLoading] = useState(true);
   const [code, setCode] = useState(null);
 
@@ -54,22 +57,24 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
   });
 
   const handleClick = (e) => {
-    // console.log("click ", e);
     switch (e.key) {
+      case "all":
+        history.push(`/latest/${post}`);
+        break;
       case "test":
-        dispatch(setTypeView("test"));
+        history.push(`/latest/${post}/test`);
         break;
       case "grades":
-        dispatch(setTypeView("grades"));
+        history.push(`/latest/${post}/grades`);
         break;
       case "guidelines":
-        dispatch(setTypeView("guidelines"));
+        history.push(`/latest/${post}/guidelines`);
         break;
       default:
         if (e.keyPath[1] === "overview") {
           const num = e.keyPath[0];
           setCode(num);
-          dispatch(setTypeView("lesson"));
+          history.push(`/latest/${post}/lesson`);
         }
         break;
     }
@@ -92,6 +97,7 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
                 icon={<ScheduleOutlined />}
                 title="Overview"
               >
+                <Menu.Item key="all">All Type</Menu.Item>
                 <Menu.ItemGroup key="public" title="Public">
                   {pub}
                 </Menu.ItemGroup>
@@ -111,15 +117,22 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
             </Menu>
           </div>
           <div className="app__content">
-            <div className="app__first-child">
-              <Spin spinning={loading}>
-                {type === "subject" && <CourseInfo />}
-                {type === "subject" && <CourseMain />}
-                {type === "lesson" && <LessonDetail code={code} />}
-                {type === "flashcard" && <CourseFlashcard />}
-                {type === "test" && <TestList post={post} />}
-              </Spin>
-            </div>
+            <Spin spinning={loading}></Spin>
+            <Switch>
+              <Route exact path={path}>
+                <CourseInfo />
+                <CourseMain />
+              </Route>
+              <Route path={`${path}/lesson`}>
+                <LessonDetail code={code} />
+              </Route>
+              <Route path={`${path}/flashcard`}>
+                <CourseFlashcard />
+              </Route>
+              <Route path={`${path}/test`}>
+                <TestList post={post} />
+              </Route>
+            </Switch>
           </div>
         </div>
       </div>

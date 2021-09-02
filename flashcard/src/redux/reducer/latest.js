@@ -7,7 +7,6 @@ const initialState = {
   lessons: [],
   flashcards: [],
   flashcard: {},
-  type: "subject",
   isRequestLesson: false,
   lessonRequest: {},
   isRequestSubject: false,
@@ -18,7 +17,6 @@ const SET_SUBJECT = "SET_SUBJECT";
 const SET_LESSONS = "SET_LESSONS";
 const ADD_FLASHCARDS = "ADD_FLASHCARDS";
 const SET_FLASHCARD_DETAIL = "SET_FLASHCARD_DETAIL";
-const SET_TYPE_VIEW = "SET_TYPE_VIEW";
 
 const SET_SHOW_MODAL_REQUEST_LESSON = "SET_SHOW_MODAL_REQUEST_LESSON";
 const SET_LESSON_REQUEST = "SET_LESSON_REQUEST";
@@ -40,10 +38,6 @@ export const setFlashcards = (items) => ({
 });
 export const setFlashcardDetail = (payload) => ({
   type: SET_FLASHCARD_DETAIL,
-  payload: payload,
-});
-export const setTypeView = (payload) => ({
-  type: SET_TYPE_VIEW,
   payload: payload,
 });
 export const setShowModalLesson = (payload) => ({
@@ -107,11 +101,6 @@ const latestReducer = (state = initialState, action) => {
       return {
         ...state,
         flashcard: action.payload,
-      };
-    case SET_TYPE_VIEW:
-      return {
-        ...state,
-        type: action.payload,
       };
 
     case SET_SHOW_MODAL_REQUEST_LESSON:

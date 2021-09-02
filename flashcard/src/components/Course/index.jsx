@@ -54,7 +54,6 @@ function Course() {
   const join = (item) => {
     const id = item?.subjectId;
     const point = item?.point_require;
-    console.log(item);
     switch (item.joinStatus) {
       case "Not join":
         confirm({
@@ -66,7 +65,7 @@ function Course() {
             console.log(res);
             if (res.status === "Success") {
               Notification("success", res.message);
-              history.push(`/latest?post=${id}`);
+              history.push(`/latest/${id}`);
             } else {
               Notification("error", res.message);
             }
@@ -75,7 +74,7 @@ function Course() {
         });
         break;
       case "Join":
-        history.push(`/latest?post=${id}`);
+        history.push(`/latest/${id}`);
         break;
       default:
         break;

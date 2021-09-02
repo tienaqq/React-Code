@@ -3,7 +3,7 @@ export const paths = {
   LOGIN: "/login",
   REGISTER: "/register",
   COURSE: "/course",
-  LATEST: "/latest",
+  LATEST: "/latest/:post",
   CREATOR: "/creator",
   SEARCH: "/search",
   QUIZ: "/quiz",

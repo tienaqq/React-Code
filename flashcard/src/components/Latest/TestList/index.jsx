@@ -52,7 +52,7 @@ function TestList(props) {
   };
 
   return (
-    <>
+    <div className="app__first-child">
       {list?.map((item) => {
         return (
           <Card
@@ -112,7 +112,7 @@ function TestList(props) {
           </Card>
         );
       })}
-    </>
+    </div>
   );
 }
 export default TestList;
