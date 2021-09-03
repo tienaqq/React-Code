@@ -3,7 +3,7 @@ import {
   FileDoneOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Descriptions, Modal, Tooltip } from "antd";
+import { Button, Card, Descriptions, Modal, Tooltip, Empty } from "antd";
 import quizAPI from "apis/quiz";
 import Moment from "moment";
 import { useEffect, useState } from "react";
@@ -36,15 +36,21 @@ function TestList(props) {
   const checkQuiz = async (id) => {
     const response = await quizAPI.checkQuizAccess({ quizTestId: id });
     if (response.status === "Success") {
-      history.push(`/quiz?qid=${id}`);
+      confirm({
+        title: "Notification",
+        icon: <ExclamationCircleOutlined />,
+        content: "Confirm to take quiz.",
+        onOk() {
+          history.push(`/latest/${post}/take-quiz/${id}`);
+        },
+      });
     }
     if (response.status === "Failed") {
       confirm({
         title: "Notification",
         icon: <ExclamationCircleOutlined />,
         content:
-          response.message +
-          " :" +
+          "Please complete learning require lesson before take quiz :" +
           response.requireLesson.map((item) => item.lessionName) +
           " ",
       });
@@ -112,6 +118,7 @@ function TestList(props) {
           </Card>
         );
       })}
+      {!list && <Empty style={{ margin: "100px auto" }} />}
     </div>
   );
 }

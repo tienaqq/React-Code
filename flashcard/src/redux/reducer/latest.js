@@ -11,6 +11,7 @@ const initialState = {
   lessonRequest: {},
   isRequestSubject: false,
   subjectRequest: {},
+  listHistory: [],
 };
 
 const SET_SUBJECT = "SET_SUBJECT";
@@ -23,6 +24,8 @@ const SET_LESSON_REQUEST = "SET_LESSON_REQUEST";
 
 const SET_SHOW_MODAL_REQUEST_SUBJECT = "SET_SHOW_MODAL_REQUEST_SUBJECT";
 const SET_SUBJECT_REQUEST = "SET_SUBJECT_REQUEST";
+
+const SET_LIST_HISTORY = "SET_LIST_HISTORY";
 
 export const setSubject = (items) => ({
   type: SET_SUBJECT,
@@ -49,6 +52,11 @@ export const setLessonRequest = (payload) => ({
   payload: payload,
 });
 
+export const setListHistory = (payload) => ({
+  type: SET_LIST_HISTORY,
+  payload: payload,
+});
+
 export const fetchSubject = (id) => async (dispatch) => {
   const res = await subjectAPI.getSubjectById({ subjectId: id });
   dispatch(setSubject(res.subjectFound));
@@ -59,7 +67,6 @@ export const fetchLessons = (id) => async (dispatch) => {
 };
 export const fetchFlashcards = (id) => async (dispatch) => {
   const res = await flashcardAPI.getFlashcardByLessonId({ lessionId: id });
-  console.log(res);
   dispatch(setFlashcards(res.flashcard));
 };
 
@@ -123,6 +130,12 @@ const latestReducer = (state = initialState, action) => {
       return {
         ...state,
         subjectRequest: action.payload,
+      };
+
+    case SET_LIST_HISTORY:
+      return {
+        ...state,
+        listHistory: action.payload,
       };
 
     default:

@@ -8,11 +8,15 @@ import { Menu, Spin } from "antd";
 import CourseFlashcard from "components/Latest/CourseFlashcard";
 import CourseInfo from "components/Latest/CourseInfo";
 import CourseMain from "components/Latest/CourseMain";
+import Grades from "components/Latest/Grades";
+import GradesDetail from "components/Latest/GradesDetail";
+import GradesHistory from "components/Latest/GradesHistory";
+import Guidelines from "components/Latest/Guidelines";
 import LessonDetail from "components/Latest/LessonDetail";
 import SendRequestLesson from "components/Latest/SendRequestLesson";
+import TakeQuiz from "components/Latest/TakeQuiz";
 import TestList from "components/Latest/TestList";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import {
   Route,
   Switch,
@@ -131,6 +135,21 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
               </Route>
               <Route path={`${path}/test`}>
                 <TestList post={post} />
+              </Route>
+              <Route path={`${path}/guidelines`}>
+                <Guidelines />
+              </Route>
+              <Route path={`${path}/take-quiz/:qid`}>
+                <TakeQuiz />
+              </Route>
+              <Route path={`${path}/grades`}>
+                <Grades />
+              </Route>
+              <Route path={`${path}/grades-history/:hid`}>
+                <GradesHistory />
+              </Route>
+              <Route path={`${path}/review/:uid`}>
+                <GradesDetail />
               </Route>
             </Switch>
           </div>

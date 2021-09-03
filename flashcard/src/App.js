@@ -5,6 +5,7 @@ import Home from "components/Home";
 import Login from "components/Login";
 import Register from "components/Register";
 import { paths } from "constants/paths";
+import Creator from "containers/Creator";
 import Latest from "containers/Latest";
 import AuthenticatedGuard from "guards/AuthenticatedGuard";
 import MemberRole from "guards/MemberRole";
@@ -43,6 +44,14 @@ function App() {
           <AuthenticatedGuard>
             <MemberRole>
               <Latest />
+            </MemberRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.CREATOR}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <Creator />
             </MemberRole>
           </AuthenticatedGuard>
         </Route>

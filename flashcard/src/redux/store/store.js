@@ -17,6 +17,7 @@ import storage from "redux-persist/lib/storage";
 import adsReducer from "redux/reducer/ads";
 import latestReducer from "redux/reducer/latest";
 import userReducer from "redux/reducer/user";
+import creatorReducer from "redux/reducer/creator";
 
 const persistConfig = {
   key: "root",
@@ -28,6 +29,7 @@ const reducer = combineReducers({
   ads: adsReducer,
   user: userReducer,
   latest: latestReducer,
+  creator: creatorReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

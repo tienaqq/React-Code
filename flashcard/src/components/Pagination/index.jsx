@@ -1,6 +1,6 @@
 import { Pagination } from "antd";
 
-function Pagi(props) {
+function Paging(props) {
   const { current, total } = props;
 
   const onChange = (page) => {
@@ -25,4 +25,4 @@ function Pagi(props) {
     </div>
   );
 }
-export default Pagi;
+export default Paging;
