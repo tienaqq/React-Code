@@ -28,7 +28,7 @@ function CourseMain() {
   useEffect(() => {
     let dis = [];
     lessons?.map((item) => {
-      if (item.joinStatus === "Join") {
+      if (item.joinStatus === "Joined") {
         dis.push(item.lessionId);
       }
     });
@@ -66,6 +66,9 @@ function CourseMain() {
     dispatch(setShowModalLesson(true));
   };
 
+  console.log(lessons);
+  console.log(list);
+
   return (
     <div className="app__first-child">
       <Space direction="vertical" size={15}>
@@ -95,7 +98,8 @@ function CourseMain() {
                       {Moment(lesson.createdDate).format("YYYY-MM-DD")}
                     </Descriptions.Item>
 
-                    {lesson?.statusId === 1 && (
+                    {(lesson?.statusId === 1 ||
+                      lesson?.joinStatus === "Joined") && (
                       <Descriptions.Item span={3}>
                         Joined
                         <Button

@@ -1,11 +1,5 @@
-import {
-  CalendarOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
-import { Button, List, Space } from "antd";
-import IconText from "constants/IconText";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button, List, Space, Card, Descriptions } from "antd";
 import moment from "moment";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -31,28 +25,26 @@ function SubjectList() {
           </div>
         }
         renderItem={(item) => (
-          <List.Item
-            key={item.title}
-            actions={[
-              <IconText
-                icon={CalendarOutlined}
-                text={moment(item?.createdDate).format("YYYY-MM-DD")}
-                key="date"
-              />,
-            ]}
+          <Card
+            size="small"
+            title={item?.subjectName}
             extra={
               <Space>
                 <Button icon={<EditOutlined />} type="text" />
                 <Button icon={<DeleteOutlined />} type="text" />
-                <Button icon={<EyeOutlined />} type="text" />
               </Space>
             }
+            className="app--mg20"
           >
-            <List.Item.Meta
-              title={item?.subjectName}
-              description={item?.subjectDescription}
-            />
-          </List.Item>
+            <Descriptions column={3}>
+              <Descriptions.Item span={3}>
+                {item?.subjectDescription}
+              </Descriptions.Item>
+              <Descriptions.Item label="Publish" span={2}>
+                {moment(item?.createdDate).format("YYYY-MM-DD")}
+              </Descriptions.Item>
+            </Descriptions>
+          </Card>
         )}
       />
     </div>

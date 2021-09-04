@@ -8,12 +8,18 @@ const initialState = {
   subjects: [],
   lessons: [],
   flashcards: [],
+  modalInfo: {
+    title: "Add",
+    isVisibleModal: false,
+  },
 };
 
 const SET_TOPICS = "SET_TOPICS";
 const SET_SUBJECTS = "SET_SUBJECTS";
 const SET_LESSONS = "SET_LESSONS";
 const SET_FLASHCARDS = "SET_FLASHCARDS";
+
+const SET_MODAL_INFO = "SET_MODAL_INFO";
 
 export const setTopics = (payload) => ({
   type: SET_TOPICS,
@@ -29,6 +35,11 @@ export const setLessons = (payload) => ({
 });
 export const setFlashcards = (payload) => ({
   type: SET_FLASHCARDS,
+  payload: payload,
+});
+
+export const setModalInfo = (payload) => ({
+  type: SET_MODAL_INFO,
   payload: payload,
 });
 
@@ -70,6 +81,12 @@ const creatorReducer = (state = initialState, action) => {
       return {
         ...state,
         flashcards: action.payload,
+      };
+
+    case SET_MODAL_INFO:
+      return {
+        ...state,
+        modalInfo: action.payload,
       };
     default:
       return state;

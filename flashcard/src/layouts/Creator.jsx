@@ -1,10 +1,10 @@
 import { BranchesOutlined } from "@ant-design/icons";
 import { Button, Divider, Tree } from "antd";
-import FlashcardList from "components/Creator/Flashcards/Content";
-import LessonList from "components/Creator/Lessons/Content";
-import QuestionList from "components/Creator/Questions/Content";
-import SubjectList from "components/Creator/Subjects/Content";
-import TopicList from "components/Creator/Topics/Content";
+import FlashcardList from "components/Creator/Flashcards/FlashcardList";
+import LessonList from "components/Creator/Lessons/LessonList";
+import QuestionList from "components/Creator/Questions/QuestionList";
+import SubjectList from "components/Creator/Subjects/SubjectList";
+import TopicList from "components/Creator/Topics/TopicList";
 import { useEffect, useState } from "react";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import LayoutWithoutFooter from "./LayoutWithoutFooter";
