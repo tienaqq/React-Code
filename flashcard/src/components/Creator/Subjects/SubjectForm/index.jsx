@@ -1,17 +1,16 @@
 import { Button, Form, Input, Radio } from "antd";
-import topicAPI from "apis/topic";
+import subjectAPI from "apis/subject";
 import Notification from "components/Notification";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTopics, setModalInfo } from "redux/reducer/creator";
-import PropTypes from "prop-types";
+import { setModalInfo, fetchSubjects } from "redux/reducer/creator";
 
 const { TextArea } = Input;
 
-function TopicForm(props) {
+function SubjectForm(props) {
   const { modalInfo } = useSelector((state) => state.creator);
+  const { update, post } = props;
   const dispatch = useDispatch();
-  const { update } = props;
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -20,22 +19,24 @@ function TopicForm(props) {
 
   const onSubmit = async (values) => {
     if (update) {
-      const response = await topicAPI.updateTopicById(values);
-      if ((response.status = "Success")) {
-        Notification("success", response.message);
-        dispatch(fetchTopics());
+      Object.assign(values, { subjectId: update.subjectId });
+      const res = await subjectAPI.updateSubjectById(values);
+      if (res.status === "Success") {
+        Notification("success", res.message);
+        dispatch(fetchSubjects());
         dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
       } else {
-        Notification("error", response.message);
+        Notification("error", res.message);
       }
     } else {
-      const response = await topicAPI.addNewTopic(values);
-      if ((response.status = "Success")) {
-        Notification("success", response.message);
-        dispatch(fetchTopics());
+      let params = Object.assign({ topicId: post }, values);
+      const res = await subjectAPI.addSubjectByTopicId(params);
+      if (res.status === "Success") {
+        Notification("success", res.message);
+        dispatch(fetchSubjects());
         dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
       } else {
-        Notification("error", response.message);
+        Notification("error", res.message);
       }
     }
   };
@@ -50,8 +51,8 @@ function TopicForm(props) {
       initialValues={update}
     >
       <Form.Item
-        name="topicName"
-        label="Topic name:"
+        name="subjectName"
+        label="Subject name:"
         rules={[
           {
             required: true,
@@ -62,8 +63,8 @@ function TopicForm(props) {
         <Input />
       </Form.Item>
       <Form.Item
-        name="topicDescription"
-        label="Topic description:"
+        name="subjectDescription"
+        label="Subject description:"
         rules={[
           {
             required: true,
@@ -73,7 +74,7 @@ function TopicForm(props) {
       >
         <TextArea showCount maxLength={500} />
       </Form.Item>
-      <Form.Item hidden name="statusId" label="Status:" initialValue={1}>
+      <Form.Item name="statusId" label="Status:" initialValue={1}>
         <Radio.Group>
           <Radio value={1}>Public</Radio>
           <Radio value={2}>Private</Radio>
@@ -95,9 +96,4 @@ function TopicForm(props) {
     </Form>
   );
 }
-
-TopicForm.protoTypes = {
-  update: Object,
-};
-
-export default TopicForm;
+export default SubjectForm;
