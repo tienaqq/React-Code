@@ -1,0 +1,17 @@
+.q__card {
+  width: 100%;
+  position: relative;
+  padding: 0 0 10px 10px;
+  border-radius: 5px;
+}
+.q__button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, 0%);
+}
+.q__tool {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

@@ -10,21 +10,29 @@ function ModalCreator(props) {
   const { modalInfo } = useSelector((state) => state.creator);
 
   const showModal = () => {
-    dispatch(setModalInfo({ title: "Add", isVisibleModal: true }));
+    dispatch(setModalInfo({ title: "Add", isVisible: true }));
   };
 
   const handleCancel = () => {
-    dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
+    dispatch(setModalInfo({ title: "Add", isVisible: false }));
+  };
+  const size = (path) => {
+    switch (path) {
+      case "/creator/lesson/:post":
+        return 1000;
+      case "/creator/flashcard/:post":
+        return 1000;
+      default:
+        return 800;
+    }
   };
   return (
     <Modal
       title={modalInfo?.title}
-      visible={modalInfo?.isVisibleModal}
+      visible={modalInfo?.isVisible}
       onCancel={handleCancel}
       footer={false}
-      width={
-        path === "/creator/lesson" || path === "/creator/flashcard" ? 830 : 700
-      }
+      width={size(path)}
     >
       {props.children}
     </Modal>

@@ -1,47 +1,31 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Empty, Form, Input, Modal, Space, Spin } from "antd";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Card, Checkbox, Input, List, Space } from "antd";
 import questionAPI from "apis/question";
-import Paging from "components/Pagination";
+import ModalCreator from "components/Creator/ModalCreator";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import renderHTML from "react-render-html";
 import { useParams } from "react-router";
+import { setModalInfo } from "redux/reducer/creator";
+import QuestionForm from "../QuestionForm";
+import "./index.css";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 const { Search } = Input;
-const { confirm } = Modal;
-const getCorrect = (values) => {
-  let array = [];
-  values?.map((item) => {
-    item.option.map((el) => {
-      if (el.isCorrect.data[0] === 1) {
-        array.push(el.optionId);
-      }
-    });
-  });
-  return array;
-};
 
 function QuestionList() {
+  const dispatch = useDispatch();
   let { post } = useParams();
   const [questions, setQuestions] = useState([]);
-  const [form] = Form.useForm();
 
-  const [choice, setChoice] = useState([]);
-
-  const [current, setCurrent] = useState(1);
   const [loading, setLoading] = useState(true);
-
-  const indexOfLastPost = current * 10;
-  const indexOfFirstPost = indexOfLastPost - 10;
-  const currentPosts = questions?.slice(indexOfFirstPost, indexOfLastPost);
+  const [update, setUpdate] = useState(null);
 
   const getData = async () => {
     const response = await questionAPI.getQuestionByFlashId({
       flashcardId: post,
     });
     setQuestions(response.data);
-    let data = getCorrect(response.data);
-    setChoice(data);
     setLoading(false);
   };
 
@@ -49,74 +33,77 @@ function QuestionList() {
     getData();
   }, [post]);
 
-  useEffect(() => {
-    form.setFieldsValue({
-      group: choice,
-    });
-  }, [choice]);
+  const showModal = (item) => {
+    if (item) {
+      dispatch(setModalInfo({ title: "Update Question", isVisible: true }));
+    } else {
+      dispatch(setModalInfo({ title: "Add Question", isVisible: true }));
+    }
+    setUpdate(item);
+  };
 
   return (
-    <div className="app__third-child">
-      <Spin spinning={loading}>
-        <Form name="basic" form={form}>
-          <Form.Item name="group">
-            <Checkbox.Group disabled style={{ width: "100%" }}>
-              {currentPosts?.map((item, index) => {
-                return (
-                  <div
-                    className="q-content__container"
-                    key={`QUESTION-${item.question.questionId}`}
-                  >
-                    <div className="q-content__qs">
-                      <div className="q-content__count">
-                        <Button shape="circle">{++index}</Button>
-                      </div>
-                      {renderHTML(item.question.questionContent)}
-                    </div>
-                    <div className="q-content__qs">
-                      <Space direction="vertical">
-                        {item?.option.map((el, index) => {
-                          return (
-                            <Checkbox
-                              value={el.optionId}
-                              key={`OPTION-${el.optionId}`}
-                            >
-                              {alphabet[index] + ") " + el.optionContent}
-                            </Checkbox>
-                          );
-                        })}
-                      </Space>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <Button
-                        type="text"
-                        icon={<EditOutlined />}
-                        key="list-edit"
-                        className="button--mg"
-                      />
-                      <Button
-                        type="text"
-                        icon={<DeleteOutlined />}
-                        key="list--remove"
-                        className="button--mg"
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </Checkbox.Group>
-          </Form.Item>
-        </Form>
-        {currentPosts && (
-          <Paging
-            total={questions ? questions?.length : 1}
-            current={current}
-            onChangePage={setCurrent}
-          />
-        )}
-        {!currentPosts && <Empty />}
-      </Spin>
-    </div>
+    <>
+      <ModalCreator>
+        <QuestionForm update={update} post={post} getData={getData} />
+      </ModalCreator>
+      <div className="app__third-child">
+        <div className="tool__container">
+          <div className="tool__left">
+            <Button icon={<PlusOutlined />} onClick={() => showModal()}>
+              Add Question
+            </Button>
+          </div>
+          <div className="tool__right">
+            <Search placeholder="Input search text" enterButton allowClear />
+          </div>
+        </div>
+        <List
+          loading={loading}
+          itemLayout="vertical"
+          size="large"
+          pagination={{
+            pageSize: 10,
+          }}
+          dataSource={questions}
+          footer={
+            <div>
+              <b>Total:</b> {questions?.length}
+            </div>
+          }
+          renderItem={(item, index) => (
+            <Card size="small" className="app--mg20 q__card">
+              <div>{renderHTML(item.question.questionContent)}</div>
+              <Space direction="vertical">
+                {item?.option.map((el, index) => {
+                  return (
+                    <Checkbox
+                      disabled
+                      value={el.optionId}
+                      key={`OPTION-${el.optionId}`}
+                      checked={el.isCorrect.data[0] === 1 ? true : false}
+                    >
+                      {alphabet[index] + ") " + el.optionContent}
+                    </Checkbox>
+                  );
+                })}
+              </Space>
+              <Button className="q__button" shape="circle">
+                {++index}
+              </Button>
+              <div className="q__tool">
+                <Button
+                  icon={<EditOutlined />}
+                  type="text"
+                  onClick={() => showModal(item)}
+                />
+                <Button icon={<DeleteOutlined />} type="text" />
+              </div>
+            </Card>
+          )}
+        />
+      </div>
+    </>
   );
 }
 export default QuestionList;

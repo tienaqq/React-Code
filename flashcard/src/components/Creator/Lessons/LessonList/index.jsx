@@ -27,9 +27,9 @@ function LessonList() {
   const showModal = (item) => {
     if (item) {
       setUpdate(item);
-      dispatch(setModalInfo({ title: "Update Lesson", isVisibleModal: true }));
+      dispatch(setModalInfo({ title: "Update Lesson", isVisible: true }));
     } else {
-      dispatch(setModalInfo({ title: "Add Lesson", isVisibleModal: true }));
+      dispatch(setModalInfo({ title: "Add Lesson", isVisible: true }));
     }
   };
 

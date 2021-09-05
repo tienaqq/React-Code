@@ -23,7 +23,7 @@ function LessonForm(props) {
       if (res.status === "Success") {
         Notification("success", res.message);
         dispatch(fetchLessons());
-        dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
+        dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {
         Notification("error", res.message);
       }
@@ -33,7 +33,7 @@ function LessonForm(props) {
       if (res.status === "Success") {
         Notification("success", res.message);
         dispatch(fetchLessons());
-        dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
+        dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {
         Notification("error", res.message);
       }
@@ -72,8 +72,17 @@ function LessonForm(props) {
       >
         <TextArea showCount maxLength={500} />
       </Form.Item>
-      <Form.Item name="statusId" label="Status:" initialValue={1}>
-        <Radio.Group>
+      <Form.Item
+        name="statusId"
+        label="Status:"
+        rules={[
+          {
+            required: true,
+            message: "Status is required",
+          },
+        ]}
+      >
+        <Radio.Group defaultValue={1}>
           <Radio value={1}>Public</Radio>
           <Radio value={2}>Private</Radio>
         </Radio.Group>

@@ -17,9 +17,9 @@ function TopicList() {
   const showModal = (item) => {
     if (item) {
       setUpdate(item);
-      dispatch(setModalInfo({ title: "Update Topic", isVisibleModal: true }));
+      dispatch(setModalInfo({ title: "Update Topic", isVisible: true }));
     } else {
-      dispatch(setModalInfo({ title: "Add Topic", isVisibleModal: true }));
+      dispatch(setModalInfo({ title: "Add Topic", isVisible: true }));
     }
   };
 

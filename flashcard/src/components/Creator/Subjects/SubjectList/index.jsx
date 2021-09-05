@@ -27,9 +27,9 @@ function SubjectList() {
   const showModal = (item) => {
     if (item) {
       setUpdate(item);
-      dispatch(setModalInfo({ title: "Update Subject", isVisibleModal: true }));
+      dispatch(setModalInfo({ title: "Update Subject", isVisible: true }));
     } else {
-      dispatch(setModalInfo({ title: "Add Subject", isVisibleModal: true }));
+      dispatch(setModalInfo({ title: "Add Subject", isVisible: true }));
     }
   };
 

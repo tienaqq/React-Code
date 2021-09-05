@@ -24,7 +24,7 @@ function TopicForm(props) {
       if ((response.status = "Success")) {
         Notification("success", response.message);
         dispatch(fetchTopics());
-        dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
+        dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {
         Notification("error", response.message);
       }
@@ -33,7 +33,7 @@ function TopicForm(props) {
       if ((response.status = "Success")) {
         Notification("success", response.message);
         dispatch(fetchTopics());
-        dispatch(setModalInfo({ title: "Add", isVisibleModal: false }));
+        dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {
         Notification("error", response.message);
       }
@@ -73,8 +73,8 @@ function TopicForm(props) {
       >
         <TextArea showCount maxLength={500} />
       </Form.Item>
-      <Form.Item hidden name="statusId" label="Status:" initialValue={1}>
-        <Radio.Group>
+      <Form.Item hidden name="statusId" label="Status">
+        <Radio.Group defaultValue={1}>
           <Radio value={1}>Public</Radio>
           <Radio value={2}>Private</Radio>
         </Radio.Group>

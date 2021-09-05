@@ -10,7 +10,7 @@ const initialState = {
   flashcards: [],
   modalInfo: {
     title: "Add",
-    isVisibleModal: false,
+    isVisible: false,
   },
 };
 
