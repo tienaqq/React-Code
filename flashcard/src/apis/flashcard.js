@@ -13,7 +13,7 @@ const flashcardAPI = {
     return axiosClient.get(url, {});
   },
 
-  removeFlashcardById: (params) => {
+  removeFlashcard: (params) => {
     const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },

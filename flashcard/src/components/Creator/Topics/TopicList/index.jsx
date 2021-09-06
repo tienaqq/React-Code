@@ -2,10 +2,11 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Card, Descriptions, Input, List, Space } from "antd";
 import ModalCreator from "components/Creator/ModalCreator";
 import Moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalInfo } from "redux/reducer/creator";
 import TopicForm from "../TopicForm";
+import showDeleteConfirm from "components/Creator/Remove";
 
 const { Search } = Input;
 
@@ -13,6 +14,21 @@ function TopicList() {
   const dispatch = useDispatch();
   const { topics } = useSelector((state) => state.creator);
   const [update, setUpdate] = useState(null);
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(topics);
+  }, [topics]);
+
+  const onSearch = (value) => {
+    if (!value) return setData(topics);
+    let result = [];
+    result = topics.filter((item) => {
+      return item.topicName.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    });
+    return setData(result);
+  };
 
   const showModal = (item) => {
     if (item) {
@@ -36,7 +52,12 @@ function TopicList() {
             </Button>
           </div>
           <div className="tool__right">
-            <Search placeholder="Input search text" enterButton allowClear />
+            <Search
+              placeholder="Input search text"
+              onSearch={onSearch}
+              enterButton
+              allowClear
+            />
           </div>
         </div>
         <List
@@ -45,7 +66,7 @@ function TopicList() {
           pagination={{
             pageSize: 10,
           }}
-          dataSource={topics}
+          dataSource={data}
           footer={
             <div>
               <b>Total:</b> {topics?.length}
@@ -62,7 +83,11 @@ function TopicList() {
                     type="text"
                     onClick={() => showModal(item)}
                   />
-                  <Button icon={<DeleteOutlined />} type="text" />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    type="text"
+                    onClick={() => showDeleteConfirm(item.topicId, "topic")}
+                  />
                 </Space>
               }
               className="app--mg20"

@@ -18,7 +18,7 @@ const topicAPI = {
     return axiosClient.post(url, { params });
   },
 
-  removeTopicById: (params) => {
+  removeTopic: (params) => {
     const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { setModalInfo } from "redux/reducer/creator";
 import SubjectForm from "../SubjectForm";
+import showDeleteConfirm from "components/Creator/Remove";
 
 const { Search } = Input;
 
@@ -17,12 +18,23 @@ function SubjectList() {
   const { subjects } = useSelector((state) => state.creator);
   const [data, setData] = useState([]);
   const [update, setUpdate] = useState(null);
+  const [filter, setFilter] = useState([]);
 
   useEffect(() => {
     let el = [];
     el = subjects?.filter((item) => item.topicId === parseInt(post));
     setData(el);
+    setFilter(el);
   }, [post, subjects]);
+
+  const onSearch = (value) => {
+    if (!value) return setFilter(data);
+    let result = [];
+    result = data?.filter((item) => {
+      return item.subjectName.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    });
+    return setFilter(result);
+  };
 
   const showModal = (item) => {
     if (item) {
@@ -46,7 +58,12 @@ function SubjectList() {
             </Button>
           </div>
           <div className="tool__right">
-            <Search placeholder="Input search text" enterButton allowClear />
+            <Search
+              placeholder="Input search text"
+              onSearch={onSearch}
+              enterButton
+              allowClear
+            />
           </div>
         </div>
         <List
@@ -55,7 +72,7 @@ function SubjectList() {
           pagination={{
             pageSize: 10,
           }}
-          dataSource={data}
+          dataSource={filter}
           footer={
             <div>
               <b>Total:</b> {data?.length}
@@ -72,7 +89,11 @@ function SubjectList() {
                     type="text"
                     onClick={() => showModal(item)}
                   />
-                  <Button icon={<DeleteOutlined />} type="text" />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    type="text"
+                    onClick={() => showDeleteConfirm(item.subjectId, "subject")}
+                  />
                 </Space>
               }
               className="app--mg20"

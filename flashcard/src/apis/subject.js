@@ -28,7 +28,7 @@ const subjectAPI = {
     return axiosClient.post(url, { params });
   },
 
-  removeSubjectById: (params) => {
+  removeSubject: (params) => {
     const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },

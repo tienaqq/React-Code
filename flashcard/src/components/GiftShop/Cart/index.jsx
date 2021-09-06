@@ -125,26 +125,30 @@ function Cart() {
               alignItems: "center",
             }}
           >
-            <Text>
-              Point: <Text strong>{point}</Text>
-              {userLogged?.point < point && (
-                <Text mark> Try to study to accumulate more points</Text>
-              )}
-            </Text>
-            <Popconfirm
-              title="Are you sure checkout?"
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button
-                type="primary"
-                style={{ marginRight: "auto" }}
-                disabled={userLogged?.point < point ? true : false}
-                onConfirm={() => onSubmit()}
+            <div>
+              <Text>
+                Point: <Text strong>{point}</Text>
+                {userLogged?.point < point && (
+                  <Text mark> Try to study to accumulate more points</Text>
+                )}
+              </Text>
+            </div>
+            <div>
+              <Popconfirm
+                title="Are you sure checkout?"
+                okText="Yes"
+                cancelText="No"
               >
-                Checkout
-              </Button>
-            </Popconfirm>
+                <Button
+                  type="primary"
+                  style={{ marginRight: "auto" }}
+                  disabled={userLogged?.point < point ? true : false}
+                  onConfirm={() => onSubmit()}
+                >
+                  Checkout
+                </Button>
+              </Popconfirm>
+            </div>
           </div>
         }
         grid={{ gutter: 16, column: 1 }}

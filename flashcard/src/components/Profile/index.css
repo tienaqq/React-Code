@@ -1,4 +1,6 @@
 .profile__container {
+  width: 100%;
+  max-width: 1200px;
   margin-top: 10px;
 }
 .profile__form {

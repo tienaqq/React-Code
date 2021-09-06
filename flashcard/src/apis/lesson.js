@@ -43,7 +43,7 @@ const lessonAPI = {
     return axiosClient.post(url, { params });
   },
 
-  removeLessonById: (params) => {
+  removeLesson: (params) => {
     const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },

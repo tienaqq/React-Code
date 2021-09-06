@@ -14,6 +14,7 @@ import renderHTML from "react-render-html";
 import { useParams } from "react-router";
 import { setModalInfo } from "redux/reducer/creator";
 import FlashcardForm from "../FlashcardForm";
+import showDeleteConfirm from "components/Creator/Remove";
 
 const { Search } = Input;
 
@@ -23,12 +24,25 @@ function FlashcardList() {
   const { flashcards } = useSelector((state) => state.creator);
   const [data, setData] = useState([]);
   const [update, setUpdate] = useState(null);
+  const [filter, setFilter] = useState([]);
 
   useEffect(() => {
     let el = [];
     el = flashcards?.filter((item) => item.lessionId === parseInt(post));
     setData(el);
+    setFilter(el);
   }, [flashcards, post]);
+
+  const onSearch = (value) => {
+    if (!value) return setFilter(data);
+    let result = [];
+    result = data?.filter((item) => {
+      return (
+        item.flashcardName.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      );
+    });
+    return setFilter(result);
+  };
 
   const showModal = (item) => {
     if (item) {
@@ -52,7 +66,12 @@ function FlashcardList() {
             </Button>
           </div>
           <div className="tool__right">
-            <Search placeholder="Input search text" enterButton allowClear />
+            <Search
+              placeholder="Input search text"
+              onSearch={onSearch}
+              enterButton
+              allowClear
+            />
           </div>
         </div>
         <List
@@ -61,7 +80,7 @@ function FlashcardList() {
           pagination={{
             pageSize: 10,
           }}
-          dataSource={data}
+          dataSource={filter}
           footer={
             <div>
               <b>Total:</b> {data?.length}
@@ -80,7 +99,13 @@ function FlashcardList() {
                     type="text"
                     onClick={() => showModal(item)}
                   />
-                  <Button icon={<DeleteOutlined />} type="text" />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    type="text"
+                    onClick={() =>
+                      showDeleteConfirm(item.flashcardId, "flashcard")
+                    }
+                  />
                 </Space>
               }
             >
