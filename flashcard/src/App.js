@@ -6,10 +6,16 @@ import Login from "components/Login";
 import Register from "components/Register";
 import { paths } from "constants/paths";
 import Creator from "containers/Creator";
+import GiftShop from "containers/GiftShop";
 import Latest from "containers/Latest";
+import AdminRole from "guards/AdminRole";
 import AuthenticatedGuard from "guards/AuthenticatedGuard";
+import DonorRole from "guards/DonorRole";
 import MemberRole from "guards/MemberRole";
 import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
+import Admin from "layouts/Admin";
+import Donor from "layouts/Donor";
+import Profile from "layouts/Profile";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
@@ -53,6 +59,38 @@ function App() {
             <MemberRole>
               <Creator />
             </MemberRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.PROFILE}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <Profile />
+            </MemberRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.GIFT}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <GiftShop />
+            </MemberRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.DONOR}>
+          <AuthenticatedGuard>
+            <DonorRole>
+              <Donor />
+            </DonorRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.ADMIN}>
+          <AuthenticatedGuard>
+            <AdminRole>
+              <Admin />
+            </AdminRole>
           </AuthenticatedGuard>
         </Route>
 

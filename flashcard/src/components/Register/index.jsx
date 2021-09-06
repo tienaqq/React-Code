@@ -25,6 +25,7 @@ const form_2 = {
 function Register() {
   const history = useHistory();
   const [topics, setTopics] = useState([]);
+  const [selected, setSelected] = useState("1");
 
   useEffect(() => {
     const getTopics = async () => {
@@ -50,11 +51,9 @@ function Register() {
       address: values?.address,
       DOB: Moment(values?.DOB).format("YYYY-MM-DD"),
       gender: values?.gender,
-      interestTopic: values?.interestTopic,
+      interestTopic: selected === "1" ? values?.interestTopic : [],
     };
-    console.log(params);
     const response = await userAPI.register(params);
-    console.log(response);
     if (response.status === "Success") {
       history.push("/login");
       Notification("success", response.message);
@@ -62,6 +61,10 @@ function Register() {
       Notification("error", response.message);
     }
   };
+
+  function handleChange(value) {
+    setSelected(value);
+  }
 
   return (
     <div className="limiter">
@@ -154,7 +157,11 @@ function Register() {
                   rules={[{ required: true, message: "Role is required" }]}
                   style={form_1}
                 >
-                  <Select size="large" placeholder="Role">
+                  <Select
+                    size="large"
+                    placeholder="Role"
+                    onChange={handleChange}
+                  >
                     <Option value="1">Member</Option>
                     <Option value="3">Donor</Option>
                   </Select>
@@ -172,22 +179,24 @@ function Register() {
                 </Form.Item>
               </Form.Item>
 
-              <Form.Item
-                name="interestTopic"
-                rules={[
-                  { required: true, message: "Interest topic is required" },
-                ]}
-                style={{ width: "calc(100% - 8px)" }}
-              >
-                <Select
-                  size="large"
-                  mode="multiple"
-                  placeholder="Interest topics:"
-                  allowClear
+              {selected === "1" && (
+                <Form.Item
+                  name="interestTopic"
+                  rules={[
+                    { required: true, message: "Interest topic is required" },
+                  ]}
+                  style={{ width: "calc(100% - 8px)" }}
                 >
-                  {children}
-                </Select>
-              </Form.Item>
+                  <Select
+                    size="large"
+                    mode="multiple"
+                    placeholder="Interest topics:"
+                    allowClear
+                  >
+                    {children}
+                  </Select>
+                </Form.Item>
+              )}
 
               <p className="register-term">
                 By clicking you agree with our <Link to="/">Term of use</Link>.

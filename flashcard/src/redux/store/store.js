@@ -18,11 +18,12 @@ import adsReducer from "redux/reducer/ads";
 import latestReducer from "redux/reducer/latest";
 import userReducer from "redux/reducer/user";
 import creatorReducer from "redux/reducer/creator";
+import giftReducer from "redux/reducer/gift";
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["user", "cart"],
+  whitelist: ["user", "gift"],
 };
 
 const reducer = combineReducers({
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   user: userReducer,
   latest: latestReducer,
   creator: creatorReducer,
+  gift: giftReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

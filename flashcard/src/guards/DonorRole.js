@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { pathConstants } from "../constants/pathConstants";
+import { paths } from "constants/paths";
 
 function RoleGuard() {
   const { userLogged } = useSelector((state) => state.user);
@@ -19,7 +19,7 @@ export default function DonorRole({ children }) {
   }
   return (
     <Redirect
-      to={pathConstants.NOTFOUND}
+      to={paths.NOTFOUND}
       message={"Not permission. Try another account."}
     />
   );
