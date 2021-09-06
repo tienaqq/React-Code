@@ -99,7 +99,7 @@ function Header() {
           type="text"
           className="user__child"
           icon={<LogoutOutlined />}
-          onClick={() => Logout()}
+          onClick={() => logout()}
         >
           Logout
         </Button>
@@ -107,13 +107,13 @@ function Header() {
     </Menu>
   );
 
-  const Logout = async () => {
+  const logout = async () => {
     // const response = await userAPI.logout();
     Notification("success", "Logout success");
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
     dispatch(removeUserInfo());
-    history.replace("/");
+    history.replace("/login");
   };
 
   return (

@@ -19,6 +19,7 @@ import subjectAPI from "apis/subject";
 import Notification from "components/Notification";
 import { backStatus } from "constants/backStatus";
 import images from "constants/images";
+import { getChangeInfo } from "helpers/me";
 import Layout from "layouts/Layout";
 import Moment from "moment";
 import { useEffect, useState } from "react";
@@ -64,6 +65,7 @@ function Course() {
             const res = await subjectAPI.saveRelation({ subjectId: id });
             if (res.status === "Success") {
               Notification("success", res.message);
+              getChangeInfo();
               history.push(`/latest/${id}`);
             } else {
               Notification("error", res.message);

@@ -1,4 +1,9 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { Button, Card, Descriptions, Input, List, Space } from "antd";
 import ModalCreator from "components/Creator/ModalCreator";
 import { backStatus } from "constants/backStatus";
@@ -53,8 +58,18 @@ function LessonList() {
       <div className="app__third-child">
         <div className="tool__container">
           <div className="tool__left">
-            <Button icon={<PlusOutlined />} onClick={() => showModal()}>
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => showModal()}
+              style={{ marginRight: 10 }}
+            >
               Add Lesson
+            </Button>
+            <Button icon={<PlusOutlined />} style={{ marginRight: 10 }}>
+              Add Quiz
+            </Button>
+            <Button icon={<EyeOutlined />} style={{ marginRight: 10 }}>
+              View Quiz
             </Button>
           </div>
           <div className="tool__right">

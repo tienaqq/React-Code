@@ -20,7 +20,7 @@ function TopHeader() {
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
     dispatch(removeUserInfo());
-    history.replace("/");
+    history.replace("/login");
   };
 
   return (

@@ -1,14 +1,15 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Card, Descriptions, Input, List, Space } from "antd";
 import ModalCreator from "components/Creator/ModalCreator";
+import showDeleteConfirm from "components/Creator/Remove";
 import { backStatus } from "constants/backStatus";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { setModalInfo } from "redux/reducer/creator";
 import SubjectForm from "../SubjectForm";
-import showDeleteConfirm from "components/Creator/Remove";
 
 const { Search } = Input;
 
@@ -81,7 +82,11 @@ function SubjectList() {
           renderItem={(item) => (
             <Card
               size="small"
-              title={item?.subjectName}
+              title={
+                <Link to={`/creator/topic/${item.subjectId}`}>
+                  {item?.subjectName}
+                </Link>
+              }
               extra={
                 <Space>
                   <Button

@@ -5,6 +5,7 @@ import privateAPI from "apis/private";
 import subjectAPI from "apis/subject";
 import Notification from "components/Notification";
 import history from "helpers/history";
+import { getChangeInfo } from "helpers/me";
 
 const { confirm } = Modal;
 
@@ -52,8 +53,6 @@ export const checkPrivateSubject = async (id) => {
 
 export const checkPublicSubject = async (id) => {
   const res = await subjectAPI.checkPublic({ subjectId: id });
-  console.log(res);
-  return;
   if (res.status === "Success") {
     history.push(`/latest/${id}`);
   } else {
@@ -72,6 +71,7 @@ export const checkPublicSubject = async (id) => {
 const savePublic = async (id) => {
   const res = await subjectAPI.saveRelation({ subjectId: id });
   if (res.status === "Success") {
+    getChangeInfo();
     history.push(`/latest/${id}`);
   } else {
     Notification("error", res.message);

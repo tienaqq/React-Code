@@ -11,6 +11,7 @@ import {
 } from "antd";
 import giftAPI from "apis/gift";
 import Notification from "components/Notification";
+import { getChangeInfo } from "helpers/me";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -107,6 +108,7 @@ function Cart() {
     const response = await giftAPI.checkout(params);
     if (response.status === "Success") {
       Notification("success", "Receive gift success.");
+      getChangeInfo();
       emptyCart();
     } else {
       Notification("error", response.message);
@@ -138,12 +140,12 @@ function Cart() {
                 title="Are you sure checkout?"
                 okText="Yes"
                 cancelText="No"
+                onConfirm={() => onSubmit()}
               >
                 <Button
                   type="primary"
                   style={{ marginRight: "auto" }}
                   disabled={userLogged?.point < point ? true : false}
-                  onConfirm={() => onSubmit()}
                 >
                   Checkout
                 </Button>

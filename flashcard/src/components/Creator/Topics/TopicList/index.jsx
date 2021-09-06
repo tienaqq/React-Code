@@ -1,12 +1,13 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Card, Descriptions, Input, List, Space } from "antd";
 import ModalCreator from "components/Creator/ModalCreator";
+import showDeleteConfirm from "components/Creator/Remove";
 import Moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { setModalInfo } from "redux/reducer/creator";
 import TopicForm from "../TopicForm";
-import showDeleteConfirm from "components/Creator/Remove";
 
 const { Search } = Input;
 
@@ -14,7 +15,6 @@ function TopicList() {
   const dispatch = useDispatch();
   const { topics } = useSelector((state) => state.creator);
   const [update, setUpdate] = useState(null);
-  const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -75,7 +75,11 @@ function TopicList() {
           renderItem={(item) => (
             <Card
               size="small"
-              title={item?.topicName}
+              title={
+                <Link to={`/creator/topic/${item.topicId}`}>
+                  {item?.topicName}
+                </Link>
+              }
               extra={
                 <Space>
                   <Button

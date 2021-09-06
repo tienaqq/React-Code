@@ -122,9 +122,7 @@ function GiftStore() {
                 span={3}
                 style={{ paddingBottom: "5px" }}
               >
-                {item?.serviceTypeId !== 3
-                  ? Moment(item.startDate).format("YYYY-MM-DD")
-                  : "free"}
+                {Moment(item.startDate).format("YYYY-MM-DD")}
               </Descriptions.Item>
               <Descriptions.Item
                 label="End"
