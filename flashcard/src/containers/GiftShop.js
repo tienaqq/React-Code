@@ -4,7 +4,7 @@ import { fetchGifts } from "../redux/reducer/gift";
 
 const mapStateToProps = (state) => {
   return {
-    gifts: state.gift.gifts,
+    products: state.gift.gifts,
   };
 };
 

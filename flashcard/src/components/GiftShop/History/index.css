@@ -1,0 +1,14 @@
+.cart-history__wrapper {
+  width: 100%;
+  position: relative;
+}
+.cart-history__button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+@media screen and (max-width: 767px) {
+  .cart-history__button {
+    position: relative;
+  }
+}

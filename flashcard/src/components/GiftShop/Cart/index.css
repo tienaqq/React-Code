@@ -1,0 +1,9 @@
+.cart__wrapper {
+  width: 100%;
+  position: relative;
+}
+.cart__buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

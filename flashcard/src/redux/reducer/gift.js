@@ -1,27 +1,26 @@
 import giftAPI from "apis/gift";
 
 const initialState = {
-  gifts: [],
   products: [],
 };
 
-const ADD_CURRENT_GIFTS = "ADD_CURRENT_GIFTS";
+const ADD_TO_PRODUCTS = "ADD_TO_PRODUCTS";
 const ADD_TO_CART = "ADD_TO_CART";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const ADD_QUANTITY = "ADD_QUANTITY";
 const SUB_QUANTITY = "SUB_QUANTITY";
 const EMPTY_CART = "EMPTY_CART";
 
-export const addCurrentGifts = (payload) => {
+export const addToProducts = (payload) => {
   return {
-    type: ADD_CURRENT_GIFTS,
+    type: ADD_TO_PRODUCTS,
     payload: payload,
   };
 };
-export const addToCart = (payload) => {
+export const addToCart = (id) => {
   return {
     type: ADD_TO_CART,
-    payload: payload,
+    id,
   };
 };
 export const removeFromCart = (id) => {
@@ -48,22 +47,47 @@ export const emptyCart = () => {
   };
 };
 
+const create = (values) => {
+  let product = [];
+  values?.map((item) => {
+    product.push({
+      id: item.id,
+      serviceId: item.serviceId,
+      serviceName: item.serviceName,
+      serviceTypeId: item.serviceTypeId,
+      serviceInformation: item.serviceInformation,
+      max: item.quantity,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      price: 600,
+      quantity: 0,
+      selected: false,
+    });
+  });
+  return product;
+};
+
 export const fetchGifts = () => async (dispatch) => {
   const res = await giftAPI.getGifts();
-  dispatch(addCurrentGifts(res.listServices));
+  let array = create(res.listServices);
+  dispatch(addToProducts(array));
 };
 
 const giftReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_CURRENT_GIFTS:
+    case ADD_TO_PRODUCTS:
       return {
         ...state,
-        gifts: action.payload,
+        products: action.payload,
       };
     case ADD_TO_CART:
       return {
         ...state,
-        products: Object.assign(...action.payload, { amount: 1 }),
+        products: state.products.map((product) =>
+          product.id === action.id
+            ? { ...product, quantity: 1, selected: true }
+            : product
+        ),
       };
     case REMOVE_FROM_CART:
       return {

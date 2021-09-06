@@ -12,19 +12,36 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import images from "constants/images";
 import Moment from "moment";
 import Notification from "components/Notification";
-import { addToCart } from "redux/reducer/gift";
+import { addQuantity, addToCart } from "redux/reducer/gift";
 
 const { Text, Paragraph } = Typography;
 
 function GiftStore() {
   const dispatch = useDispatch();
-  const { gifts, products } = useSelector((state) => state.gift);
+  const { products } = useSelector((state) => state.gift);
 
-  const addCart = (item) => {
-    Notification("success", "Add to cart success");
-    console.log(gifts);
-    console.log(item);
-    dispatch(addToCart(item));
+  const addCart = (id) => {
+    let item = products.find((element) => {
+      if (element.id === id && element.selected === true) {
+        return true;
+      }
+    });
+    if (item) {
+      if (item.quantity < item.max) {
+        Notification("success", "Add gift success.");
+        dispatch(addQuantity(id));
+      }
+    } else {
+      dispatch(addToCart(id));
+    }
+  };
+
+  const disable = (item) => {
+    if (item.max === item.quantity) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -40,13 +57,13 @@ function GiftStore() {
       }}
       header={
         <div>
-          <Text strong>{gifts?.length}</Text> Gifts{" "}
+          <Text strong>{products?.length}</Text> Gifts{" "}
         </div>
       }
       pagination={{
         pageSize: 10,
       }}
-      dataSource={gifts}
+      dataSource={products}
       renderItem={(item) => (
         <List.Item>
           <Card
@@ -68,8 +85,11 @@ function GiftStore() {
                 <Button
                   icon={<ShoppingCartOutlined />}
                   type="text"
-                  onClick={() => addCart(item)}
-                />
+                  onClick={() => addCart(item.id)}
+                  disabled={disable(item)}
+                >
+                  Add to Cart
+                </Button>
               </Tooltip>,
             ]}
           >
@@ -95,7 +115,7 @@ function GiftStore() {
                 span={3}
                 style={{ paddingBottom: "5px" }}
               >
-                <Text>{item.quantity}</Text>
+                <Text>{item.max}</Text>
               </Descriptions.Item>
               <Descriptions.Item
                 label="Start"
