@@ -28,7 +28,7 @@ function CourseMain() {
   useEffect(() => {
     let dis = [];
     lessons?.map((item) => {
-      if (item.joinStatus === "Joined") {
+      if (item.joinStatus === "Join") {
         dis.push(item.lessionId);
       }
     });

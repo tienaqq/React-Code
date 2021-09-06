@@ -8,6 +8,7 @@ import { paths } from "constants/paths";
 import Creator from "containers/Creator";
 import GiftShop from "containers/GiftShop";
 import Latest from "containers/Latest";
+import Search from "containers/Search";
 import AdminRole from "guards/AdminRole";
 import AuthenticatedGuard from "guards/AuthenticatedGuard";
 import DonorRole from "guards/DonorRole";
@@ -16,11 +17,12 @@ import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
 import Admin from "layouts/Admin";
 import Donor from "layouts/Donor";
 import Profile from "layouts/Profile";
+import history from "helpers/history";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route exact path={paths.HOME}>
           <Home />
@@ -74,6 +76,14 @@ function App() {
           <AuthenticatedGuard>
             <MemberRole>
               <GiftShop />
+            </MemberRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.SEARCH}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <Search />
             </MemberRole>
           </AuthenticatedGuard>
         </Route>

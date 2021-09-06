@@ -5,7 +5,7 @@ export const paths = {
   COURSE: "/course",
   LATEST: "/latest/:post",
   CREATOR: "/creator",
-  SEARCH: "/search",
+  SEARCH: "/search/:post",
   QUIZ: "/quiz",
   REVIEW: "/review",
   PROFILE: "/profile",

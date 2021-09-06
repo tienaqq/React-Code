@@ -25,7 +25,7 @@ function Header() {
   const searchKey = query.get("key");
 
   const onSearch = (value) => {
-    history.push(`/search?key=${value}`);
+    history.push(`/search/${value}`);
   };
 
   const menu = (

@@ -162,3 +162,17 @@ html {
   width: 100%;
   min-height: 500px;
 }
+
+/* search layout */
+.search__container {
+  width: 100%;
+  margin: 60px 0;
+}
+.search__wrapper {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 500px;
+  margin: 0 auto;
+  padding: 0 10px 50px 10px;
+  background-color: #f6f7fb;
+}

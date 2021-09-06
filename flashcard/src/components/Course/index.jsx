@@ -62,7 +62,6 @@ function Course() {
           content: `Do you agree to use ${point} points to change the course?`,
           async onOk() {
             const res = await subjectAPI.saveRelation({ subjectId: id });
-            console.log(res);
             if (res.status === "Success") {
               Notification("success", res.message);
               history.push(`/latest/${id}`);
@@ -133,7 +132,7 @@ function Course() {
                                     type="text"
                                     onClick={() => join(sub)}
                                   >
-                                    {sub?.joinStatus}
+                                    Learn
                                     <CaretRightOutlined />
                                   </Button>,
                                 ]}
@@ -141,6 +140,12 @@ function Course() {
                                 <Descriptions>
                                   <Descriptions.Item span={3}>
                                     <Text strong>{sub.subjectName}</Text>
+                                    {sub.joinStatus === "Join" && (
+                                      <Text style={{ color: "#FD695A" }}>
+                                        {" "}
+                                        (Joined)
+                                      </Text>
+                                    )}
                                   </Descriptions.Item>
                                   <Descriptions.Item span={3}>
                                     {sub?.subjectDescription}
@@ -164,7 +169,7 @@ function Course() {
                                       "YYYY-MM-DD"
                                     )}
                                   </Descriptions.Item>
-                                  <Descriptions.Item span={3}>
+                                  <Descriptions.Item span={2}>
                                     <Button
                                       icon={
                                         <Avatar
