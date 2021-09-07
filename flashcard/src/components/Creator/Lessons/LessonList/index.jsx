@@ -61,7 +61,7 @@ function LessonList() {
       <ModalCreator>
         <LessonForm update={update} post={post} />
       </ModalCreator>
-      <AddQuiz />
+      <AddQuiz post={post} />
       <div className="app__third-child">
         <div className="tool__container">
           <div className="tool__left">

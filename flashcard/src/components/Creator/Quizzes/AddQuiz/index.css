@@ -1,10 +1,21 @@
 .step__container {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 20px;
 }
-.step__wrapper {
+.step__wrapper-one {
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
   padding-bottom: 50px;
+}
+.step__wrapper-two {
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+.two__first {
+  border-right: 1px solid #eee;
 }
