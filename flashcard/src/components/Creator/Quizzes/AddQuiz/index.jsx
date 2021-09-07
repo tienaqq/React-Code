@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from "react";
 import {
-  Modal,
   Button,
-  Steps,
-  Space,
+  Card,
+  Descriptions,
   Form,
   Input,
+  List,
+  Modal,
   Select,
-  Descriptions,
+  Space,
+  Steps,
   Typography,
 } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { setModalQuiz } from "redux/reducer/creator";
-import "./index.css";
 import lessonAPI from "apis/lesson";
 import questionAPI from "apis/question";
+import quizAPI from "apis/quiz";
+import Notification from "components/Notification";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import renderHTML from "react-render-html";
+import { setModalQuiz } from "redux/reducer/creator";
+import "./index.css";
 
+const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 const { Step } = Steps;
 const { Option } = Select;
 const { Text } = Typography;
@@ -34,7 +40,6 @@ function AddQuiz(props) {
   const [questionList, setQuestionList] = useState([]);
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const element = [];
 
   useEffect(() => {
     const getLesson = async () => {
@@ -115,10 +120,47 @@ function AddQuiz(props) {
   };
 
   const finishSecond = (value) => {
-    setResult(random(value));
+    setLoading(true);
+    setTimeout(() => {
+      setResult(random(value));
+      setLoading(false);
+    }, 1000);
   };
 
-  console.log(result);
+  const remove = (id) => {
+    let list = [...result];
+    if (list?.length === 10) {
+      return alert("The minimum number of questions is 10!");
+    }
+    const index = list.findIndex((item) => item.question.questionId === id);
+    list.splice(index, 1);
+    return setResult(list);
+  };
+
+  const getId = () => {
+    let ids = [];
+    result?.map((item) => {
+      ids.push(item.question.questionId);
+    });
+    return ids;
+  };
+
+  const addQuiz = async () => {
+    let arr = getId();
+    const params = {
+      subjectId: parseInt(post),
+      testName: one.testName,
+      lessionArr: one.lessionArr,
+      questionArr: arr,
+    };
+    const res = await quizAPI.addQuiz(params);
+    if (res.status === "Success") {
+      Notification("success", res.message);
+      handleCancel();
+    } else {
+      Notification("error", res.message);
+    }
+  };
 
   return (
     <Modal
@@ -199,6 +241,9 @@ function AddQuiz(props) {
                     return item.lessionName + " | ";
                   })}
                 </Descriptions.Item>
+                <Descriptions.Item label="Questions" span={3}>
+                  <Text mark>{result ? result.length : 0}</Text>
+                </Descriptions.Item>
               </Descriptions>
             </div>
             <div className="two__second">
@@ -220,20 +265,90 @@ function AddQuiz(props) {
                 >
                   <Input
                     size="large"
+                    min={10}
                     max={questionList?.length}
                     type="number"
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading}
+                    style={{ marginRight: 10 }}
+                  >
                     Random question
+                  </Button>
+                  <Button
+                    htmlType="button"
+                    onClick={() => next()}
+                    style={{ marginRight: 10 }}
+                    disabled={result.length !== 0 ? false : true}
+                  >
+                    Next
+                  </Button>
+                  <Button htmlType="button" onClick={() => prev()}>
+                    Previous
                   </Button>
                 </Form.Item>
               </Form>
             </div>
           </div>
         )}
-        {current === 2 && <div className="step__wrapper"></div>}
+        {current === 2 && (
+          <div className="step__wrapper-three">
+            <List
+              grid={{ gutter: 16, column: 1 }}
+              header={
+                <div>
+                  <div>Quiz: {one?.testName}</div>
+                  <div>Question: {result?.length}</div>
+                </div>
+              }
+              footer={
+                <div>
+                  <Button type="primary" onClick={() => addQuiz()}>
+                    Add Quiz
+                  </Button>
+                </div>
+              }
+              dataSource={result}
+              pagination={{
+                pageSize: 5,
+              }}
+              renderItem={(item) => (
+                <List.Item>
+                  <Card>
+                    <Descriptions column={3}>
+                      <Descriptions.Item span={3}>
+                        {renderHTML(item.question.questionContent)}
+                      </Descriptions.Item>
+                      <Descriptions.Item span={3}>
+                        <Space direction="vertical">
+                          {item?.options.map((option, index) => {
+                            return (
+                              <Text key={option.optionId}>
+                                {alphabet[index] + ") " + option.optionContent}
+                              </Text>
+                            );
+                          })}
+                        </Space>
+                      </Descriptions.Item>
+                    </Descriptions>
+                    <div style={{ float: "right" }}>
+                      <Button
+                        danger
+                        onClick={() => remove(item.question.questionId)}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </div>
+        )}
       </div>
     </Modal>
   );
