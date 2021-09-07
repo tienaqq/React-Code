@@ -22,13 +22,15 @@ function CourseMain() {
   const { lessons } = useSelector((state) => state.latest);
   const { flashcards } = useSelector((state) => state.latest);
 
+  console.log(lessons);
+
   const [list, setList] = useState([]);
   let array = Array.from(Array(50).keys());
 
   useEffect(() => {
     let dis = [];
     lessons?.map((item) => {
-      if (item.joinStatus === "Join") {
+      if (item.joinStatus === "Joined") {
         dis.push(item.lessionId);
       }
     });
@@ -65,9 +67,6 @@ function CourseMain() {
     dispatch(setLessonRequest(lesson));
     dispatch(setShowModalLesson(true));
   };
-
-  console.log(lessons);
-  console.log(list);
 
   return (
     <div className="app__first-child">

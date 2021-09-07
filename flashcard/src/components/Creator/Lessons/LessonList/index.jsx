@@ -6,14 +6,16 @@ import {
 } from "@ant-design/icons";
 import { Button, Card, Descriptions, Input, List, Space } from "antd";
 import ModalCreator from "components/Creator/ModalCreator";
+import AddQuiz from "components/Creator/Quizzes/AddQuiz";
+import showDeleteConfirm from "components/Creator/Remove";
 import { backStatus } from "constants/backStatus";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { setModalInfo } from "redux/reducer/creator";
+import { Link } from "react-router-dom";
+import { setModalInfo, setModalQuiz } from "redux/reducer/creator";
 import LessonForm from "../LessonForm";
-import showDeleteConfirm from "components/Creator/Remove";
 
 const { Search } = Input;
 
@@ -50,11 +52,16 @@ function LessonList() {
     }
   };
 
+  const showModalQuiz = () => {
+    dispatch(setModalQuiz(true));
+  };
+
   return (
     <>
       <ModalCreator>
         <LessonForm update={update} post={post} />
       </ModalCreator>
+      <AddQuiz />
       <div className="app__third-child">
         <div className="tool__container">
           <div className="tool__left">
@@ -65,7 +72,11 @@ function LessonList() {
             >
               Add Lesson
             </Button>
-            <Button icon={<PlusOutlined />} style={{ marginRight: 10 }}>
+            <Button
+              icon={<PlusOutlined />}
+              style={{ marginRight: 10 }}
+              onClick={() => showModalQuiz()}
+            >
               Add Quiz
             </Button>
             <Button icon={<EyeOutlined />} style={{ marginRight: 10 }}>
@@ -96,7 +107,11 @@ function LessonList() {
           renderItem={(item) => (
             <Card
               size="small"
-              title={item?.lessionName}
+              title={
+                <Link to={`/creator/lesson/${item.lessionId}`}>
+                  {item?.lessionName}
+                </Link>
+              }
               extra={
                 <Space>
                   <Button

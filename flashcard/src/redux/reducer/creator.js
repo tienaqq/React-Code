@@ -12,6 +12,7 @@ const initialState = {
     title: "Add",
     isVisible: false,
   },
+  isAddQuiz: false,
 };
 
 const SET_TOPICS = "SET_TOPICS";
@@ -20,6 +21,7 @@ const SET_LESSONS = "SET_LESSONS";
 const SET_FLASHCARDS = "SET_FLASHCARDS";
 
 const SET_MODAL_INFO = "SET_MODAL_INFO";
+const SET_MODAL_QUIZ = "SET_MODAL_QUIZ";
 
 export const setTopics = (payload) => ({
   type: SET_TOPICS,
@@ -40,6 +42,10 @@ export const setFlashcards = (payload) => ({
 
 export const setModalInfo = (payload) => ({
   type: SET_MODAL_INFO,
+  payload: payload,
+});
+export const setModalQuiz = (payload) => ({
+  type: SET_MODAL_QUIZ,
   payload: payload,
 });
 
@@ -87,6 +93,11 @@ const creatorReducer = (state = initialState, action) => {
       return {
         ...state,
         modalInfo: action.payload,
+      };
+    case SET_MODAL_QUIZ:
+      return {
+        ...state,
+        isAddQuiz: action.payload,
       };
     default:
       return state;

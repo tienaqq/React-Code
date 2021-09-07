@@ -83,7 +83,7 @@ function SubjectList() {
             <Card
               size="small"
               title={
-                <Link to={`/creator/topic/${item.subjectId}`}>
+                <Link to={`/creator/subject/${item.subjectId}`}>
                   {item?.subjectName}
                 </Link>
               }

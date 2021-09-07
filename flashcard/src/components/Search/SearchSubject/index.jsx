@@ -12,8 +12,6 @@ function SearchSubject() {
   const history = useHistory();
   const { subjects } = useSelector((state) => state.search);
 
-  console.log(subjects);
-
   const check = (item) => {
     const status = item.statusId;
     const id = item.subjectId;
@@ -50,6 +48,9 @@ function SearchSubject() {
                 {item.subjectName}{" "}
                 {item.joinStatus === "Join" && (
                   <Text style={{ color: "#FD695A" }}> (Joined)</Text>
+                )}
+                {item.joinStatus === "Waiting author approve" && (
+                  <Text style={{ color: "#FD695A" }}> (Waiting)</Text>
                 )}
               </>
             }

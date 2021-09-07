@@ -62,6 +62,7 @@ function CartHistory() {
           <List.Item>
             <Card className="cart-history__wrapper">
               <Text strong>{item.serviceName}</Text>
+              <Text type="secondary">({item.serviceTypeName})</Text>
               <br />
               <Descriptions column={4}>
                 <Descriptions.Item span={4}>
