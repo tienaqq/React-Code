@@ -31,9 +31,13 @@ const quizAPI = {
     const url = "http://localhost:9191/test/get-by-id";
     return axiosClient.post(url, { params });
   },
-  getHistory: (params) => {
+  getHistory: () => {
     const url = "http://localhost:9191/test/get-by-me";
     return axiosClient.get(url);
+  },
+  removeQuiz: (params) => {
+    const url = "http://localhost:9191/quiz-test/delete";
+    return axiosClient.post(url, { params });
   },
 };
 

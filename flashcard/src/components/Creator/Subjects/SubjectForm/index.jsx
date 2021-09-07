@@ -48,7 +48,7 @@ function SubjectForm(props) {
       name="topic"
       onFinish={onSubmit}
       autoComplete="off"
-      initialValues={update}
+      initialValues={update ? update : { statusId: 1 }}
     >
       <Form.Item
         name="subjectName"
@@ -84,7 +84,7 @@ function SubjectForm(props) {
           },
         ]}
       >
-        <Radio.Group defaultValue={1}>
+        <Radio.Group>
           <Radio value={1}>Public</Radio>
           <Radio value={2}>Private</Radio>
         </Radio.Group>

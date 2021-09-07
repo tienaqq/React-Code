@@ -13,7 +13,7 @@ const questionAPI = {
     return axiosClient.post(url, { params });
   },
 
-  removeQuestionById: (params) => {
+  removeQuestion: (params) => {
     const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },

@@ -3,6 +3,8 @@ import { Button, Divider, Tree } from "antd";
 import FlashcardList from "components/Creator/Flashcards/FlashcardList";
 import LessonList from "components/Creator/Lessons/LessonList";
 import QuestionList from "components/Creator/Questions/QuestionList";
+import QuizDetail from "components/Creator/Quizzes/QuizDetail";
+import QuizList from "components/Creator/Quizzes/QuizList";
 import SubjectList from "components/Creator/Subjects/SubjectList";
 import TopicList from "components/Creator/Topics/TopicList";
 import { useEffect, useState } from "react";
@@ -111,6 +113,12 @@ function Creator({
               </Route>
               <Route path={`${path}/flashcard/:post`}>
                 <QuestionList />
+              </Route>
+              <Route path={`${path}/quiz-list/:post`}>
+                <QuizList />
+              </Route>
+              <Route path={`${path}/quiz-detail/:post`}>
+                <QuizDetail />
               </Route>
             </Switch>
           </div>

@@ -1,5 +1,10 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Checkbox, Input, List, Space } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import { Button, Card, Checkbox, List, Space, Modal } from "antd";
 import questionAPI from "apis/question";
 import ModalCreator from "components/Creator/ModalCreator";
 import { useEffect, useState } from "react";
@@ -8,10 +13,11 @@ import renderHTML from "react-render-html";
 import { useParams } from "react-router";
 import { setModalInfo } from "redux/reducer/creator";
 import QuestionForm from "../QuestionForm";
+import Notification from "components/Notification";
 import "./index.css";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-const { Search } = Input;
+const { confirm } = Modal;
 
 function QuestionList() {
   const dispatch = useDispatch();
@@ -35,11 +41,34 @@ function QuestionList() {
 
   const showModal = (item) => {
     if (item) {
+      setUpdate(item);
       dispatch(setModalInfo({ title: "Update Question", isVisible: true }));
     } else {
+      setUpdate(null);
       dispatch(setModalInfo({ title: "Add Question", isVisible: true }));
     }
-    setUpdate(item);
+  };
+
+  const removeQuestion = async (id) => {
+    console.log(id);
+    confirm({
+      title: "Notification",
+      icon: <ExclamationCircleOutlined />,
+      content: "Are you sure delete this item?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      async onOk() {
+        const res = await questionAPI.removeQuestion({ questionId: id });
+        if (res.status === "Success") {
+          Notification("success", res.message);
+          getData();
+        } else {
+          Notification("error", res.message);
+        }
+      },
+      onCancel() {},
+    });
   };
 
   return (
@@ -54,9 +83,7 @@ function QuestionList() {
               Add Question
             </Button>
           </div>
-          <div className="tool__right">
-            <Search placeholder="Input search text" enterButton allowClear />
-          </div>
+          <div className="tool__right"></div>
         </div>
         <List
           loading={loading}
@@ -97,7 +124,11 @@ function QuestionList() {
                   type="text"
                   onClick={() => showModal(item)}
                 />
-                <Button icon={<DeleteOutlined />} type="text" />
+                <Button
+                  icon={<DeleteOutlined />}
+                  type="text"
+                  onClick={() => removeQuestion(item.question.questionId)}
+                />
               </div>
             </Card>
           )}

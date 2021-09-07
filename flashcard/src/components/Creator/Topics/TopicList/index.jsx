@@ -35,6 +35,7 @@ function TopicList() {
       setUpdate(item);
       dispatch(setModalInfo({ title: "Update Topic", isVisible: true }));
     } else {
+      setUpdate(null);
       dispatch(setModalInfo({ title: "Add Topic", isVisible: true }));
     }
   };

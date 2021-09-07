@@ -15,6 +15,7 @@ import { useParams } from "react-router";
 import { setModalInfo } from "redux/reducer/creator";
 import FlashcardForm from "../FlashcardForm";
 import showDeleteConfirm from "components/Creator/Remove";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
@@ -46,11 +47,12 @@ function FlashcardList() {
 
   const showModal = (item) => {
     if (item) {
+      setUpdate(item);
       dispatch(setModalInfo({ title: "Update Flashcard", isVisible: true }));
     } else {
+      setUpdate(null);
       dispatch(setModalInfo({ title: "Add Flashcard", isVisible: true }));
     }
-    setUpdate(item);
   };
 
   return (
@@ -90,7 +92,11 @@ function FlashcardList() {
             <Card
               size="small"
               hoverable
-              title={item.flashcardName}
+              title={
+                <Link to={`/creator/flashcard/${item.flashcardId}`}>
+                  {item.flashcardName}
+                </Link>
+              }
               className="app--mg20"
               extra={
                 <Space>

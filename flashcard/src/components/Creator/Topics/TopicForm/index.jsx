@@ -20,22 +20,24 @@ function TopicForm(props) {
 
   const onSubmit = async (values) => {
     if (update) {
-      const response = await topicAPI.updateTopicById(values);
-      if ((response.status = "Success")) {
-        Notification("success", response.message);
+      const res = await topicAPI.updateTopicById(values);
+      console.log(res);
+      if ((res.status = "Success")) {
+        Notification("success", res.message);
         dispatch(fetchTopics());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {
-        Notification("error", response.message);
+        Notification("error", res.message);
       }
     } else {
-      const response = await topicAPI.addNewTopic(values);
-      if ((response.status = "Success")) {
-        Notification("success", response.message);
+      const res = await topicAPI.addNewTopic(values);
+      console.log(res);
+      if ((res.status = "Success")) {
+        Notification("success", res.message);
         dispatch(fetchTopics());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {
-        Notification("error", response.message);
+        Notification("error", res.message);
       }
     }
   };
@@ -72,12 +74,6 @@ function TopicForm(props) {
         ]}
       >
         <TextArea showCount maxLength={500} />
-      </Form.Item>
-      <Form.Item hidden name="statusId" label="Status">
-        <Radio.Group defaultValue={1}>
-          <Radio value={1}>Public</Radio>
-          <Radio value={2}>Private</Radio>
-        </Radio.Group>
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">

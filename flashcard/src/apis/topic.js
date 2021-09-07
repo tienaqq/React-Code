@@ -24,8 +24,8 @@ const topicAPI = {
   },
 
   updateTopicById: (params) => {
-    const url = baseUrl + "/delete";
-    return axiosClient.post(url, { params });
+    const url = baseUrl + "/update";
+    return axiosClient.put(url, { params });
   },
 };
 

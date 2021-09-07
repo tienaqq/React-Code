@@ -12,7 +12,7 @@ import { backStatus } from "constants/backStatus";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { setModalInfo, setModalQuiz } from "redux/reducer/creator";
 import LessonForm from "../LessonForm";
@@ -21,6 +21,7 @@ const { Search } = Input;
 
 function LessonList() {
   const dispatch = useDispatch();
+  const history = useHistory();
   let { post } = useParams();
   const { lessons } = useSelector((state) => state.creator);
   const [data, setData] = useState([]);
@@ -48,6 +49,7 @@ function LessonList() {
       setUpdate(item);
       dispatch(setModalInfo({ title: "Update Lesson", isVisible: true }));
     } else {
+      setUpdate(null);
       dispatch(setModalInfo({ title: "Add Lesson", isVisible: true }));
     }
   };
@@ -79,7 +81,11 @@ function LessonList() {
             >
               Add Quiz
             </Button>
-            <Button icon={<EyeOutlined />} style={{ marginRight: 10 }}>
+            <Button
+              icon={<EyeOutlined />}
+              style={{ marginRight: 10 }}
+              onClick={() => history.push(`/creator/quiz-list/${post}`)}
+            >
               View Quiz
             </Button>
           </div>

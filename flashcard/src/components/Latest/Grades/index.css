@@ -1,6 +1,9 @@
 .site-page-header {
   border: 1px solid rgb(235, 237, 240);
 }
+.ant-page-header-heading-title {
+  font-size: 18px;
+}
 .quiz__icon {
   background-color: #ffffff;
   color: #555;

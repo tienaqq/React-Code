@@ -42,6 +42,7 @@ function SubjectList() {
       setUpdate(item);
       dispatch(setModalInfo({ title: "Update Subject", isVisible: true }));
     } else {
+      setUpdate(null);
       dispatch(setModalInfo({ title: "Add Subject", isVisible: true }));
     }
   };
