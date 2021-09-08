@@ -20,6 +20,7 @@ import userReducer from "redux/reducer/user";
 import creatorReducer from "redux/reducer/creator";
 import giftReducer from "redux/reducer/gift";
 import searchReducer from "redux/reducer/search";
+import donorReducer from "redux/reducer/donor";
 
 const persistConfig = {
   key: "root",
@@ -34,6 +35,7 @@ const reducer = combineReducers({
   creator: creatorReducer,
   gift: giftReducer,
   search: searchReducer,
+  donor: donorReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

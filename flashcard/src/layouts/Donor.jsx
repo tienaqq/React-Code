@@ -1,16 +1,22 @@
-import { Layout, Menu, Breadcrumb } from "antd";
 import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
+  AppstoreOutlined,
+  FundOutlined,
+  HistoryOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { Layout, Menu } from "antd";
+import AdsList from "components/Donor/AdsList";
+import ServiceHistory from "components/Donor/ServiceHistory";
+import ServiceList from "components/Donor/ServiceList";
 import TopHeader from "components/TopHeader";
+import { useState } from "react";
+import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function Donor() {
+  let { path } = useRouteMatch();
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = () => {
@@ -34,27 +40,24 @@ function Donor() {
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-              <Menu.Item key="1">option1</Menu.Item>
-              <Menu.Item key="2">option2</Menu.Item>
-              <Menu.Item key="3">option3</Menu.Item>
-              <Menu.Item key="4">option4</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-              <Menu.Item key="5">option5</Menu.Item>
-              <Menu.Item key="6">option6</Menu.Item>
-              <Menu.Item key="7">option7</Menu.Item>
-              <Menu.Item key="8">option8</Menu.Item>
-            </SubMenu>
             <SubMenu
-              key="sub3"
-              icon={<NotificationOutlined />}
-              title="subnav 3"
+              key="sub1"
+              icon={<AppstoreOutlined />}
+              title="Donor Dashboard"
             >
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
+              <Menu.ItemGroup key="g1" title="Service">
+                <Menu.Item key="1" icon={<ProjectOutlined />}>
+                  <Link to="/donor">Service List</Link>
+                </Menu.Item>
+                <Menu.Item key="2" icon={<HistoryOutlined />}>
+                  <Link to="/donor">Service History</Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
+              <Menu.ItemGroup key="g2" title="Advertisement">
+                <Menu.Item key="3" icon={<FundOutlined />}>
+                  <Link to="/donor/ads">Ads List</Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
             </SubMenu>
           </Menu>
         </Sider>
@@ -67,7 +70,17 @@ function Donor() {
               minHeight: 280,
             }}
           >
-            Content
+            <Switch>
+              <Route exact path={path}>
+                <ServiceList />
+              </Route>
+              <Route path={`${path}/service-history`}>
+                <ServiceHistory />
+              </Route>
+              <Route path={`${path}/ads`}>
+                <AdsList />
+              </Route>
+            </Switch>
           </Content>
         </Layout>
       </Layout>

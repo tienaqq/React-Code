@@ -15,10 +15,10 @@ import DonorRole from "guards/DonorRole";
 import MemberRole from "guards/MemberRole";
 import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
 import Admin from "layouts/Admin";
-import Donor from "layouts/Donor";
 import Profile from "layouts/Profile";
 import history from "helpers/history";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Donor from "containers/Donor";
 
 function App() {
   return (

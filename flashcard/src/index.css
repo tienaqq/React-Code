@@ -4,7 +4,7 @@ html {
   overflow-y: scroll !important;
 }
 .ant-scrolling-effect {
-  width: 100%;
+  width: 100% !important;
 }
 
 .app__container {
@@ -136,6 +136,9 @@ html {
 }
 
 .site-layout-sider {
+  background-color: #fafafa;
+}
+.ant-menu {
   background-color: #fafafa;
 }
 .site-layout-background {
