@@ -14,11 +14,11 @@ import AuthenticatedGuard from "guards/AuthenticatedGuard";
 import DonorRole from "guards/DonorRole";
 import MemberRole from "guards/MemberRole";
 import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
-import Admin from "layouts/Admin";
 import Profile from "layouts/Profile";
 import history from "helpers/history";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Donor from "containers/Donor";
+import Admin from "containers/Admin";
 
 function App() {
   return (

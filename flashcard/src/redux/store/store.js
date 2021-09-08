@@ -21,6 +21,7 @@ import creatorReducer from "redux/reducer/creator";
 import giftReducer from "redux/reducer/gift";
 import searchReducer from "redux/reducer/search";
 import donorReducer from "redux/reducer/donor";
+import adminReducer from "redux/reducer/admin";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   gift: giftReducer,
   search: searchReducer,
   donor: donorReducer,
+  admin: adminReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

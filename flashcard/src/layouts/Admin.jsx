@@ -1,17 +1,29 @@
-import { Layout, Menu, Breadcrumb } from "antd";
 import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
+  AppstoreOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  StopOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { Layout, Menu } from "antd";
+import ActiveList from "components/Admin/Account/ActiveList";
+import BanList from "components/Admin/Account/BanList";
+import InActiveList from "components/Admin/Account/InActiveList";
 import TopHeader from "components/TopHeader";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouteMatch } from "react-router";
+import { Link, Route, Switch } from "react-router-dom";
 
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function Admin() {
+function Admin({ fetchUser }) {
   const [collapsed, setCollapsed] = useState(false);
+  let { path } = useRouteMatch();
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   const onCollapse = () => {
     setCollapsed(!collapsed);
@@ -28,33 +40,27 @@ function Admin() {
           collapsed={collapsed}
           onCollapse={onCollapse}
         >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
-          >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-              <Menu.Item key="1">option1</Menu.Item>
-              <Menu.Item key="2">option2</Menu.Item>
-              <Menu.Item key="3">option3</Menu.Item>
-              <Menu.Item key="4">option4</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-              <Menu.Item key="5">option5</Menu.Item>
-              <Menu.Item key="6">option6</Menu.Item>
-              <Menu.Item key="7">option7</Menu.Item>
-              <Menu.Item key="8">option8</Menu.Item>
-            </SubMenu>
+          <Menu defaultOpenKeys={["admin"]} mode="inline">
             <SubMenu
-              key="sub3"
-              icon={<NotificationOutlined />}
-              title="subnav 3"
+              key="admin"
+              icon={<AppstoreOutlined />}
+              title="Admin Dashboard"
             >
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
+              <Menu.ItemGroup key="account" title="Account">
+                <Menu.Item icon={<CheckCircleOutlined />} key="active">
+                  <Link to="/admin">Active List</Link>
+                </Menu.Item>
+                <Menu.Item icon={<CloseCircleOutlined />} key="inactive">
+                  <Link to="/admin/in-active">InActive List</Link>
+                </Menu.Item>
+                <Menu.Item icon={<StopOutlined />} key="ban">
+                  <Link to="/admin/ban-list">Ban List</Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
+              <Menu.ItemGroup key="g2" title="Advertisement">
+                <Menu.Item key="3">Option 3</Menu.Item>
+                <Menu.Item key="4">Option 4</Menu.Item>
+              </Menu.ItemGroup>
             </SubMenu>
           </Menu>
         </Sider>
@@ -67,7 +73,17 @@ function Admin() {
               minHeight: 280,
             }}
           >
-            Content
+            <Switch>
+              <Route exact path={path}>
+                <ActiveList />
+              </Route>
+              <Route path={`${path}/in-active`}>
+                <InActiveList />
+              </Route>
+              <Route path={`${path}/ban-list`}>
+                <BanList />
+              </Route>
+            </Switch>
           </Content>
         </Layout>
       </Layout>
