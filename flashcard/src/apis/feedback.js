@@ -7,6 +7,10 @@ const feedbackAPI = {
     const url = baseUrl + "/save";
     return axiosClient.post(url, { params });
   },
+  getFeedbackAdmin: () => {
+    const url = baseUrl + "/admin-view";
+    return axiosClient.get(url);
+  },
 };
 
 export default feedbackAPI;

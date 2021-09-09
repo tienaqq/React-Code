@@ -4,9 +4,9 @@ import { fetchUser } from "redux/reducer/admin";
 
 const mapStateToProps = (state) => {
   return {
-    activeList: state.admin.active,
-    inActiveList: state.admin.inActive,
-    banList: state.admin.banList,
+    activeArray: state.admin.activeArray,
+    inActiveArray: state.admin.inActiveArray,
+    banArray: state.admin.banArray,
   };
 };
 

@@ -29,15 +29,15 @@ function Register() {
 
   useEffect(() => {
     const getTopics = async () => {
-      const response = await topicAPI.getAll();
-      setTopics(response.listTopic);
+      const res = await topicAPI.getAll();
+      setTopics(res.listTopic);
     };
     getTopics();
   }, []);
 
   const children = [];
   topics?.forEach(createOption);
-  function createOption(value, index, array) {
+  function createOption(value) {
     children.push(<Option key={value.topicId}>{value.topicName}</Option>);
   }
 
@@ -53,12 +53,12 @@ function Register() {
       gender: values?.gender,
       interestTopic: selected === "1" ? values?.interestTopic : [],
     };
-    const response = await userAPI.register(params);
-    if (response.status === "Success") {
+    const res = await userAPI.register(params);
+    if (res.status === "Success") {
       history.push("/login");
-      Notification("success", response.message);
+      Notification("success", res.message);
     } else {
-      Notification("error", response.message);
+      Notification("error", res.message);
     }
   };
 

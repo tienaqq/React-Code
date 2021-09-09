@@ -1,28 +1,23 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table, Tag, Typography } from "antd";
+import { Button, Form, Input, Space, Table, Tag, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { useDispatch, useSelector } from "react-redux";
-import { setShowModal } from "redux/reducer/admin";
-import BanModal from "../BanModal";
 
 const { Text } = Typography;
 
-function ActiveList() {
-  const dispatch = useDispatch();
-  const { activeArray } = useSelector((state) => state.admin);
+function OtherList(props) {
+  const { list } = props;
+  const [form] = Form.useForm();
   const [data, setData] = useState([]);
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
-  const [banItem, setBanItem] = useState(null);
-
   useEffect(() => {
-    let list = [];
-    activeArray?.map((item) => {
-      list.push({
+    let el = [];
+    list?.map((item) => {
+      el.push({
         key: item.email,
         email: item.email,
         fullName: item.fullName,
@@ -32,8 +27,8 @@ function ActiveList() {
         createdDate: moment(item.createdDate).format("YYYY-MM-DD"),
       });
     });
-    setData(list);
-  }, [activeArray]);
+    setData(el);
+  }, [list]);
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -129,6 +124,7 @@ function ActiveList() {
       title: "Full Name",
       dataIndex: "fullName",
       key: "fullName",
+      responsive: ["lg"],
       ...getColumnSearchProps("fullName"),
     },
     {
@@ -157,7 +153,6 @@ function ActiveList() {
       title: "Role",
       key: "roleName",
       dataIndex: "roleName",
-      responsive: ["lg"],
       render: (role) => <Tag color="blue">{role.toUpperCase()}</Tag>,
       filters: [
         {
@@ -185,7 +180,7 @@ function ActiveList() {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <Button type="text" onClick={() => ban(record)}>
+          <Button disabled type="text">
             Ban
           </Button>
         </Space>
@@ -193,16 +188,10 @@ function ActiveList() {
     },
   ];
 
-  const ban = (item) => {
-    setBanItem(item);
-    dispatch(setShowModal(true));
-  };
-
   return (
     <div>
-      <BanModal banItem={banItem} />
       <Table columns={columns} dataSource={data} />
     </div>
   );
 }
-export default ActiveList;
+export default OtherList;

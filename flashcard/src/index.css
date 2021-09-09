@@ -135,15 +135,30 @@ html {
   width: 100%;
 }
 
+.ant-layout {
+  background-color: #fff;
+}
+.ant-dashboard__layout {
+  padding: 0 10px;
+  margin-left: 300px;
+}
+@media screen and (max-width: 991px) {
+  .ant-dashboard__layout {
+    margin-left: 60px;
+  }
+}
 .site-layout-sider {
   background-color: #fafafa;
 }
 .ant-menu {
   background-color: #fafafa;
 }
-.site-layout-background {
-  background-color: #fff;
+.ant-image-preview-img {
+  margin: 0 auto;
 }
+/* .site-layout-background {
+  background-color: #fff;
+} */
 
 /* gift shop */
 .gift__container {

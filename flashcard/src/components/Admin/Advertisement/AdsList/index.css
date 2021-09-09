@@ -1,0 +1,25 @@
+.admin__ads-container {
+  width: 100%;
+}
+.admin__ads-content {
+  max-width: 1000px;
+  position: relative;
+}
+.admin__ads-filter {
+  width: 300px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transform: translate(calc(100% + 20px), 45px);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 10%);
+}
+@media screen and (max-width: 1439px) {
+  .admin__ads-filter {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+}

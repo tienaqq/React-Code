@@ -26,19 +26,24 @@ function Donor() {
   return (
     <Layout>
       <TopHeader />
-      <Layout style={{ marginTop: 60, height: "100vh" }}>
+      <Layout style={{ marginTop: 60, height: "calc(100vh - 60px)" }}>
         <Sider
           width={300}
-          className="site-layout-sider"
-          collapsible
-          collapsed={collapsed}
-          onCollapse={onCollapse}
+          theme="light"
+          breakpoint="lg"
+          collapsedWidth="60px"
+          style={{
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0,
+          }}
         >
           <Menu
             mode="inline"
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
+            style={{ height: "calc(100vh - 60px)" }}
           >
             <SubMenu
               key="sub1"
@@ -61,15 +66,8 @@ function Donor() {
             </SubMenu>
           </Menu>
         </Sider>
-        <Layout style={{ padding: "0 10px" }}>
-          <Content
-            className="site-layout-background"
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
+        <Layout className="ant-dashboard__layout">
+          <Content style={{ padding: "10px" }}>
             <Switch>
               <Route exact path={path}>
                 <ServiceList />

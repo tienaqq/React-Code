@@ -19,6 +19,10 @@ const adsAPI = {
     const url = baseUrl + "/update";
     return axiosClient.post(url, { params });
   },
+  getAdsByAdmin: () => {
+    const url = baseUrl + "/all-admin";
+    return axiosClient.get(url);
+  },
 };
 
 export default adsAPI;
