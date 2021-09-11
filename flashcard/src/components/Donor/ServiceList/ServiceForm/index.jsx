@@ -36,6 +36,20 @@ function ServiceForm(props) {
   const [hidden, setHidden] = useState(false);
   const [start, setStart] = useState(null);
 
+  const { update } = props;
+
+  useEffect(() => {
+    form.resetFields();
+    if (update) {
+      form.setFieldsValue({
+        serviceName: update?.name,
+        serviceInformation: update?.desc,
+        serviceTypeId: update?.type.id,
+        quantity: update?.quantity,
+      });
+    }
+  }, [update]);
+
   useEffect(() => {
     const getServiceType = async () => {
       const res = await donorAPI.getServiceType();
@@ -78,6 +92,14 @@ function ServiceForm(props) {
   }
 
   const onFinish = async (values) => {
+    if (update) {
+      updateS(values);
+    } else {
+      addS(values);
+    }
+  };
+
+  const addS = async (values) => {
     const params = {
       serviceTypeId: values.serviceTypeId,
       serviceName: values.serviceName,
@@ -86,6 +108,23 @@ function ServiceForm(props) {
       detail: format(values?.detail),
     };
     const res = await donorAPI.addService(params);
+    if (res.status === "Success") {
+      Notification("success", res.message);
+      dispatch(fetchServices());
+      onReset();
+      handleCancel();
+    } else {
+      Notification("error", res.message);
+    }
+  };
+
+  const updateS = async (values) => {
+    const params = {
+      serviceId: update.key,
+      serviceName: values.serviceInformation,
+      serviceInformation: values.serviceInformation,
+    };
+    const res = await donorAPI.updateService(params);
     if (res.status === "Success") {
       Notification("success", res.message);
       dispatch(fetchServices());
@@ -106,10 +145,11 @@ function ServiceForm(props) {
 
   return (
     <Modal
-      title="Add Service"
+      title={update ? "Update Service" : "Add Service"}
       visible={isShow}
       onOk={handleOk}
       onCancel={handleCancel}
+      footer={false}
       width={800}
     >
       <Form
@@ -153,7 +193,12 @@ function ServiceForm(props) {
             },
           ]}
         >
-          <Select placeholder="Type of service." allowClear onChange={onChange}>
+          <Select
+            disabled={update ? true : false}
+            placeholder="Type of service."
+            allowClear
+            onChange={onChange}
+          >
             {types?.map((item) => {
               return (
                 <Option key={item.id} value={item.id}>
@@ -176,7 +221,12 @@ function ServiceForm(props) {
               },
             ]}
           >
-            <Input type="number" min={0} placeholder="Quantity of gift." />
+            <Input
+              disabled={update ? true : false}
+              type="number"
+              min={0}
+              placeholder="Quantity of gift."
+            />
           </Form.Item>
         )}
         {hidden && (
@@ -254,6 +304,7 @@ function ServiceForm(props) {
                 ))}
                 <Form.Item {...tailLayout}>
                   <Button
+                    disabled={update ? true : false}
                     type="dashed"
                     onClick={() => add()}
                     block
@@ -270,7 +321,7 @@ function ServiceForm(props) {
 
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
-            Submit
+            {update ? "Update Service" : "Add Service"}
           </Button>
           <Button icon={<QuestionCircleOutlined />} type="text"></Button>
         </Form.Item>

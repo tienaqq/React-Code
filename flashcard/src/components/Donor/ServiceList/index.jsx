@@ -13,6 +13,7 @@ function ServiceList() {
   const { service, type } = useSelector((state) => state.donor);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [update, setUpdate] = useState(null);
 
   useEffect(() => {
     dispatch(fetchTypes());
@@ -72,7 +73,6 @@ function ServiceList() {
       responsive: ["xl"],
       sorter: {
         compare: (a, b) => a.quantity - b.quantity,
-        multiple: 3,
       },
     },
     {
@@ -82,7 +82,6 @@ function ServiceList() {
       responsive: ["xl"],
       sorter: {
         compare: (a, b) => a.time - b.time,
-        multiple: 3,
       },
     },
     {
@@ -90,7 +89,7 @@ function ServiceList() {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <Button type="primary" ghost onClick={() => console.log(record)}>
+          <Button type="primary" ghost onClick={() => showModal(record)}>
             Update
           </Button>
           <Button danger onClick={() => remove(record.key)}>
@@ -101,13 +100,18 @@ function ServiceList() {
     },
   ];
 
-  const showModal = () => {
+  const showModal = (record) => {
+    if (record) {
+      setUpdate(record);
+    } else {
+      setUpdate(null);
+    }
     dispatch(setShowModal(true));
   };
 
   return (
     <div style={{ maxWidth: 1200 }}>
-      <ServiceForm />
+      <ServiceForm update={update} />
       <Space style={{ marginBottom: 20 }}>
         <Button icon={<PlusOutlined />} onClick={() => showModal()}>
           Add Service

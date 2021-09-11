@@ -3,11 +3,13 @@ import {
   FundOutlined,
   HistoryOutlined,
   ProjectOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import AdsList from "components/Donor/AdsList";
 import ServiceHistory from "components/Donor/ServiceHistory";
 import ServiceList from "components/Donor/ServiceList";
+import MainProfile from "components/Profile/MainProfile";
 import TopHeader from "components/TopHeader";
 import { useState } from "react";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
@@ -50,7 +52,7 @@ function Donor() {
               icon={<AppstoreOutlined />}
               title="Donor Dashboard"
             >
-              <Menu.ItemGroup key="g1" title="Service">
+              <Menu.ItemGroup key="service" title="Service">
                 <Menu.Item key="1" icon={<ProjectOutlined />}>
                   <Link to="/donor">Service List</Link>
                 </Menu.Item>
@@ -58,9 +60,14 @@ function Donor() {
                   <Link to="/donor">Service History</Link>
                 </Menu.Item>
               </Menu.ItemGroup>
-              <Menu.ItemGroup key="g2" title="Advertisement">
+              <Menu.ItemGroup key="advertisement" title="Advertisement">
                 <Menu.Item key="3" icon={<FundOutlined />}>
                   <Link to="/donor/ads">Ads List</Link>
+                </Menu.Item>
+              </Menu.ItemGroup>
+              <Menu.ItemGroup key="profile" title="Profile">
+                <Menu.Item key="4" icon={<UserOutlined />}>
+                  <Link to="/donor/profile">Update Profile</Link>
                 </Menu.Item>
               </Menu.ItemGroup>
             </SubMenu>
@@ -77,6 +84,9 @@ function Donor() {
               </Route>
               <Route path={`${path}/ads`}>
                 <AdsList />
+              </Route>
+              <Route path={`${path}/profile`}>
+                <MainProfile />
               </Route>
             </Switch>
           </Content>
