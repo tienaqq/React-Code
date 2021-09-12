@@ -1,0 +1,115 @@
+.other__container {
+  width: 100%;
+  min-height: 700px;
+  margin: 60px 0;
+}
+.other__header {
+  width: 100%;
+  background-image: linear-gradient(180deg, #eee, #fff);
+  border-bottom: 1px solid #eee;
+}
+.other__header--bg {
+  width: 100%;
+  max-width: 950px;
+  min-height: 340px;
+  margin: 0 auto;
+  background-image: url("../images/banner1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: relative;
+}
+.other__header-image {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  border-radius: 50%;
+  border: 5px solid #ffffff;
+}
+.other__header-name {
+  width: 100%;
+  max-width: 950px;
+  margin: 20px auto 0 auto;
+  text-align: center;
+}
+.other__header-name > h1 {
+  font-size: 32px;
+  line-height: 32px;
+  font-weight: bold;
+}
+.other__wrapper {
+  width: 100%;
+  background-color: #f0f2f5;
+  padding: 20px 0;
+  min-height: 500px;
+}
+.other__content {
+  width: 100%;
+  max-width: 940px;
+  min-height: 300px;
+  margin: 0 auto;
+}
+
+/* about */
+.other__about {
+  width: 100%;
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.other__about-menu {
+  border-right: 1px solid #eee;
+  padding: 15px 10px;
+}
+.other__about-menu > h3 {
+  font-weight: 500;
+}
+.other__about-menu > p {
+  font-size: 14px;
+}
+.other__about-content {
+  padding: 15px 10px;
+  margin-bottom: 20px;
+}
+
+/* course */
+.other__course {
+  width: 100%;
+  min-height: 400px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+.other__course-left {
+  width: 100%;
+  border-right: 1px solid #eee;
+  padding: 15px 10px;
+}
+.other__course-right {
+  width: 100%;
+  padding: 15px 10px;
+}
+.other__course-right > h3 {
+  font-weight: 500;
+}
+.other__course-right > p {
+  font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
+  .other__about {
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+  .other__course {
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+}

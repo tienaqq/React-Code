@@ -1,5 +1,5 @@
-import { DownCircleOutlined, PullRequestOutlined } from "@ant-design/icons";
-import { Button, Divider, Dropdown, Menu, Table, Tag } from "antd";
+import { PullRequestOutlined } from "@ant-design/icons";
+import { Button, Divider, Space, Table, Tag } from "antd";
 import Moment from "moment";
 import { useEffect, useState } from "react";
 import requestAPI from "../../../apis/request";
@@ -11,13 +11,13 @@ function Process() {
   const [loading, setLoading] = useState(true);
 
   const getSubjects = async () => {
-    const response = await requestAPI.requestSubjectToMe();
-    setSubjects(response.listRequest);
+    const res = await requestAPI.requestSubjectToMe();
+    setSubjects(res.listRequest);
   };
 
   const getLessons = async () => {
-    const response = await requestAPI.requestLessonToMe();
-    setLessons(response.listRequest);
+    const res = await requestAPI.requestLessonToMe();
+    setLessons(res.listRequest);
   };
 
   useEffect(() => {
@@ -65,11 +65,15 @@ function Process() {
       title: "Point",
       dataIndex: "point",
       key: "point",
+      sorter: (a, b) => a.point - b.point,
     },
     {
       title: "Time",
       dataIndex: "time",
       key: "time",
+      sorter: (a, b) =>
+        parseInt(a.time.replaceAll("-", "")) -
+        parseInt(b.time.replaceAll("-", "")),
     },
     {
       title: "Subject",
@@ -87,34 +91,18 @@ function Process() {
       key: "action",
       with: "70px",
       render: (record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item>
-                <Button
-                  style={{ width: 100 }}
-                  type="primary"
-                  onClick={() => approveSubject(record.key)}
-                >
-                  Approve
-                </Button>
-              </Menu.Item>
-              <Menu.Item>
-                <Button
-                  style={{ width: 100 }}
-                  type="primary"
-                  danger
-                  onClick={() => denySubject(record.key)}
-                >
-                  Deny
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-          placement="bottomCenter"
-        >
-          <Button type="primary" icon={<DownCircleOutlined />} />
-        </Dropdown>
+        <Space>
+          <Button
+            type="primary"
+            ghost
+            onClick={() => approveSubject(record.key)}
+          >
+            Approve
+          </Button>
+          <Button danger onClick={() => denySubject(record.key)}>
+            Deny
+          </Button>
+        </Space>
       ),
     },
   ];
@@ -129,11 +117,15 @@ function Process() {
       title: "Point",
       dataIndex: "point",
       key: "point",
+      sorter: (a, b) => a.point - b.point,
     },
     {
       title: "Time",
       dataIndex: "time",
       key: "time",
+      sorter: (a, b) =>
+        parseInt(a.time.replaceAll("-", "")) -
+        parseInt(b.time.replaceAll("-", "")),
     },
     {
       title: "Lesson",
@@ -151,92 +143,61 @@ function Process() {
       key: "action",
       with: "70px",
       render: (record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item>
-                <Button
-                  style={{ width: 100 }}
-                  type="primary"
-                  onClick={() => approveLesson(record.key)}
-                >
-                  Approve
-                </Button>
-              </Menu.Item>
-              <Menu.Item>
-                <Button
-                  style={{ width: 100 }}
-                  type="primary"
-                  danger
-                  onClick={() => denyLesson(record.key)}
-                >
-                  Deny
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-          placement="bottomCenter"
-        >
-          <Button type="primary" icon={<DownCircleOutlined />} />
-        </Dropdown>
+        <Space>
+          <Button
+            type="primary"
+            ghost
+            onClick={() => approveLesson(record.key)}
+          >
+            Approve
+          </Button>
+          <Button danger onClick={() => denyLesson(record.key)}>
+            Deny
+          </Button>
+        </Space>
       ),
     },
   ];
 
   const approveSubject = async (id) => {
-    const response = await requestAPI.approveSubjectRequest({ requestId: id });
-    if (response.status === "Success") {
-      Notification("success", response.message);
+    const res = await requestAPI.approveSubjectRequest({ requestId: id });
+    if (res.status === "Success") {
+      Notification("success", res.message);
       getSubjects();
     } else {
-      Notification("error", response.message);
+      Notification("error", res.message);
     }
   };
 
   const denySubject = async (id) => {
-    const response = await requestAPI.denySubjectRequest({ requestId: id });
-    if (response.status === "Success") {
-      Notification("success", response.message);
+    const res = await requestAPI.denySubjectRequest({ requestId: id });
+    if (res.status === "Success") {
+      Notification("success", res.message);
       getSubjects();
     } else {
-      Notification("error", response.message);
+      Notification("error", res.message);
     }
   };
 
   const approveLesson = async (id) => {
-    const response = await requestAPI.approveLessonRequest({ requestId: id });
-    if (response.status === "Success") {
-      Notification("success", response.message);
+    const res = await requestAPI.approveLessonRequest({ requestId: id });
+    if (res.status === "Success") {
+      Notification("success", res.message);
       getLessons();
     } else {
-      Notification("error", response.message);
+      Notification("error", res.message);
     }
   };
 
   const denyLesson = async (id) => {
-    const response = await requestAPI.denyLessonRequest({ requestId: id });
-    if (response.status === "Success") {
-      Notification("success", response.message);
+    const res = await requestAPI.denyLessonRequest({ requestId: id });
+    if (res.status === "Success") {
+      Notification("success", res.message);
       getLessons();
     } else {
-      Notification("error", response.message);
+      Notification("error", res.message);
     }
   };
-
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <Button style={{ width: 100 }} type="primary">
-          Approve
-        </Button>
-      </Menu.Item>
-      <Menu.Item>
-        <Button style={{ width: 100 }} type="primary" danger>
-          Deny
-        </Button>
-      </Menu.Item>
-    </Menu>
-  );
 
   return (
     <div className="profile__container">

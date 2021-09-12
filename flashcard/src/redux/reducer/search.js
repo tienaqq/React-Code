@@ -24,7 +24,7 @@ export const fetchSearchSubjects = (string) => async (dispatch) => {
   dispatch(setSearchSubjects(res.searchResult));
 };
 export const fetchSearchLessons = (string) => async (dispatch) => {
-  const res = await searchAPI.searchFlashcardReturnLesson({
+  const res = await searchAPI.searchSubjectByLesson({
     searchValue: string,
   });
   dispatch(setSearchLessons(res.data));

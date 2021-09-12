@@ -19,6 +19,7 @@ import history from "helpers/history";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Donor from "containers/Donor";
 import Admin from "containers/Admin";
+import OtherUser from "layouts/OtherUser";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
           <UnauthenticatedGuard>
             <Login />
           </UnauthenticatedGuard>
+        </Route>
+
+        <Route path={paths.USER}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <OtherUser />
+            </MemberRole>
+          </AuthenticatedGuard>
         </Route>
 
         <Route path={paths.COURSE}>

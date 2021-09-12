@@ -21,6 +21,7 @@ import logo8 from "../assets/images/logo8.png";
 import team1 from "../assets/images/team1.png";
 import team2 from "../assets/images/team2.png";
 import team3 from "../assets/images/team3.png";
+import avatar from "../assets/images/avatar.png";
 
 const images = {
   LOGO: logo,
@@ -46,5 +47,6 @@ const images = {
   GIFT_IMG: gift,
   VOUCHER_IMG: voucher,
   COURSE: course,
+  AVATAR: avatar,
 };
 export default images;
