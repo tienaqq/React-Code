@@ -1,9 +1,9 @@
-import { Modal, Form, Input, Button } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import donorAPI from "apis/donor";
+import Notification from "components/Notification";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowModal } from "redux/reducer/admin";
-import Notification from "components/Notification";
+import { fetchDonorService, setShowModal } from "redux/reducer/admin";
 
 function ConfirmService(props) {
   const { isShowModal } = useSelector((state) => state.admin);
@@ -13,9 +13,9 @@ function ConfirmService(props) {
 
   useEffect(() => {
     form.setFieldsValue({
-      serviceId: element.id,
-      serviceName: element.serviceName,
-      quantity: element.quantity,
+      serviceId: element?.id,
+      serviceName: element?.serviceName,
+      quantity: element?.quantity,
     });
   }, [element]);
 
@@ -24,10 +24,16 @@ function ConfirmService(props) {
   };
 
   const confirm = async (values) => {
-    const res = await donorAPI.confirmDonorService(values);
+    const params = {
+      serviceId: values.serviceId,
+      isConfirm: true,
+      quantity: values.quantity,
+    };
+    const res = await donorAPI.confirmDonorService(params);
     if (res.status === "Success") {
       Notification("success", res.message);
       handleCancel();
+      dispatch(fetchDonorService());
     } else {
       Notification("error", res.message);
     }
@@ -41,7 +47,13 @@ function ConfirmService(props) {
       width={600}
       footer={false}
     >
-      <Form name="basic" form={form} autoComplete="off" layout="vertical">
+      <Form
+        name="basic"
+        form={form}
+        onFinish={confirm}
+        autoComplete="off"
+        layout="vertical"
+      >
         <Form.Item label="Service Name" name="serviceName">
           <Input disabled />
         </Form.Item>
