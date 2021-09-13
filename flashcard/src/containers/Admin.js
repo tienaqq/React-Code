@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Admin from "layouts/Admin";
-import { fetchUser } from "redux/reducer/admin";
+import { fetchUser, fetchDonorService } from "redux/reducer/admin";
 
 const mapStateToProps = (state) => {
   return {
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 
 const mapActionToProps = (dispatch) => ({
   fetchUser: () => dispatch(fetchUser()),
+  fetchDonorService: () => dispatch(fetchDonorService()),
 });
 
 export default connect(mapStateToProps, mapActionToProps)(Admin);

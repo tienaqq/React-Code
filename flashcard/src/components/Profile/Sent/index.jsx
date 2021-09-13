@@ -2,7 +2,9 @@ import { CodeSandboxOutlined } from "@ant-design/icons";
 import { Divider, Table } from "antd";
 import Moment from "moment";
 import { useEffect, useState } from "react";
-import requestAPI from "../../../apis/request";
+import { Link } from "react-router-dom";
+import requestAPI from "apis/request";
+import { Base64 } from "js-base64";
 
 function Sent() {
   const [list, setList] = useState([]);
@@ -34,6 +36,9 @@ function Sent() {
       title: "From",
       dataIndex: "from",
       key: "from",
+      render: (text) => (
+        <Link to={`/user/${Base64.encodeURI(text)}`}>{text}</Link>
+      ),
     },
     {
       title: "Time",

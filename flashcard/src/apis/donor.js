@@ -24,6 +24,14 @@ const donorAPI = {
     const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },
+  getDonorService: () => {
+    const url = baseUrl + "/view-all";
+    return axiosClient.get(url);
+  },
+  confirmDonorService: (params) => {
+    const url = baseUrl + "/admin-confirm";
+    return axiosClient.post(url, { params });
+  },
 };
 
 export default donorAPI;

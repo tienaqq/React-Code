@@ -16,7 +16,7 @@ function SearchSubject() {
     const status = item.statusId;
     const id = item.subjectId;
     const join = item.joinStatus;
-    if (join === "Joined") return history.push(`/latest/${id}`);
+    if (join === "Join") return history.push(`/latest/${id}`);
     switch (status) {
       case 1: {
         checkPublicSubject(id);

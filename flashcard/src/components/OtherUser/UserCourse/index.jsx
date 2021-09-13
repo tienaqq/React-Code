@@ -1,4 +1,4 @@
-import { List, Card, Descriptions } from "antd";
+import { Card, Descriptions, List } from "antd";
 
 function UserCourse(props) {
   const { subjects } = props;
@@ -8,7 +8,7 @@ function UserCourse(props) {
       <div className="other__course-left">
         <List
           grid={{ gutter: 16, column: 1 }}
-          header={<div>SUBJECT</div>}
+          header={<div>SUBJECT JOINED</div>}
           dataSource={subjects}
           pagination={{
             pageSize: 10,
@@ -16,21 +16,12 @@ function UserCourse(props) {
           renderItem={(item) => (
             <List.Item>
               <Card hoverable>
-                <Descriptions title={"About"} column={3}>
-                  <Descriptions.Item label="Email" span={3}>
-                    tienaqq@gmail.com
+                <Descriptions title={item.subjectName} column={3}>
+                  <Descriptions.Item label="Desc" span={3}>
+                    {item.subjectDescription}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Gender" span={3}>
-                    Male
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Address" span={3}>
-                    No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang,
-                    China
-                  </Descriptions.Item>
-                </Descriptions>
-                <Descriptions>
-                  <Descriptions.Item label="Hobby Topics">
-                    tienaqq@gmail.com
+                  <Descriptions.Item label="Author" span={3}>
+                    {item.accountId}
                   </Descriptions.Item>
                 </Descriptions>
               </Card>

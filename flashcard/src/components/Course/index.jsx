@@ -25,6 +25,8 @@ import Moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Base64 } from "js-base64";
+import { Link } from "react-router-dom";
 import "./index.css";
 
 const { Panel } = Collapse;
@@ -51,6 +53,8 @@ function Course() {
     };
     getInterest();
   }, []);
+
+  console.log(list);
 
   const join = (item) => {
     const id = item?.subjectId;
@@ -155,7 +159,7 @@ function Course() {
                                   <Descriptions.Item label="Point">
                                     <Text
                                       delete={
-                                        sub?.joinStatus === "Joined"
+                                        sub?.joinStatus === "Join"
                                           ? true
                                           : false
                                       }
@@ -186,7 +190,13 @@ function Course() {
                                       style={{ paddingLeft: 0 }}
                                       type="text"
                                     >
-                                      {sub.author}
+                                      <Link
+                                        to={`/user/${Base64.encodeURI(
+                                          sub.accountId
+                                        )}`}
+                                      >
+                                        {sub.author}
+                                      </Link>
                                     </Button>
                                   </Descriptions.Item>
                                 </Descriptions>

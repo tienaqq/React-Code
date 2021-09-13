@@ -2,8 +2,10 @@ import { PullRequestOutlined } from "@ant-design/icons";
 import { Button, Divider, Space, Table, Tag } from "antd";
 import Moment from "moment";
 import { useEffect, useState } from "react";
-import requestAPI from "../../../apis/request";
-import Notification from "../../Notification";
+import requestAPI from "apis/request";
+import Notification from "components/Notification";
+import { Base64 } from "js-base64";
+import { Link } from "react-router-dom";
 
 function Process() {
   const [subjects, setSubjects] = useState([]);
@@ -59,7 +61,9 @@ function Process() {
       title: "From",
       dataIndex: "from",
       key: "from",
-      render: (text) => <a>{text}</a>,
+      render: (text) => (
+        <Link to={`/user/${Base64.encodeURI(text)}`}>{text}</Link>
+      ),
     },
     {
       title: "Point",
@@ -111,7 +115,9 @@ function Process() {
       title: "From",
       dataIndex: "from",
       key: "from",
-      render: (text) => <a>{text}</a>,
+      render: (text) => (
+        <Link to={`/user/${Base64.encodeURI(text)}`}>{text}</Link>
+      ),
     },
     {
       title: "Point",

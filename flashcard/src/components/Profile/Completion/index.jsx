@@ -49,7 +49,7 @@ function Completion() {
       dataIndex: "from",
       key: "from",
       render: (text) => (
-        <Link to={`/profile/user?uid=${Base64.encode(text)}`}>{text}</Link>
+        <Link to={`/user/${Base64.encodeURI(text)}`}>{text}</Link>
       ),
     },
     {
