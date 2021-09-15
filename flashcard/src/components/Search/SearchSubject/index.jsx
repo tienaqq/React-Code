@@ -43,6 +43,12 @@ function SearchSubject() {
         <List.Item>
           <Card
             size="small"
+            cover={
+              <img
+                alt="example"
+                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              />
+            }
             title={
               <>
                 {item.subjectName}{" "}

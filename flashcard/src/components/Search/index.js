@@ -11,7 +11,6 @@ const { confirm } = Modal;
 
 const sendRequestSubject = async (id) => {
   const res = await privateAPI.sentRequestSubject({ subjectId: id });
-  console.log(res);
   if (res.status === "Success") {
     Notification("success", res.message);
   }
@@ -20,6 +19,7 @@ const sendRequestSubject = async (id) => {
 export const checkPrivateSubject = async (id) => {
   const res = await acceptAPI.checkAcceptSubject({ subjectId: id });
   let status = res.status;
+  getChangeInfo();
   switch (status) {
     case "Success": {
       history.push(`/latest/${id}`);

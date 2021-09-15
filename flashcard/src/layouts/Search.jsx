@@ -1,6 +1,6 @@
-import { Button, Col, Input, Row, Select, Spin, Form } from "antd";
-import SearchLesson from "components/Search/SearchLesson";
+import { Button, Col, Form, Input, Row, Select, Spin } from "antd";
 import SearchSubject from "components/Search/SearchSubject";
+import SearchSubjectByFlashcard from "components/Search/SearchSubjectByFlashcard";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Layout from "./Layout";
@@ -8,7 +8,7 @@ import Layout from "./Layout";
 const { Search } = Input;
 const { Option } = Select;
 
-function SearchPage({ fetchSearchSubjects, fetchSearchLessons }) {
+function SearchPage({ fetchSearchSubjects, fetchSearchSubjectsBy }) {
   let { post } = useParams();
 
   const [key, setKey] = useState("");
@@ -26,7 +26,7 @@ function SearchPage({ fetchSearchSubjects, fetchSearchLessons }) {
 
   useEffect(() => {
     fetchSearchSubjects(key);
-    fetchSearchLessons(key);
+    fetchSearchSubjectsBy(key);
     setLoading(false);
   }, [key, type]);
 
@@ -44,7 +44,7 @@ function SearchPage({ fetchSearchSubjects, fetchSearchLessons }) {
                   onChange={handleChange}
                 >
                   <Option value="subject">Subject</Option>
-                  <Option value="lesson">Lesson</Option>
+                  <Option value="flashcard">Flashcard</Option>
                 </Select>
               </Col>
               <Col span={12}>
@@ -64,7 +64,7 @@ function SearchPage({ fetchSearchSubjects, fetchSearchLessons }) {
           <div>
             <Spin spinning={loading}>
               {type === "subject" && <SearchSubject />}
-              {type === "lesson" && <SearchLesson />}
+              {type === "flashcard" && <SearchSubjectByFlashcard />}
             </Spin>
           </div>
         </div>
