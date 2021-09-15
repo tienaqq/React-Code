@@ -1,5 +1,15 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Descriptions, Input, List, Space } from "antd";
+import {
+  Button,
+  Card,
+  Descriptions,
+  Input,
+  List,
+  Space,
+  Row,
+  Col,
+  Image,
+} from "antd";
 import ModalCreator from "components/Creator/ModalCreator";
 import showDeleteConfirm from "components/Creator/Remove";
 import { backStatus } from "constants/backStatus";
@@ -104,17 +114,29 @@ function SubjectList() {
               }
               className="app--mg20"
             >
-              <Descriptions column={3}>
-                <Descriptions.Item span={3}>
-                  {item?.subjectDescription}
-                </Descriptions.Item>
-                <Descriptions.Item label="Publish" span={2}>
-                  {moment(item?.createdDate).format("YYYY-MM-DD")}
-                </Descriptions.Item>
-                <Descriptions.Item label="Status" span={1}>
-                  {backStatus(item?.statusId)}
-                </Descriptions.Item>
-              </Descriptions>
+              <Row gutter={[16, 16]}>
+                <Col xxl={5} xl={5} lg={5}>
+                  <Image
+                    preview={false}
+                    width={150}
+                    alt="logo"
+                    src={item.imageUrl}
+                  />
+                </Col>
+                <Col xxl={19} xl={19} lg={19}>
+                  <Descriptions column={3}>
+                    <Descriptions.Item span={3}>
+                      {item?.subjectDescription}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Publish" span={2}>
+                      {moment(item?.createdDate).format("YYYY-MM-DD")}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Status" span={1}>
+                      {backStatus(item?.statusId)}
+                    </Descriptions.Item>
+                  </Descriptions>
+                </Col>
+              </Row>
             </Card>
           )}
         />

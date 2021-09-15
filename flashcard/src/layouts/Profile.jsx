@@ -44,7 +44,9 @@ function Profile() {
               >
                 <Menu.ItemGroup key="request" title="Request received">
                   <Menu.Item key="/profile/process">Process</Menu.Item>
-                  <Menu.Item key="/profile/completion">Completion</Menu.Item>
+                  <Menu.Item key="/profile/completion">
+                    Request History
+                  </Menu.Item>
                 </Menu.ItemGroup>
                 <Menu.ItemGroup key="sent" title="Request sent">
                   <Menu.Item key="/profile/sent">Request</Menu.Item>

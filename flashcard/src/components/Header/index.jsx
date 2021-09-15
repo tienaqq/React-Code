@@ -81,19 +81,6 @@ function Header() {
           );
         })}
 
-      {userLogged?.roleId === 1 && (
-        <Menu.Item key="FC_MEMBER_POINT">
-          <Button
-            type="text"
-            className="user__child"
-            icon={<SketchOutlined />}
-            danger
-          >
-            {" " + userLogged?.point}
-          </Button>
-        </Menu.Item>
-      )}
-
       <Menu.Item key="QWE13">
         <Button
           type="text"
@@ -147,10 +134,7 @@ function Header() {
           )}
           {userLogged && (
             <li className="nav-member__point">
-              <Button
-                icon={<SketchOutlined />}
-                style={{ background: "#FD695A", color: "#ffffff" }}
-              >
+              <Button icon={<SketchOutlined />} type="primary" ghost>
                 {userLogged?.point}
               </Button>
             </li>

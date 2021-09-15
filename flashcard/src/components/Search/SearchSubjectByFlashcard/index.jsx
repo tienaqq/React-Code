@@ -57,7 +57,7 @@ function SearchSubjectByFlashcard() {
       renderItem={(item) => (
         <List.Item>
           <Card>
-            <Row>
+            <Row gutter={[16, 16]}>
               <Col xxl={5} xl={5} lg={5}>
                 <Image
                   preview={false}

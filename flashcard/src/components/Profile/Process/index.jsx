@@ -34,7 +34,6 @@ function Process() {
       dataSubject.push({
         key: item.id,
         from: item.requestFrom,
-        point: 30,
         time: Moment(item.requestedAt).format("YYYY-MM-DD"),
         subject: item.name,
         status: item.statusId,
@@ -48,7 +47,6 @@ function Process() {
       dataLesson.push({
         key: item.id,
         from: item.requestFrom,
-        point: 30,
         lesson: item.name,
         time: Moment(item.requestedAt).format("YYYY-MM-DD"),
         status: item.statusId,
@@ -64,12 +62,6 @@ function Process() {
       render: (text) => (
         <Link to={`/user/${Base64.encodeURI(text)}`}>{text}</Link>
       ),
-    },
-    {
-      title: "Point",
-      dataIndex: "point",
-      key: "point",
-      sorter: (a, b) => a.point - b.point,
     },
     {
       title: "Time",
@@ -118,12 +110,6 @@ function Process() {
       render: (text) => (
         <Link to={`/user/${Base64.encodeURI(text)}`}>{text}</Link>
       ),
-    },
-    {
-      title: "Point",
-      dataIndex: "point",
-      key: "point",
-      sorter: (a, b) => a.point - b.point,
     },
     {
       title: "Time",

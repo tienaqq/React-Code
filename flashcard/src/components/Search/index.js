@@ -6,8 +6,18 @@ import subjectAPI from "apis/subject";
 import Notification from "components/Notification";
 import history from "helpers/history";
 import { getChangeInfo } from "helpers/me";
+import store from "redux/store/store";
+import {
+  fetchSearchSubjects,
+  fetchSearchSubjectsBy,
+} from "redux/reducer/search";
 
 const { confirm } = Modal;
+
+const fetchData = (str) => {
+  store.dispatch(fetchSearchSubjects(str));
+  store.dispatch(fetchSearchSubjectsBy(str));
+};
 
 const sendRequestSubject = async (id) => {
   const res = await privateAPI.sentRequestSubject({ subjectId: id });

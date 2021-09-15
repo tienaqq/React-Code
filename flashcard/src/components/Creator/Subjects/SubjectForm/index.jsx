@@ -1,14 +1,19 @@
-import { Button, Form, Input, Radio } from "antd";
+import { FileImageOutlined } from "@ant-design/icons";
+import { Button, Form, Input, message, Radio, Upload } from "antd";
 import subjectAPI from "apis/subject";
 import Notification from "components/Notification";
-import { useEffect } from "react";
+import Compressor from "compressorjs";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalInfo, fetchSubjects } from "redux/reducer/creator";
+import { fetchSubjects, setModalInfo } from "redux/reducer/creator";
+import firebase from "services/firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const { TextArea } = Input;
 
 function SubjectForm(props) {
   const { modalInfo } = useSelector((state) => state.creator);
+  const [url, setUrl] = useState(null);
   const { update, post } = props;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -18,9 +23,16 @@ function SubjectForm(props) {
   }, [update]);
 
   const onSubmit = async (values) => {
+    const params = {
+      topicId: post,
+      subjectId: update?.subjectId,
+      subjectName: values.subjectName,
+      subjectDescription: values.subjectDescription,
+      imageUrl: url ? url : update.imageUrl,
+      statusId: values.statusId,
+    };
     if (update) {
-      Object.assign(values, { subjectId: update.subjectId });
-      const res = await subjectAPI.updateSubjectById(values);
+      const res = await subjectAPI.updateSubjectById(params);
       if (res.status === "Success") {
         Notification("success", res.message);
         dispatch(fetchSubjects());
@@ -29,7 +41,6 @@ function SubjectForm(props) {
         Notification("error", res.message);
       }
     } else {
-      let params = Object.assign({ topicId: post }, values);
       const res = await subjectAPI.addSubjectByTopicId(params);
       if (res.status === "Success") {
         Notification("success", res.message);
@@ -41,6 +52,89 @@ function SubjectForm(props) {
     }
   };
 
+  const fileCompress = (file) => {
+    return new Promise((resolve, reject) => {
+      new Compressor(file, {
+        file: "File",
+        quality: 0.5,
+        maxWidth: 900,
+        maxHeight: 900,
+        success(file) {
+          return resolve({
+            success: true,
+            file: file,
+          });
+        },
+        error(err) {
+          return resolve({
+            success: false,
+            message: err.message,
+          });
+        },
+      });
+    });
+  };
+
+  const uploader = {
+    action: "",
+    name: "file",
+    multiple: false,
+    defaultFileList: update
+      ? [
+          {
+            uid: "-1",
+            name: "image.png",
+            status: "done",
+            url: update?.imageUrl,
+          },
+        ]
+      : [],
+    beforeUpload: (file) => {
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
+      if (!isJpgOrPng) {
+        message.error("You can only upload JPG/PNG file!");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error("Image must smaller than 2MB!");
+      }
+      return isJpgOrPng && isLt2M ? true : Upload.LIST_IGNORE;
+    },
+    customRequest(e) {
+      setTimeout(() => {
+        e.onSuccess();
+      }, 2000);
+    },
+    onChange: async (info) => {
+      const compressState = await fileCompress(info.fileList[0]?.originFileObj);
+      if (compressState.success) {
+        let fileName = uuidv4();
+        let storage = firebase.storage().ref();
+        storage
+          .child(fileName)
+          .put(compressState.file)
+          .then((snapshot) => {
+            return snapshot.ref.getDownloadURL();
+          })
+          .then((url) => {
+            setUrl(url);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    progress: {
+      strokeColor: {
+        "0%": "#108ee9",
+        "100%": "#87d068",
+      },
+      strokeWidth: 3,
+      format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
+    },
+  };
+
   return (
     <Form
       layout="vertical"
@@ -50,6 +144,26 @@ function SubjectForm(props) {
       autoComplete="off"
       initialValues={update ? update : { statusId: 1 }}
     >
+      <Form.Item
+        label="Banner"
+        name="imageUrl"
+        rules={[
+          {
+            required: !update ? true : false,
+            message: "Banner is required",
+          },
+        ]}
+      >
+        <Upload
+          {...uploader}
+          maxCount={1}
+          name="logo"
+          listType="picture"
+          required
+        >
+          <Button icon={<FileImageOutlined />}>Click to upload</Button>
+        </Upload>
+      </Form.Item>
       <Form.Item
         name="subjectName"
         label="Subject name:"

@@ -129,7 +129,12 @@ function Course() {
                               <Card
                                 hoverable
                                 size="small"
-                                cover={<img src={images.CARD} />}
+                                cover={
+                                  <img
+                                    src={sub?.imageUrl}
+                                    style={{ maxHeight: 130 }}
+                                  />
+                                }
                                 extra={backStatus(sub.statusId)}
                                 className="app--shadow"
                                 actions={[

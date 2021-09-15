@@ -9,11 +9,9 @@ import requestAPI from "../../../apis/request";
 function Completion() {
   const [subjects, setSubjects] = useState([]);
   const [lessons, setLessons] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const getSubjects = async () => {
     const response = await requestAPI.requestSubjectToMe();
-    console.log(response);
     setSubjects(response.listRequest);
   };
 
@@ -25,7 +23,6 @@ function Completion() {
   useEffect(() => {
     getLessons();
     getSubjects();
-    setLoading(false);
   }, []);
 
   let history = [].concat(subjects, lessons);
@@ -98,7 +95,7 @@ function Completion() {
     <div className="profile__container">
       <Divider orientation="left" plain>
         <PullRequestOutlined /> <Divider type="vertical" />
-        History request
+        History
       </Divider>
       <Table size="small" columns={columns} dataSource={data} />
     </div>

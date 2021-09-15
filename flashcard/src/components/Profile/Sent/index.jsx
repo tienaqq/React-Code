@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import requestAPI from "apis/request";
 import { Base64 } from "js-base64";
+import { backRequestStatus } from "constants/backRequestStatus";
 
 function Sent() {
   const [list, setList] = useState([]);
@@ -13,7 +14,6 @@ function Sent() {
   useEffect(() => {
     const getRequest = async () => {
       const response = await requestAPI.requestSent();
-      console.log(response);
       setList(response.listRequest);
       setTimeout(setLoading(false), 10000);
     };
@@ -31,6 +31,7 @@ function Sent() {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      render: (status) => backRequestStatus(status),
     },
     {
       title: "From",
@@ -61,7 +62,7 @@ function Sent() {
     <div className="profile__container">
       <Divider orientation="left" plain>
         <CodeSandboxOutlined /> <Divider type="vertical" />
-        Request Completion
+        Request Sent
       </Divider>
       <Table loading={loading} columns={columns} dataSource={data} />
     </div>

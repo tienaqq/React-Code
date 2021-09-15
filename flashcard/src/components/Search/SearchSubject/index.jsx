@@ -1,5 +1,13 @@
 import { CheckCircleOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Descriptions, List, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Descriptions,
+  List,
+  Typography,
+  Image,
+} from "antd";
 import { backStatus } from "constants/backStatus";
 import Moment from "moment";
 import { useSelector } from "react-redux";
@@ -33,33 +41,23 @@ function SearchSubject() {
 
   return (
     <List
-      grid={{ gutter: 16, column: 3 }}
+      grid={{ gutter: 32, xxl: 3, lg: 3, xl: 3, sm: 3, md: 2, sm: 2, xs: 1 }}
       pagination={{
         pageSize: 10,
       }}
-      header={<div>Record: {subjects?.length}</div>}
+      header={
+        <div>
+          Record: <b>{subjects?.length}</b>
+        </div>
+      }
       dataSource={subjects}
       renderItem={(item) => (
         <List.Item>
           <Card
             size="small"
-            cover={
-              <img
-                alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              />
-            }
-            title={
-              <>
-                {item.subjectName}{" "}
-                {item.joinStatus === "Join" && (
-                  <Text style={{ color: "#FD695A" }}> (Joined)</Text>
-                )}
-                {item.joinStatus === "Waiting author approve" && (
-                  <Text style={{ color: "#FD695A" }}> (Waiting)</Text>
-                )}
-              </>
-            }
+            hoverable
+            className="app--shadow"
+            cover={<Image preview={false} height={130} src={item.imageUrl} />}
             extra={backStatus(item.statusId)}
             actions={[
               <Button key="join" type="text" onClick={() => check(item)}>
@@ -69,22 +67,25 @@ function SearchSubject() {
           >
             <Descriptions column={2}>
               <Descriptions.Item span={2}>
+                <Text strong>{item.subjectName}</Text>
+                {item.joinStatus === "Join" && (
+                  <Text style={{ color: "#FD695A" }}> (Joined)</Text>
+                )}
+                {item.joinStatus === "Waiting author approve" && (
+                  <Text style={{ color: "#FD695A" }}> (Waiting)</Text>
+                )}
+              </Descriptions.Item>
+              <Descriptions.Item span={2}>
                 {item.subjectDescription}
               </Descriptions.Item>
-              <Descriptions.Item label="Publish" span={2}>
+              <Descriptions.Item label="Creation Time" span={2}>
                 {Moment(item.createdDate).format("YYYY-MM-DD")}
               </Descriptions.Item>
-              <Descriptions.Item
-                span={2}
-                label={
-                  <Avatar
-                    style={{ backgroundColor: "#1890FF" }}
-                    size="small"
-                    icon={<UserOutlined />}
-                  />
-                }
-              >
-                {item.author}
+              <Descriptions.Item label="Point" span={2}>
+                <b>{item.point_require}</b>
+              </Descriptions.Item>
+              <Descriptions.Item label="Created" span={2}>
+                <a>{item.author}</a>
               </Descriptions.Item>
             </Descriptions>
           </Card>
