@@ -31,7 +31,7 @@ import "./index.css";
 
 const { Panel } = Collapse;
 const { confirm } = Modal;
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 function Course() {
   const history = useHistory();
@@ -53,8 +53,6 @@ function Course() {
     };
     getInterest();
   }, []);
-
-  console.log(list);
 
   const join = (item) => {
     const id = item?.subjectId;
@@ -159,7 +157,14 @@ function Course() {
                                     )}
                                   </Descriptions.Item>
                                   <Descriptions.Item span={3}>
-                                    {sub?.subjectDescription}
+                                    <Paragraph
+                                      ellipsis={{
+                                        rows: 2,
+                                        tooltip: sub?.subjectDescription,
+                                      }}
+                                    >
+                                      {sub?.subjectDescription}
+                                    </Paragraph>
                                   </Descriptions.Item>
                                   <Descriptions.Item label="Point">
                                     <Text

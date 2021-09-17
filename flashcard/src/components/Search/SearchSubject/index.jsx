@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { checkPrivateSubject, checkPublicSubject } from "..";
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 function SearchSubject() {
   const history = useHistory();
@@ -76,7 +76,14 @@ function SearchSubject() {
                 )}
               </Descriptions.Item>
               <Descriptions.Item span={2}>
-                {item.subjectDescription}
+                <Paragraph
+                  ellipsis={{
+                    rows: 2,
+                    tooltip: item.subjectDescription,
+                  }}
+                >
+                  {item.subjectDescription}
+                </Paragraph>
               </Descriptions.Item>
               <Descriptions.Item label="Creation Time" span={2}>
                 {Moment(item.createdDate).format("YYYY-MM-DD")}

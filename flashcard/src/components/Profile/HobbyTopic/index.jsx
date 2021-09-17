@@ -1,22 +1,16 @@
 import { DownSquareOutlined } from "@ant-design/icons";
 import { Button, Divider, Form, Select } from "antd";
+import topicAPI from "apis/topic";
+import userAPI from "apis/user";
+import Notification from "components/Notification";
+import { getChangeInfo } from "helpers/me";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import topicAPI from "../../../apis/topic";
-import userAPI from "../../../apis/user";
+import { useSelector } from "react-redux";
 
 function HobbyTopic() {
   const { Option } = Select;
   const { userLogged } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const [topics, setTopics] = useState([]);
-
-  const updateState = (array) => {
-    if (!userLogged) return;
-    let userObj = { ...userLogged };
-    userObj.interestTopic = JSON.stringify(array.interestTopic);
-    return userObj;
-  };
 
   useEffect(() => {
     const getTopics = async () => {
@@ -46,8 +40,7 @@ function HobbyTopic() {
     const response = await userAPI.updateHobbyTopic(values);
     if (response.status === "Success") {
       Notification("success", response.message);
-      let update = updateState(values);
-      // dispatch(updateHobbyTopic(update));
+      getChangeInfo();
     } else {
       Notification("error", response.message);
     }
