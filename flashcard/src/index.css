@@ -153,13 +153,11 @@ html {
 .ant-menu {
   background-color: #fafafa;
 }
-.ant-image-preview-img {
-  margin: 0 auto;
+.ant-image-preview-img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-/* .site-layout-background {
-  background-color: #fff;
-} */
-
 /* gift shop */
 .gift__container {
   width: 100%;

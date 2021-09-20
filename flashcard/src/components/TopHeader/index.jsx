@@ -1,10 +1,11 @@
-import { ExportOutlined } from "@ant-design/icons";
+import { ExportOutlined, SketchOutlined } from "@ant-design/icons";
 import { Button, Layout, Space, Tooltip } from "antd";
 import Notification from "components/Notification";
 import images from "constants/images";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { removeUserInfo } from "redux/reducer/user";
+import { formatNumberToString } from "services/formatNumber";
 import "./index.css";
 
 const { Header } = Layout;
@@ -33,11 +34,16 @@ function TopHeader() {
           placement="bottom"
           title={
             (userLogged?.roleId === 2 && "Admin") ||
-            (userLogged?.roleId === 1 && "Donor")
+            (userLogged?.roleId === 3 && "Donor")
           }
         >
-          <Button type="text">{userLogged?.fullName}</Button>
+          <Button type="text">
+            <b>{userLogged?.fullName}</b>
+          </Button>
         </Tooltip>
+        <Button type="primary" ghost icon={<SketchOutlined />}>
+          {formatNumberToString(userLogged?.donorPoint, 4)}
+        </Button>
         <Button
           type="primary"
           icon={<ExportOutlined />}

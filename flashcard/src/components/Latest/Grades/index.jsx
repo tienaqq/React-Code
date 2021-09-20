@@ -18,7 +18,7 @@ function Grades() {
   const dispatch = useDispatch();
   let { post } = useParams();
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   function filtered(values, post) {
     let data = [];
@@ -29,10 +29,10 @@ function Grades() {
   useEffect(() => {
     const getHistory = async () => {
       const res = await quizAPI.getHistory();
+      setLoading(false);
       let obj = filtered(res, post);
       setList(obj);
       dispatch(setListHistory(obj));
-      setLoading(false);
     };
     getHistory();
   }, [post]);

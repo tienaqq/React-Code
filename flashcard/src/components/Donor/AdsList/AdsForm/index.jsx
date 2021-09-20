@@ -12,16 +12,16 @@ import { fetchAds, setShowModal } from "redux/reducer/donor";
 
 const layout = {
   labelCol: {
-    span: 6,
+    span: 4,
   },
   wrapperCol: {
-    span: 16,
+    span: 18,
   },
 };
 const tailLayout = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
-    sm: { span: 16, offset: 6 },
+    sm: { span: 18, offset: 4 },
   },
 };
 
@@ -35,6 +35,8 @@ function AdsForm(props) {
   const [url, setUrl] = useState(null);
   const { update } = props;
 
+  console.log(update);
+
   useEffect(() => {
     form.resetFields();
     if (!update) return;
@@ -46,6 +48,8 @@ function AdsForm(props) {
         Moment(update?.startDate, dateFormat),
         Moment(update?.endDate, dateFormat),
       ],
+      target_url: update?.target_url,
+      expected_using_point: update?.expected_using_point,
     });
   }, [update]);
 
@@ -67,6 +71,7 @@ function AdsForm(props) {
 
   const up = async (params) => {
     const res = await adsAPI.updateAds(params);
+    console.log(res);
     if (res.status === "Success") {
       Notification("success", res.message);
       dispatch(fetchAds());
@@ -78,7 +83,6 @@ function AdsForm(props) {
   };
 
   const onFinish = async (values) => {
-    console.log(values);
     const params = {
       advertiseId: values.advertiseId,
       title: values.title,
@@ -86,7 +90,10 @@ function AdsForm(props) {
       imageLink: url ? url : update.imageLink,
       startDate: Moment(values.date[0]).format("YYYY-MM-DD h:mm:ss"),
       endDate: Moment(values.date[1]).format("YYYY-MM-DD h:mm:ss"),
+      target_url: values.target_url,
+      expected_using_point: values.expected_using_point,
     };
+    console.log(params);
     if (update) {
       up(params);
     } else {
@@ -234,7 +241,7 @@ function AdsForm(props) {
         </Form.Item>
         <Form.Item
           name="content"
-          label="Information"
+          label="Description"
           rules={[
             {
               required: true,
@@ -259,6 +266,26 @@ function AdsForm(props) {
             showTime
             style={{ width: "100%" }}
           />
+        </Form.Item>
+        <Form.Item label="Config" style={{ marginBottom: 0 }}>
+          <Form.Item
+            name="expected_using_point"
+            rules={[{ required: true, message: "Point is required" }]}
+            style={{ display: "inline-block", width: "calc(30% - 8px)" }}
+          >
+            <Input type="number" min="100" placeholder="Point to spend" />
+          </Form.Item>
+          <Form.Item
+            name="target_url"
+            rules={[{ required: true, message: "Redirect url is required" }]}
+            style={{
+              display: "inline-block",
+              width: "calc(70%)",
+              marginLeft: "8px",
+            }}
+          >
+            <Input placeholder="Redirect link" />
+          </Form.Item>
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">

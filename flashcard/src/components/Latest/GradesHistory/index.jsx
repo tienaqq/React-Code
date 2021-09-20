@@ -29,7 +29,6 @@ function GradesHistory() {
     let list = [];
     if (hid) {
       listHistory[0]?.listTest.map((item) => {
-        console.log(item);
         if (item.quiztestId === parseInt(hid)) {
           setTitle(item.testName);
           setCount(item.child?.length);

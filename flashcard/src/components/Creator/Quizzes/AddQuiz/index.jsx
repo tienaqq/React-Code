@@ -150,7 +150,7 @@ function AddQuiz(props) {
     const params = {
       subjectId: parseInt(post),
       testName: one.testName,
-      lessionArr: one.lessionArr,
+      lessionArr: one.lessionArr?.map((elem) => parseInt(elem, 10)),
       questionArr: arr,
     };
     const res = await quizAPI.addQuiz(params);

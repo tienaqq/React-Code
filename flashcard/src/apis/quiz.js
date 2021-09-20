@@ -1,6 +1,7 @@
 import axiosClient from "./axiosClient";
 
 const baseUrl = process.env.REACT_APP_QUIZ_API;
+const baseTest = process.env.REACT_APP_TEST_API;
 
 const quizAPI = {
   addQuiz: (params) => {
@@ -24,19 +25,19 @@ const quizAPI = {
     return axiosClient.post(url, { params });
   },
   submitQuiz: (params) => {
-    const url = "http://localhost:9191/test/submit";
+    const url = baseTest + "/submit";
     return axiosClient.post(url, { params });
   },
   reviewDetail: (params) => {
-    const url = "http://localhost:9191/test/get-by-id";
+    const url = baseTest + "/get-by-id";
     return axiosClient.post(url, { params });
   },
   getHistory: () => {
-    const url = "http://localhost:9191/test/get-by-me";
+    const url = baseTest + "/get-by-me";
     return axiosClient.get(url);
   },
   removeQuiz: (params) => {
-    const url = "http://localhost:9191/quiz-test/delete";
+    const url = baseUrl + "/delete";
     return axiosClient.post(url, { params });
   },
 };

@@ -21,7 +21,7 @@ import { fetchAds, setShowModal } from "redux/reducer/donor";
 import AdsForm from "./AdsForm";
 import "./index.css";
 
-const { Text } = Typography;
+const { Text, Link } = Typography;
 const { confirm } = Modal;
 
 function AdsList() {
@@ -79,7 +79,7 @@ function AdsList() {
         renderItem={(item) => (
           <List.Item>
             <Card className="ads__card">
-              <Row>
+              <Row gutter={[16, 16]}>
                 <Col xs={24} xl={24} xxl={4}>
                   <Image src={item.imageLink} alt="ads" />
                 </Col>
@@ -88,8 +88,13 @@ function AdsList() {
                     <Descriptions.Item label="Advertisement" span={3}>
                       <Text strong>{item.title}</Text>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Content" span={3}>
+                    <Descriptions.Item label="Description" span={3}>
                       <Text>{item.content}</Text>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Target URL" span={3}>
+                      <Link href={item.target_url}>
+                        {item.target_url?.substr(0, 100)}
+                      </Link>
                     </Descriptions.Item>
                     <Descriptions.Item label="Start">
                       <Text>

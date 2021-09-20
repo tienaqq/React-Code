@@ -1,6 +1,7 @@
 import axiosClient from "./axiosClient";
 
-const baseUrl = process.env.REACT_APP_POINT_API;
+const baseUrl = process.env.REACT_APP_AUTH_API;
+const basePoint = process.env.REACT_APP_POINT_API;
 
 const pointAPI = {
   addPoint: (params) => {
@@ -14,7 +15,7 @@ const pointAPI = {
   },
 
   getPointHistory: (params) => {
-    const url = "http://localhost:9191/account-point/me";
+    const url = basePoint + "/me";
     return axiosClient.get(url);
   },
 };

@@ -11,6 +11,7 @@ import { removeUserInfo } from "redux/reducer/user";
 import Notification from "components/Notification";
 import { memberList, donorList, adminList } from "./menu";
 import "./index.css";
+import { formatNumberToString } from "services/formatNumber";
 
 const { Search } = Input;
 
@@ -135,7 +136,7 @@ function Header() {
           {userLogged && (
             <li className="nav-member__point">
               <Button icon={<SketchOutlined />} type="primary" ghost>
-                {userLogged?.point}
+                {formatNumberToString(userLogged?.point, 4)}
               </Button>
             </li>
           )}

@@ -1,7 +1,9 @@
 import {
   AppstoreOutlined,
+  BoxPlotOutlined,
   FundOutlined,
   HistoryOutlined,
+  KeyOutlined,
   ProjectOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -10,6 +12,7 @@ import AdsList from "components/Donor/AdsList";
 import ServiceHistory from "components/Donor/ServiceHistory";
 import ServiceList from "components/Donor/ServiceList";
 import MainProfile from "components/Profile/MainProfile";
+import Password from "components/Profile/Password";
 import TopHeader from "components/TopHeader";
 import { useState } from "react";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
@@ -61,13 +64,19 @@ function Donor() {
                 </Menu.Item>
               </Menu.ItemGroup>
               <Menu.ItemGroup key="advertisement" title="Advertisement">
-                <Menu.Item key="3" icon={<FundOutlined />}>
-                  <Link to="/donor/ads">Ads List</Link>
+                <Menu.Item key="3" icon={<BoxPlotOutlined />}>
+                  <Link to="/donor/ads-waiting">Ads Waiting</Link>
+                </Menu.Item>
+                <Menu.Item key="4" icon={<FundOutlined />}>
+                  <Link to="/donor/ads-running">Ads Running</Link>
                 </Menu.Item>
               </Menu.ItemGroup>
               <Menu.ItemGroup key="profile" title="Profile">
-                <Menu.Item key="4" icon={<UserOutlined />}>
+                <Menu.Item key="5" icon={<UserOutlined />}>
                   <Link to="/donor/profile">Update Profile</Link>
+                </Menu.Item>
+                <Menu.Item key="6" icon={<KeyOutlined />}>
+                  <Link to="/donor/password">Update Password</Link>
                 </Menu.Item>
               </Menu.ItemGroup>
             </SubMenu>
@@ -82,11 +91,14 @@ function Donor() {
               <Route path={`${path}/service-history`}>
                 <ServiceHistory />
               </Route>
-              <Route path={`${path}/ads`}>
+              <Route path={`${path}/ads-waiting`}>
                 <AdsList />
               </Route>
               <Route path={`${path}/profile`}>
                 <MainProfile />
+              </Route>
+              <Route path={`${path}/password`}>
+                <Password />
               </Route>
             </Switch>
           </Content>
