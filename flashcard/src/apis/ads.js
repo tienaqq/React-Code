@@ -23,6 +23,18 @@ const adsAPI = {
     const url = baseUrl + "/all-admin";
     return axiosClient.get(url);
   },
+  runAdsByAdmin: (params) => {
+    const url = baseUrl + "/run-ads";
+    return axiosClient.post(url, { params });
+  },
+  getCurrentAdsByAdmin: (params) => {
+    const url = baseUrl + "/get-current-ads";
+    return axiosClient.get(url, { params });
+  },
+  removeAdsByAdmin: (params) => {
+    const url = baseUrl + "/admin-remove";
+    return axiosClient.post(url, { params });
+  },
 };
 
 export default adsAPI;

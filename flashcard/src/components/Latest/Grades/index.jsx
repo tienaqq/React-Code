@@ -22,13 +22,14 @@ function Grades() {
 
   function filtered(values, post) {
     let data = [];
-    data = values.filter((item) => item.subjectId === parseInt(post));
+    data = values?.filter((item) => item.subjectId === parseInt(post));
     return data;
   }
 
   useEffect(() => {
     const getHistory = async () => {
       const res = await quizAPI.getHistory();
+      console.log(res);
       setLoading(false);
       let obj = filtered(res, post);
       setList(obj);

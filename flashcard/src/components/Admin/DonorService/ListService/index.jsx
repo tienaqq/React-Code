@@ -73,7 +73,7 @@ function ListService() {
             <div>
               <Select
                 onChange={handleChange}
-                defaultValue="lucy"
+                placeholder="Filter service"
                 style={{ width: 200 }}
               >
                 <Option value={1}>Confirmed</Option>

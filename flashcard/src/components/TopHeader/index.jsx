@@ -41,9 +41,11 @@ function TopHeader() {
             <b>{userLogged?.fullName}</b>
           </Button>
         </Tooltip>
-        <Button type="primary" ghost icon={<SketchOutlined />}>
-          {formatNumberToString(userLogged?.donorPoint, 4)}
-        </Button>
+        {userLogged?.roleId === 3 && (
+          <Button type="primary" ghost icon={<SketchOutlined />}>
+            {formatNumberToString(userLogged?.donorPoint, 4)}
+          </Button>
+        )}
         <Button
           type="primary"
           icon={<ExportOutlined />}

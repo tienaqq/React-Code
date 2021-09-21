@@ -8,16 +8,20 @@ const initialState = {
   inActiveArray: [],
   banArray: [],
   isShowModal: false,
-  adsList: [],
   feedbacks: [],
   services: [],
+  adsWaiting: [],
+  adsRunning: [],
+  adsStopped: [],
 };
 
 const SET_ACTIVE_USER = "SET_ACTIVE_USER";
 const SET_INACTIVE_USER = "SET_INACTIVE_USER";
 const SET_BAN_USER = "SET_BAN_USER";
 const SET_SHOW_MODAL = "SET_SHOW_MODAL";
-const SET_ADS_LIST = "SET_ADS_LIST";
+const SET_ADS_WAITING = "SET_ADS_WAITING";
+const SET_ADS_RUNNING = "SET_ADS_RUNNING";
+const SET_ADS_STOPPED = "SET_ADS_STOPPED";
 const SET_FEEDBACK_LIST = "SET_FEEDBACK_LIST";
 const SET_DONOR_SERVICE = "SET_DONOR_SERVICE";
 
@@ -37,8 +41,16 @@ export const setShowModal = (payload) => ({
   type: SET_SHOW_MODAL,
   payload: payload,
 });
-export const setAdsList = (payload) => ({
-  type: SET_ADS_LIST,
+export const setAdsWaiting = (payload) => ({
+  type: SET_ADS_WAITING,
+  payload: payload,
+});
+export const setAdsRunning = (payload) => ({
+  type: SET_ADS_RUNNING,
+  payload: payload,
+});
+export const setAdsStopped = (payload) => ({
+  type: SET_ADS_STOPPED,
   payload: payload,
 });
 export const setFeedbackList = (payload) => ({
@@ -65,7 +77,13 @@ export const fetchUser = () => async (dispatch) => {
 export const fetchAdsByAdmin = () => async (dispatch) => {
   const res = await adsAPI.getAdsByAdmin();
   if (res.status === "Success") {
-    dispatch(setAdsList(res.listAds));
+    let listAds = res.listAds;
+    let wList = listAds?.filter((item) => item.statusId === 1);
+    dispatch(setAdsWaiting(wList));
+    let rList = listAds?.filter((item) => item.statusId === 2);
+    dispatch(setAdsRunning(rList));
+    let sList = listAds?.filter((item) => item.statusId === 3);
+    dispatch(setAdsStopped(sList));
   }
 };
 export const fetchFeedbackByAdmin = () => async (dispatch) => {
@@ -104,10 +122,20 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         isShowModal: action.payload,
       };
-    case SET_ADS_LIST:
+    case SET_ADS_WAITING:
       return {
         ...state,
-        adsList: action.payload,
+        adsWaiting: action.payload,
+      };
+    case SET_ADS_RUNNING:
+      return {
+        ...state,
+        adsRunning: action.payload,
+      };
+    case SET_ADS_STOPPED:
+      return {
+        ...state,
+        adsStopped: action.payload,
       };
     case SET_FEEDBACK_LIST:
       return {

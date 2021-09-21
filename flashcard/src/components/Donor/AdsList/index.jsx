@@ -91,10 +91,13 @@ function AdsList() {
                     <Descriptions.Item label="Description" span={3}>
                       <Text>{item.content}</Text>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Target URL" span={3}>
+                    <Descriptions.Item label="Target URL" span={2}>
                       <Link href={item.target_url}>
                         {item.target_url?.substr(0, 100)}
                       </Link>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Point to spend">
+                      <Text strong>{item.expected_using_point}</Text>
                     </Descriptions.Item>
                     <Descriptions.Item label="Start">
                       <Text>

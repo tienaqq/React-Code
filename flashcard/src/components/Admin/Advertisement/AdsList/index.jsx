@@ -1,36 +1,34 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAdsByAdmin } from "redux/reducer/admin";
 import {
-  List,
-  Typography,
   Button,
   Card,
-  Row,
   Col,
   Descriptions,
-  Image,
-  Tag,
   Divider,
-  Select,
-  Input,
   Form,
+  Image,
+  Input,
+  List,
+  Row,
+  Select,
+  Typography,
 } from "antd";
+import {
+  removeAds,
+  returnStatusType,
+  runAds,
+} from "components/Admin/functionAds";
 import Moment from "moment";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 
-const { Text } = Typography;
+const { Text, Link } = Typography;
 const { Option } = Select;
 
-function AdminAdsList() {
-  const dispatch = useDispatch();
-  const { adsList } = useSelector((state) => state.admin);
+function AdminAdsList(props) {
+  const { adsList } = props;
   const [name, setName] = useState([]);
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    dispatch(fetchAdsByAdmin());
-  }, []);
 
   useEffect(() => {
     setData(adsList);
@@ -38,8 +36,6 @@ function AdminAdsList() {
     unique = [...new Set(adsList?.map((item) => item.donorId))];
     setName(unique);
   }, [adsList]);
-
-  console.log(name);
 
   const onFinish = (values) => {
     let title = values.title;
@@ -80,8 +76,8 @@ function AdminAdsList() {
           dataSource={data}
           renderItem={(item) => (
             <List.Item key={item.id}>
-              <Card>
-                <Row>
+              <Card className="ads__card">
+                <Row gutter={[16, 16]}>
                   <Col xs={24} xl={4} xxl={4}>
                     <Image
                       src={item.imageLink}
@@ -94,8 +90,16 @@ function AdminAdsList() {
                       <Descriptions.Item label="Advertisement" span={3}>
                         <Text strong>{item.title}</Text>
                       </Descriptions.Item>
-                      <Descriptions.Item label="Content" span={3}>
+                      <Descriptions.Item label="Description" span={3}>
                         <Text>{item.content}</Text>
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Target URL" span={2}>
+                        <Link href={item.target_url}>
+                          {item.target_url?.substr(0, 100)}
+                        </Link>
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Point to spend">
+                        <Text strong>{item.expected_using_point}</Text>
                       </Descriptions.Item>
                       <Descriptions.Item label="Start">
                         <Text>
@@ -108,7 +112,7 @@ function AdminAdsList() {
                         </Text>
                       </Descriptions.Item>
                       <Descriptions.Item label="Status">
-                        <Tag color="#2db7f5">{item.statusName}</Tag>
+                        {returnStatusType(item.statusId)}
                       </Descriptions.Item>
                       <Descriptions.Item label="Donor">
                         <Text>{item.donorId}</Text>
@@ -116,6 +120,16 @@ function AdminAdsList() {
                     </Descriptions>
                   </Col>
                 </Row>
+                <div className="ads__menu">
+                  {item.statusId === 1 && (
+                    <Button type="text" onClick={() => runAds(item.id)}>
+                      Active
+                    </Button>
+                  )}
+                  <Button type="text" onClick={() => removeAds(item.id)}>
+                    Remove
+                  </Button>
+                </div>
               </Card>
             </List.Item>
           )}

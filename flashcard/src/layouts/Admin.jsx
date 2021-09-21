@@ -1,10 +1,11 @@
 import {
   AppstoreOutlined,
   CheckCircleOutlined,
+  ClockCircleOutlined,
   CloseCircleOutlined,
   StopOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
+import { Divider, Layout, Menu } from "antd";
 import ActiveList from "components/Admin/Account/ActiveList";
 import OtherList from "components/Admin/Account/OtherList";
 import AdminAdsList from "components/Admin/Advertisement/AdsList";
@@ -18,12 +19,22 @@ import { Link, Route, Switch } from "react-router-dom";
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function Admin({ fetchUser, inActiveArray, banArray, fetchDonorService }) {
+function Admin({
+  fetchUser,
+  inActiveArray,
+  banArray,
+  fetchDonorService,
+  fetchAdsByAdmin,
+  adsWaiting,
+  adsRunning,
+  adsStopped,
+}) {
   let { path } = useRouteMatch();
 
   useEffect(() => {
     fetchUser();
     fetchDonorService();
+    fetchAdsByAdmin();
   }, [fetchUser]);
 
   return (
@@ -70,8 +81,23 @@ function Admin({ fetchUser, inActiveArray, banArray, fetchDonorService }) {
                 </Menu.Item>
               </Menu.ItemGroup>
               <Menu.ItemGroup key="advertisement" title="Donor">
-                <Menu.Item key="ads-list">
-                  <Link to="/admin/ads-list">Request Ads</Link>
+                <Menu.Item
+                  key="ads-list-waiting"
+                  icon={<ClockCircleOutlined />}
+                >
+                  <Link to="/admin/ads-list-waiting">Ads Request</Link>
+                </Menu.Item>
+                <Menu.Item
+                  key="ads-list-running"
+                  icon={<CheckCircleOutlined />}
+                >
+                  <Link to="/admin/ads-list-running">Ads Running</Link>
+                </Menu.Item>
+                <Menu.Item
+                  key="ads-list-stopped"
+                  icon={<CloseCircleOutlined />}
+                >
+                  <Link to="/admin/ads-list-stopped">Ads Stopped</Link>
                 </Menu.Item>
                 <Menu.Item key="service-list">
                   <Link to="/admin/donor-service">Donor Service</Link>
@@ -92,8 +118,14 @@ function Admin({ fetchUser, inActiveArray, banArray, fetchDonorService }) {
               <Route path={`${path}/ban-list`}>
                 <OtherList list={banArray} />
               </Route>
-              <Route path={`${path}/ads-list`}>
-                <AdminAdsList />
+              <Route path={`${path}/ads-list-waiting`}>
+                <AdminAdsList adsList={adsWaiting} />
+              </Route>
+              <Route path={`${path}/ads-list-running`}>
+                <AdminAdsList adsList={adsRunning} />
+              </Route>
+              <Route path={`${path}/ads-list-stopped`}>
+                <AdminAdsList adsList={adsStopped} />
               </Route>
               <Route path={`${path}/feedback-list`}>
                 <FeedbackList />
