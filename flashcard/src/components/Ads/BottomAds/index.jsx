@@ -3,8 +3,7 @@ import { Button } from "antd";
 import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { isActiveBottom } from "redux/reducer/ads";
+import { setAdsData } from "redux/reducer/ads";
 import "./index.css";
 
 const BottomAds = () => {
@@ -13,9 +12,9 @@ const BottomAds = () => {
   const ref3 = useRef();
   const ref4 = useRef();
   const dispatch = useDispatch();
-  const { isBottom, adsData } = useSelector((state) => state.ads);
+  const { adsData } = useSelector((state) => state.ads);
 
-  setTimeout(() => dispatch(isActiveBottom(true)), 300000);
+  // setTimeout(() => dispatch(isActiveBottom(true)), 300000);
 
   useEffect(() => {
     gsap.to(ref1.current, 2.5, { backgroundPosition: "50% 52%" });
@@ -34,30 +33,34 @@ const BottomAds = () => {
   };
 
   return (
-    <div className={`bottom__banner ${!isBottom && "bottom__hidden"}`}>
-      <figure className="bottom__wrapper" style={img_bg} ref={ref1}>
-        <a href={adsData?.target_url}>
-          <h1 className="bottom__title" ref={ref2}>
-            {adsData?.title}
-          </h1>
-          <h2 className="bottom__desc" ref={ref3}>
-            {adsData?.content}
-          </h2>
-          <p className="bottom__author" ref={ref4}>
-            @Flashcard Ads
-          </p>
-        </a>
-        <Button
-          size="small"
-          danger
-          type="primary"
-          className="bottom__close"
-          shape="circle"
-          icon={<CloseOutlined />}
-          onClick={() => dispatch(isActiveBottom(false))}
-        />
-      </figure>
-    </div>
+    <>
+      {adsData !== null && (
+        <div className={`bottom__banner`}>
+          <figure className="bottom__wrapper" style={img_bg} ref={ref1}>
+            <a href={adsData?.target_url}>
+              <h1 className="bottom__title" ref={ref2}>
+                {adsData?.title}
+              </h1>
+              <h2 className="bottom__desc" ref={ref3}>
+                {adsData?.content}
+              </h2>
+              <p className="bottom__author" ref={ref4}>
+                @Flashcard Ads
+              </p>
+            </a>
+            <Button
+              size="small"
+              danger
+              type="primary"
+              className="bottom__close"
+              shape="circle"
+              icon={<CloseOutlined />}
+              onClick={() => dispatch(setAdsData(null))}
+            />
+          </figure>
+        </div>
+      )}
+    </>
   );
 };
 export default BottomAds;

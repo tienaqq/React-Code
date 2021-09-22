@@ -20,16 +20,14 @@ import history from "helpers/history";
 import OtherUser from "layouts/OtherUser";
 import Profile from "layouts/Profile";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { fetchAdsInterval } from "services/adsInterval";
 
 function App() {
-  const { isBottom } = useSelector((state) => state.ads);
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchAdsInterval(isBottom);
-    }, 6000);
+      fetchAdsInterval();
+    }, 500000);
     return () => clearInterval(interval);
   }, []);
 

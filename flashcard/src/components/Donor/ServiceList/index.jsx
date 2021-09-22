@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Space, Table, Tag, Typography } from "antd";
+import { Button, Space, Table, Tag, Typography, Image } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,6 +31,7 @@ function ServiceList() {
         desc: item.serviceInformation,
         quantity: item.quantity,
         time: moment(item.createdDate).format("YYYY-MM-DD"),
+        image_link: item.image_link,
       });
     });
     setData(list);
@@ -47,6 +48,12 @@ function ServiceList() {
   };
 
   const columns = [
+    {
+      title: "Image",
+      dataIndex: "image_link",
+      key: "image_link",
+      render: (text) => <Image width={80} height={40} src={text} />,
+    },
     {
       title: "Name",
       dataIndex: "name",

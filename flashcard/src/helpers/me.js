@@ -4,7 +4,6 @@ import store from "redux/store/store";
 
 export const getChangeInfo = async () => {
   const res = await userAPI.getMe();
-  console.log(res);
   let info = res.account;
   if (typeof info === "object") {
     store.dispatch(saveUserInfo(info));

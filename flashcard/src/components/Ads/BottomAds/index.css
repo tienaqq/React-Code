@@ -10,7 +10,8 @@
 }
 
 .bottom__wrapper {
-  width: 728px;
+  width: 100%;
+  max-width: 728px;
   height: 90px;
   margin: 0 auto;
   background-size: 800px;

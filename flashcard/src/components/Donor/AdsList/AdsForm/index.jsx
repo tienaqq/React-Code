@@ -91,7 +91,6 @@ function AdsForm(props) {
       target_url: values.target_url,
       expected_using_point: values.expected_using_point,
     };
-    console.log(params);
     if (update) {
       up(params);
     } else {

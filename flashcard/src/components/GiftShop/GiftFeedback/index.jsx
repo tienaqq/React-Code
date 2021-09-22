@@ -6,7 +6,7 @@ const { TextArea } = Input;
 
 function GiftFeedback(props) {
   const [form] = Form.useForm();
-  const { isModalVisible, setIsModalVisible, id } = props;
+  const { isModalVisible, setIsModalVisible, id, getHistory } = props;
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -25,10 +25,11 @@ function GiftFeedback(props) {
   const onFinish = async (values) => {
     const params = Object.assign(values, { donorServiceRelationAccountId: id });
     const res = await feedbackAPI.sendFeedback(params);
-    console.log(res);
     if (res.status === "Success") {
       Notification("success", res.message);
+      form.resetFields();
       handleCancel();
+      getHistory();
     } else {
       Notification("error", res.message);
     }

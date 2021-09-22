@@ -1,15 +1,29 @@
 import {
+  FileImageOutlined,
   MinusCircleOutlined,
   PlusOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { Button, DatePicker, Form, Input, Modal, Select, Space } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Modal,
+  Select,
+  Space,
+  Upload,
+} from "antd";
 import donorAPI from "apis/donor";
 import Notification from "components/Notification";
+import Compressor from "compressorjs";
 import Moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchServices, setShowModal } from "redux/reducer/donor";
+import firebase from "services/firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const { Option } = Select;
 const layout = {
@@ -37,6 +51,9 @@ function ServiceForm(props) {
   const [start, setStart] = useState(null);
 
   const { update } = props;
+  const [url, setUrl] = useState(null);
+
+  console.log(update);
 
   useEffect(() => {
     form.resetFields();
@@ -106,6 +123,7 @@ function ServiceForm(props) {
       serviceInformation: values.serviceInformation,
       quantity: parseInt(hidden ? values.detail?.length : values.quantity),
       detail: format(values?.detail),
+      image_link: url,
     };
     const res = await donorAPI.addService(params);
     if (res.status === "Success") {
@@ -123,6 +141,7 @@ function ServiceForm(props) {
       serviceId: update.key,
       serviceName: values.serviceInformation,
       serviceInformation: values.serviceInformation,
+      image_link: url ? url : update?.image_link,
     };
     const res = await donorAPI.updateService(params);
     if (res.status === "Success") {
@@ -143,6 +162,89 @@ function ServiceForm(props) {
     dispatch(setShowModal(false));
   };
 
+  const fileCompress = (file) => {
+    return new Promise((resolve, reject) => {
+      new Compressor(file, {
+        file: "File",
+        quality: 0.5,
+        maxWidth: 288,
+        maxHeight: 120,
+        success(file) {
+          return resolve({
+            success: true,
+            file: file,
+          });
+        },
+        error(err) {
+          return resolve({
+            success: false,
+            message: err.message,
+          });
+        },
+      });
+    });
+  };
+
+  const uploader = {
+    action: "",
+    name: "file",
+    multiple: false,
+    defaultFileList: update
+      ? [
+          {
+            uid: "-1",
+            name: "image.png",
+            status: "done",
+            url: update?.image_link,
+          },
+        ]
+      : [],
+    beforeUpload: (file) => {
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
+      if (!isJpgOrPng) {
+        message.error("You can only upload JPG/PNG file!");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error("Image must smaller than 2MB!");
+      }
+      return isJpgOrPng && isLt2M ? true : Upload.LIST_IGNORE;
+    },
+    customRequest(e) {
+      setTimeout(() => {
+        e.onSuccess();
+      }, 2000);
+    },
+    onChange: async (info) => {
+      const compressState = await fileCompress(info.fileList[0]?.originFileObj);
+      if (compressState.success) {
+        let fileName = uuidv4();
+        let storage = firebase.storage().ref();
+        storage
+          .child(fileName)
+          .put(compressState.file)
+          .then((snapshot) => {
+            return snapshot.ref.getDownloadURL();
+          })
+          .then((url) => {
+            setUrl(url);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    progress: {
+      strokeColor: {
+        "0%": "#108ee9",
+        "100%": "#87d068",
+      },
+      strokeWidth: 3,
+      format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
+    },
+  };
+
   return (
     <Modal
       title={update ? "Update Service" : "Add Service"}
@@ -159,6 +261,27 @@ function ServiceForm(props) {
         autoComplete="off"
         form={form}
       >
+        <Form.Item
+          label="Image"
+          name="image_link"
+          rules={[
+            {
+              required: !update ? true : false,
+              message: "Image is required",
+            },
+          ]}
+        >
+          <Upload
+            {...uploader}
+            maxCount={1}
+            name="logo"
+            listType="picture"
+            required
+          >
+            <Button icon={<FileImageOutlined />}>Click to upload</Button>
+          </Upload>
+        </Form.Item>
+
         <Form.Item
           name="serviceName"
           label="Name"

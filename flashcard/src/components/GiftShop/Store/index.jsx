@@ -1,24 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  List,
-  Typography,
-  Divider,
-  Card,
-  Descriptions,
-  Button,
-  Tooltip,
-} from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import images from "constants/images";
-import Moment from "moment";
+import { Button, Card, Descriptions, List, Tooltip, Typography } from "antd";
 import Notification from "components/Notification";
-import { addQuantity, addToCart } from "redux/reducer/gift";
+import Moment from "moment";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addQuantity, addToCart, fetchGifts } from "redux/reducer/gift";
 
 const { Text, Paragraph } = Typography;
 
 function GiftStore() {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.gift);
+
+  useEffect(() => {
+    if (products?.length === 0) {
+      dispatch(fetchGifts());
+    }
+  }, [products]);
 
   const addCart = (id) => {
     let item = products.find((element) => {
@@ -72,11 +70,7 @@ function GiftStore() {
             cover={
               <img
                 alt="example"
-                src={
-                  (item?.serviceTypeId === 1 && images.VOUCHER_IMG) ||
-                  (item?.serviceTypeId === 2 && images.DISCOUNT_IMG) ||
-                  (item?.serviceTypeId === 3 && images.GIFT_IMG)
-                }
+                src={item.image_link}
                 style={{ height: "120px" }}
               />
             }

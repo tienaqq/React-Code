@@ -1,11 +1,19 @@
-import { DeleteOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  MinusOutlined,
+  PlusOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
+  Col,
   Descriptions,
+  Image,
   List,
   message,
-  Popconfirm,
+  Modal,
+  Row,
   Tag,
   Typography,
 } from "antd";
@@ -23,6 +31,7 @@ import {
 import "./index.css";
 
 const { Text } = Typography;
+const { confirm } = Modal;
 
 function Cart() {
   const dispatch = useDispatch();
@@ -115,10 +124,26 @@ function Cart() {
     }
   };
 
+  function showConfirm() {
+    confirm({
+      title: "Notification",
+      icon: <ExclamationCircleOutlined />,
+      content: "You want to checkout?",
+      onOk() {
+        onSubmit();
+      },
+      onCancel() {},
+    });
+  }
+
   return (
-    <div style={{ maxWidth: 950, margin: "0 auto" }}>
+    <div style={{ maxWidth: 1000, margin: "0 auto" }}>
       <List
-        header={<div>{total} Items</div>}
+        header={
+          <div>
+            Cart: <b>{total}</b>
+          </div>
+        }
         footer={
           <div
             style={{
@@ -136,20 +161,16 @@ function Cart() {
               </Text>
             </div>
             <div>
-              <Popconfirm
-                title="Are you sure checkout?"
-                okText="Yes"
-                cancelText="No"
-                onConfirm={() => onSubmit()}
+              <Button
+                type="primary"
+                style={{ marginRight: "auto" }}
+                disabled={userLogged?.point < point ? true : false}
+                onClick={() => {
+                  showConfirm();
+                }}
               >
-                <Button
-                  type="primary"
-                  style={{ marginRight: "auto" }}
-                  disabled={userLogged?.point < point ? true : false}
-                >
-                  Checkout
-                </Button>
-              </Popconfirm>
+                Checkout
+              </Button>
             </div>
           </div>
         }
@@ -159,32 +180,49 @@ function Cart() {
         }}
         dataSource={data}
         renderItem={(item) => (
-          <List.Item>
-            <Card title={item.title} className="cart__wrapper">
-              <Descriptions size="small">
-                <Descriptions.Item span={3}>
-                  <Text strong>{item.serviceName}</Text>
-                  <p>
-                    (
-                    {(item.serviceTypeId === 1 && "Voucher") ||
-                      (item.serviceTypeId === 2 && "Discount code") ||
-                      (item.serviceTypeId === 3 && "Clothes")}
-                    )
-                  </p>
-                </Descriptions.Item>
-                <Descriptions.Item span={3}>
-                  <Text>{item.serviceInformation}</Text>
-                </Descriptions.Item>
-                <Descriptions.Item label="Quantity">
-                  <Tag color="#108ee9">{item.quantity}</Tag>
-                </Descriptions.Item>
-                <Descriptions.Item label="Total point">
-                  <Tag color="#2db7f5">{item.quantity * 600}</Tag>
-                </Descriptions.Item>
-                <Descriptions.Item label="In stock">
-                  <Tag color="#2db7f5">{item.max}</Tag>
-                </Descriptions.Item>
-              </Descriptions>
+          <List.Item key={item.id}>
+            <Card
+              title={item.title}
+              className="cart__wrapper"
+              size="small"
+              hoverable
+            >
+              <Row gutter={[16, 16]}>
+                <Col xs={24} xl={24} xxl={4}>
+                  <Image
+                    width={150}
+                    height={100}
+                    src={item.image_link}
+                    alt="ads"
+                  />
+                </Col>
+                <Col xs={24} xl={24} xxl={20}>
+                  <Descriptions size="small">
+                    <Descriptions.Item span={3}>
+                      <Text strong>{item.serviceName}</Text>
+                      <p>
+                        (
+                        {(item.serviceTypeId === 1 && "Voucher") ||
+                          (item.serviceTypeId === 2 && "Discount code") ||
+                          (item.serviceTypeId === 3 && "Clothes")}
+                        )
+                      </p>
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3}>
+                      <Text>{item.serviceInformation}</Text>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Quantity">
+                      <Tag color="#108ee9">{item.quantity}</Tag>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Total point">
+                      <Tag color="#2db7f5">{item.quantity * 600}</Tag>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="In stock">
+                      <Tag color="#2db7f5">{item.max}</Tag>
+                    </Descriptions.Item>
+                  </Descriptions>
+                </Col>
+              </Row>
               <div className="cart__buttons">
                 <Button
                   type="text"

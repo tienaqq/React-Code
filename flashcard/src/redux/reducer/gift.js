@@ -57,6 +57,7 @@ const create = (values) => {
       serviceTypeId: item.serviceTypeId,
       serviceInformation: item.serviceInformation,
       max: item.quantity,
+      image_link: item.image_link,
       startDate: item.startDate,
       endDate: item.endDate,
       price: 600,
@@ -69,6 +70,7 @@ const create = (values) => {
 
 export const fetchGifts = () => async (dispatch) => {
   const res = await giftAPI.getGifts();
+  console.log(res);
   let array = create(res.listServices);
   dispatch(addToProducts(array));
 };
