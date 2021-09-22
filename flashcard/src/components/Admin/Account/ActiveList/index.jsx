@@ -158,11 +158,19 @@ function ActiveList() {
       key: "roleName",
       dataIndex: "roleName",
       responsive: ["lg"],
-      render: (role) => <Tag color="blue">{role.toUpperCase()}</Tag>,
+      render: (role) => (
+        <Tag
+          color={
+            (role === "Donor" && "blue") || (role === "Member" && "geekblue")
+          }
+        >
+          {role.toUpperCase()}
+        </Tag>
+      ),
       filters: [
         {
-          text: "Student",
-          value: "Student",
+          text: "Member",
+          value: "Member",
         },
         {
           text: "Donor",

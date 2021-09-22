@@ -35,8 +35,6 @@ function AdsForm(props) {
   const [url, setUrl] = useState(null);
   const { update } = props;
 
-  console.log(update);
-
   useEffect(() => {
     form.resetFields();
     if (!update) return;

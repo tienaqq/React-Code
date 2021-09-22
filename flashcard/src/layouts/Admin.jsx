@@ -5,7 +5,7 @@ import {
   CloseCircleOutlined,
   StopOutlined,
 } from "@ant-design/icons";
-import { Divider, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import ActiveList from "components/Admin/Account/ActiveList";
 import OtherList from "components/Admin/Account/OtherList";
 import AdminAdsList from "components/Admin/Advertisement/AdsList";
@@ -35,7 +35,7 @@ function Admin({
     fetchUser();
     fetchDonorService();
     fetchAdsByAdmin();
-  }, [fetchUser]);
+  }, []);
 
   return (
     <Layout>
@@ -56,6 +56,7 @@ function Admin({
           <Menu
             theme="light"
             defaultOpenKeys={["admin"]}
+            defaultSelectedKeys={["active"]}
             mode="inline"
             style={{ height: "calc(100vh - 60px)" }}
           >

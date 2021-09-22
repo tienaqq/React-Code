@@ -9,24 +9,23 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import AdsList from "components/Donor/AdsList";
-import ServiceHistory from "components/Donor/ServiceHistory";
+import ServiceFeedback from "components/Donor/ServiceFeedback";
 import ServiceList from "components/Donor/ServiceList";
 import MainProfile from "components/Profile/MainProfile";
 import Password from "components/Profile/Password";
 import TopHeader from "components/TopHeader";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function Donor() {
+function Donor({ fetchAds, adsWaiting, adsRunning, adsStopped }) {
   let { path } = useRouteMatch();
-  const [collapsed, setCollapsed] = useState(false);
 
-  const onCollapse = () => {
-    setCollapsed(!collapsed);
-  };
+  useEffect(() => {
+    fetchAds();
+  }, []);
 
   return (
     <Layout>
@@ -60,7 +59,7 @@ function Donor() {
                   <Link to="/donor">Service List</Link>
                 </Menu.Item>
                 <Menu.Item key="2" icon={<HistoryOutlined />}>
-                  <Link to="/donor">Service History</Link>
+                  <Link to="/donor/feedback">Service Feedback</Link>
                 </Menu.Item>
               </Menu.ItemGroup>
               <Menu.ItemGroup key="advertisement" title="Advertisement">
@@ -70,12 +69,15 @@ function Donor() {
                 <Menu.Item key="4" icon={<FundOutlined />}>
                   <Link to="/donor/ads-running">Ads Running</Link>
                 </Menu.Item>
+                <Menu.Item key="5" icon={<FundOutlined />}>
+                  <Link to="/donor/ads-stopped">Ads Stopped</Link>
+                </Menu.Item>
               </Menu.ItemGroup>
               <Menu.ItemGroup key="profile" title="Profile">
-                <Menu.Item key="5" icon={<UserOutlined />}>
+                <Menu.Item key="6" icon={<UserOutlined />}>
                   <Link to="/donor/profile">Update Profile</Link>
                 </Menu.Item>
-                <Menu.Item key="6" icon={<KeyOutlined />}>
+                <Menu.Item key="7" icon={<KeyOutlined />}>
                   <Link to="/donor/password">Update Password</Link>
                 </Menu.Item>
               </Menu.ItemGroup>
@@ -88,11 +90,17 @@ function Donor() {
               <Route exact path={path}>
                 <ServiceList />
               </Route>
-              <Route path={`${path}/service-history`}>
-                <ServiceHistory />
+              <Route path={`${path}/feedback`}>
+                <ServiceFeedback />
               </Route>
               <Route path={`${path}/ads-waiting`}>
-                <AdsList />
+                <AdsList ads={adsWaiting} />
+              </Route>
+              <Route path={`${path}/ads-running`}>
+                <AdsList ads={adsRunning} />
+              </Route>
+              <Route path={`${path}/ads-stopped`}>
+                <AdsList ads={adsStopped} />
               </Route>
               <Route path={`${path}/profile`}>
                 <MainProfile />

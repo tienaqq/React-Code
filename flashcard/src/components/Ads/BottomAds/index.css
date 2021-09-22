@@ -13,8 +13,6 @@
   width: 728px;
   height: 90px;
   margin: 0 auto;
-  background-image: url("http://adnanahmad.digital/img/housunrise.jpg");
-  /* background-position: 50% 46%; */
   background-size: 800px;
   position: relative;
 }
@@ -27,7 +25,6 @@
   margin-top: 0;
   color: #ffffff;
   left: 6px;
-
   font-weight: bold;
   top: 17px;
   font-size: 42px;
@@ -61,6 +58,5 @@
 }
 
 .bottom__hidden {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
 }

@@ -89,8 +89,8 @@ function ListService() {
         }}
         dataSource={filtered}
         renderItem={(item) => (
-          <List.Item>
-            <Card key={item.id}>
+          <List.Item key={item.id}>
+            <Card hoverable size="small">
               <Row gutter={[8, 8]}>
                 <Col xxl={4} xl={4} lg={4}>
                   <Image

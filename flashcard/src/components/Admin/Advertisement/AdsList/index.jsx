@@ -13,13 +13,14 @@ import {
   Typography,
 } from "antd";
 import {
+  refundPoint,
   removeAds,
   returnStatusType,
   runAds,
+  showRefund,
 } from "components/Admin/functionAds";
 import Moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 
 const { Text, Link } = Typography;
@@ -76,7 +77,7 @@ function AdminAdsList(props) {
           dataSource={data}
           renderItem={(item) => (
             <List.Item key={item.id}>
-              <Card className="ads__card">
+              <Card hoverable className="ads__card" size="small">
                 <Row gutter={[16, 16]}>
                   <Col xs={24} xl={4} xxl={4}>
                     <Image
@@ -114,8 +115,11 @@ function AdminAdsList(props) {
                       <Descriptions.Item label="Status">
                         {returnStatusType(item.statusId)}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Donor">
+                      <Descriptions.Item label="Donor" span={2}>
                         <Text>{item.donorId}</Text>
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Impressions">
+                        <Text strong>{item.time_rendering}</Text>
                       </Descriptions.Item>
                     </Descriptions>
                   </Col>
@@ -126,9 +130,16 @@ function AdminAdsList(props) {
                       Active
                     </Button>
                   )}
-                  <Button type="text" onClick={() => removeAds(item.id)}>
-                    Remove
-                  </Button>
+                  {item.statusId === 1 && (
+                    <Button type="text" onClick={() => removeAds(item.id)}>
+                      Remove
+                    </Button>
+                  )}
+                  {showRefund(item) && (
+                    <Button type="text" onClick={() => refundPoint(item.id)}>
+                      Refund
+                    </Button>
+                  )}
                 </div>
               </Card>
             </List.Item>

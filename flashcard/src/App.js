@@ -5,7 +5,9 @@ import Home from "components/Home";
 import Login from "components/Login";
 import Register from "components/Register";
 import { paths } from "constants/paths";
+import Admin from "containers/Admin";
 import Creator from "containers/Creator";
+import Donor from "containers/Donor";
 import GiftShop from "containers/GiftShop";
 import Latest from "containers/Latest";
 import Search from "containers/Search";
@@ -14,14 +16,23 @@ import AuthenticatedGuard from "guards/AuthenticatedGuard";
 import DonorRole from "guards/DonorRole";
 import MemberRole from "guards/MemberRole";
 import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
-import Profile from "layouts/Profile";
 import history from "helpers/history";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Donor from "containers/Donor";
-import Admin from "containers/Admin";
 import OtherUser from "layouts/OtherUser";
+import Profile from "layouts/Profile";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { fetchAdsInterval } from "services/adsInterval";
 
 function App() {
+  const { isBottom } = useSelector((state) => state.ads);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchAdsInterval(isBottom);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Router history={history}>
       <Switch>

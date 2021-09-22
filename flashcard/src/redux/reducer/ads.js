@@ -2,6 +2,7 @@ const initialState = {
   isBottom: true,
   isTwo: true,
   isThree: true,
+  adsData: null,
 };
 
 export const isActiveBottom = (payload) => {
@@ -19,6 +20,12 @@ export const isActiveTwo = (payload) => {
 export const isActiveThree = (payload) => {
   return {
     type: "IS_ACTIVE_THREE",
+    payload: payload,
+  };
+};
+export const setAdsData = (payload) => {
+  return {
+    type: "SET_ADS_DATA",
     payload: payload,
   };
 };
@@ -41,6 +48,12 @@ const adsReducer = (state = initialState, action) => {
       return {
         ...state,
         isThree: action.payload,
+      };
+    }
+    case "SET_ADS_DATA": {
+      return {
+        ...state,
+        adsData: action.payload,
       };
     }
     default:

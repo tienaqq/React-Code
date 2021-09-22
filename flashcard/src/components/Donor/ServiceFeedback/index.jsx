@@ -1,33 +1,32 @@
 import {
+  Button,
   Card,
+  Col,
+  Descriptions,
+  Image,
   List,
   Rate,
-  Space,
-  Select,
-  Descriptions,
-  Typography,
   Row,
-  Col,
-  Image,
-  Button,
-  Alert,
+  Select,
+  Space,
+  Typography,
 } from "antd";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFeedbackByAdmin } from "redux/reducer/admin";
-import moment from "moment";
+import { fetchFeedback } from "redux/reducer/donor";
 import { returnServiceType } from "services/returnServiceType";
 
 const { Option } = Select;
 const { Text } = Typography;
 
-function FeedbackList() {
+function ServiceFeedback() {
   const dispatch = useDispatch();
-  const { feedbacks } = useSelector((state) => state.admin);
+  const { feedbacks } = useSelector((state) => state.donor);
   const [list, setList] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchFeedbackByAdmin());
+    dispatch(fetchFeedback());
   }, []);
 
   const handleChange = (value) => {
@@ -77,7 +76,6 @@ function FeedbackList() {
               </Option>
               <Option value="all">All Type</Option>
             </Select>
-            <Button>Hello</Button>
           </Space>
         }
         dataSource={list ? list : feedbacks}
@@ -125,4 +123,4 @@ function FeedbackList() {
     </div>
   );
 }
-export default FeedbackList;
+export default ServiceFeedback;

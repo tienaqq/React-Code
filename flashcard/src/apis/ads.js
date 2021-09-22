@@ -35,6 +35,10 @@ const adsAPI = {
     const url = baseUrl + "/admin-remove";
     return axiosClient.post(url, { params });
   },
+  refundPointByAdmin: (params) => {
+    const url = baseUrl + "/admin-refund";
+    return axiosClient.post(url, { params });
+  },
 };
 
 export default adsAPI;

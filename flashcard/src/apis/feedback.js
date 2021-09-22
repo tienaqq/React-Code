@@ -11,6 +11,10 @@ const feedbackAPI = {
     const url = baseUrl + "/admin-view";
     return axiosClient.get(url);
   },
+  getFeedbackDonor: () => {
+    const url = baseUrl + "/donor-view";
+    return axiosClient.get(url);
+  },
 };
 
 export default feedbackAPI;

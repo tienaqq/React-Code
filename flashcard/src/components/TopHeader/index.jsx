@@ -26,7 +26,14 @@ function TopHeader() {
 
   return (
     <Header>
-      <Link to={userLogged ? "/course" : "/"}>
+      <Link
+        to={
+          (userLogged?.roleId === 1 && "/course") ||
+          (userLogged?.roleId === 2 && "/admin") ||
+          (userLogged?.roleId === 3 && "/donor") ||
+          (!userLogged && "/")
+        }
+      >
         <img className="logo" src={images.LOGO} alt="logo" />
       </Link>
       <Space>

@@ -106,23 +106,32 @@ function Header() {
 
   return (
     <header className="main__header">
-      <Link to={userLogged ? "/course" : "/"}>
+      <Link
+        to={
+          (userLogged?.roleId === 1 && "/course") ||
+          (userLogged?.roleId === 2 && "/admin") ||
+          (userLogged?.roleId === 3 && "/donor") ||
+          (!userLogged && "/")
+        }
+      >
         <img className="logo" src={images.LOGO} alt="logo" />
       </Link>
       <nav>
         <ul className="nav__links">
-          <li>
-            <Form form={form} initialValues={{ searchKey: searchKey }}>
-              <Form.Item name="searchKey" noStyle>
-                <Search
-                  allowClear
-                  placeholder="input search text"
-                  onSearch={onSearch}
-                  enterButton
-                />
-              </Form.Item>
-            </Form>
-          </li>
+          {userLogged?.roleId === 1 && (
+            <li>
+              <Form form={form} initialValues={{ searchKey: searchKey }}>
+                <Form.Item name="searchKey" noStyle>
+                  <Search
+                    allowClear
+                    placeholder="input search text"
+                    onSearch={onSearch}
+                    enterButton
+                  />
+                </Form.Item>
+              </Form>
+            </li>
+          )}
           {!userLogged && (
             <li>
               <Link to="/login">Login</Link>
@@ -133,7 +142,7 @@ function Header() {
               <Link to="/register">Register</Link>
             </li>
           )}
-          {userLogged && (
+          {userLogged?.roleId === 1 && (
             <li className="nav-member__point">
               <Button icon={<SketchOutlined />} type="primary" ghost>
                 {formatNumberToString(userLogged?.point, 4)}

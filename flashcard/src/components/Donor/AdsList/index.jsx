@@ -9,23 +9,23 @@ import {
   Modal,
   Row,
   Space,
-  Tag,
   Typography,
 } from "antd";
 import adsAPI from "apis/ads";
 import Notification from "components/Notification";
 import Moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchAds, setShowModal } from "redux/reducer/donor";
+import { returnStatusType } from "../functionDonor";
 import AdsForm from "./AdsForm";
 import "./index.css";
 
 const { Text, Link } = Typography;
 const { confirm } = Modal;
 
-function AdsList() {
-  const { ads } = useSelector((state) => state.donor);
+function AdsList(props) {
+  const { ads } = props;
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(null);
@@ -61,7 +61,7 @@ function AdsList() {
   };
 
   return (
-    <div style={{ maxWidth: 950, paddingBottom: 100 }}>
+    <div style={{ maxWidth: 1000, paddingBottom: 100 }}>
       <AdsForm update={update} />
       <Space style={{ marginBottom: 20 }}>
         <Button icon={<PlusOutlined />} onClick={() => showModal()}>
@@ -78,7 +78,7 @@ function AdsList() {
         dataSource={ads}
         renderItem={(item) => (
           <List.Item>
-            <Card className="ads__card">
+            <Card className="ads__card" hoverable size="small">
               <Row gutter={[16, 16]}>
                 <Col xs={24} xl={24} xxl={4}>
                   <Image src={item.imageLink} alt="ads" />
@@ -91,13 +91,16 @@ function AdsList() {
                     <Descriptions.Item label="Description" span={3}>
                       <Text>{item.content}</Text>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Target URL" span={2}>
+                    <Descriptions.Item label="Target URL" span={3}>
                       <Link href={item.target_url}>
                         {item.target_url?.substr(0, 100)}
                       </Link>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Point to spend">
+                    <Descriptions.Item label="Point to spend" span={2}>
                       <Text strong>{item.expected_using_point}</Text>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Impressions">
+                      <Text strong>{item.time_rendering}</Text>
                     </Descriptions.Item>
                     <Descriptions.Item label="Start">
                       <Text>
@@ -110,18 +113,22 @@ function AdsList() {
                       </Text>
                     </Descriptions.Item>
                     <Descriptions.Item label="Status">
-                      <Tag color="#2db7f5">{item.statusName}</Tag>
+                      {returnStatusType(item.statusId)}
                     </Descriptions.Item>
                   </Descriptions>
                 </Col>
               </Row>
               <div className="ads__menu">
-                <Button type="text" onClick={() => showModal(item)}>
-                  Edit
-                </Button>
-                <Button type="text" onClick={() => remove(item.id)}>
-                  Remove
-                </Button>
+                {item.statusId === 1 && (
+                  <Button type="text" onClick={() => showModal(item)}>
+                    Edit
+                  </Button>
+                )}
+                {item.statusId === 1 && (
+                  <Button type="text" onClick={() => remove(item.id)}>
+                    Remove
+                  </Button>
+                )}
               </div>
             </Card>
           </List.Item>

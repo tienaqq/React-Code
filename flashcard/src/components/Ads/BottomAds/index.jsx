@@ -13,9 +13,9 @@ const BottomAds = () => {
   const ref3 = useRef();
   const ref4 = useRef();
   const dispatch = useDispatch();
-  const { isBottom } = useSelector((state) => state.ads);
+  const { isBottom, adsData } = useSelector((state) => state.ads);
 
-  setTimeout(() => dispatch(isActiveBottom(true)), 400000);
+  setTimeout(() => dispatch(isActiveBottom(true)), 300000);
 
   useEffect(() => {
     gsap.to(ref1.current, 2.5, { backgroundPosition: "50% 52%" });
@@ -29,20 +29,24 @@ const BottomAds = () => {
     gsap.to(ref4.current, 3, { opacity: 1, delay: 5.4 });
   });
 
+  let img_bg = {
+    backgroundImage: `url(${adsData?.imageLink})`,
+  };
+
   return (
     <div className={`bottom__banner ${!isBottom && "bottom__hidden"}`}>
-      <figure className="bottom__wrapper" ref={ref1}>
-        <Link to="/">
+      <figure className="bottom__wrapper" style={img_bg} ref={ref1}>
+        <a href={adsData?.target_url}>
           <h1 className="bottom__title" ref={ref2}>
-            Good Morning
+            {adsData?.title}
           </h1>
           <h2 className="bottom__desc" ref={ref3}>
-            Beautiful Landscape Photography
+            {adsData?.content}
           </h2>
           <p className="bottom__author" ref={ref4}>
             @Flashcard Ads
           </p>
-        </Link>
+        </a>
         <Button
           size="small"
           danger
