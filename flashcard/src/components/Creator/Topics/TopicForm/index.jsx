@@ -1,10 +1,9 @@
-import { Button, Form, Input, Radio } from "antd";
+import { Button, Form, Input } from "antd";
 import topicAPI from "apis/topic";
 import Notification from "components/Notification";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTopics, setModalInfo } from "redux/reducer/creator";
-import PropTypes from "prop-types";
 
 const { TextArea } = Input;
 
@@ -20,25 +19,26 @@ function TopicForm(props) {
 
   const onSubmit = async (values) => {
     if (update) {
-      const res = await topicAPI.updateTopicById(values);
-      console.log(res);
+      const res = await topicAPI.updateTopicById(
+        Object.assign(values, { topicId: update?.topicId })
+      );
       if ((res.status = "Success")) {
         Notification("success", res.message);
         dispatch(fetchTopics());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
-      } else {
-        Notification("error", res.message);
+        return;
       }
+      Notification("error", res.message);
     } else {
       const res = await topicAPI.addNewTopic(values);
-      console.log(res);
       if ((res.status = "Success")) {
         Notification("success", res.message);
+        form.resetFields();
         dispatch(fetchTopics());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
-      } else {
-        Notification("error", res.message);
+        return;
       }
+      Notification("error", res.message);
     }
   };
 
@@ -91,9 +91,5 @@ function TopicForm(props) {
     </Form>
   );
 }
-
-TopicForm.protoTypes = {
-  update: Object,
-};
 
 export default TopicForm;

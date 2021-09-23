@@ -50,7 +50,6 @@ function QuestionList() {
   };
 
   const removeQuestion = async (id) => {
-    console.log(id);
     confirm({
       title: "Notification",
       icon: <ExclamationCircleOutlined />,

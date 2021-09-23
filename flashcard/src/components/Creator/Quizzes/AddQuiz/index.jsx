@@ -1,3 +1,4 @@
+import { StepForwardOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -241,8 +242,16 @@ function AddQuiz(props) {
                     return item.lessionName + " | ";
                   })}
                 </Descriptions.Item>
-                <Descriptions.Item label="Questions" span={3}>
-                  <Text mark>{result ? result.length : 0}</Text>
+                <Descriptions.Item label="Questions" span={1}>
+                  <Text mark strong>
+                    {result ? result.length : 0}
+                  </Text>
+                </Descriptions.Item>
+                <Descriptions.Item span={1}>
+                  <Text type="success">
+                    {result?.length > 0 && "Step 3 available"}
+                    {result?.length > 0 && " ➡️"}
+                  </Text>
                 </Descriptions.Item>
               </Descriptions>
             </div>
@@ -307,8 +316,15 @@ function AddQuiz(props) {
               }
               footer={
                 <div>
-                  <Button type="primary" onClick={() => addQuiz()}>
+                  <Button
+                    type="primary"
+                    onClick={() => addQuiz()}
+                    style={{ marginRight: 15 }}
+                  >
                     Add Quiz
+                  </Button>
+                  <Button htmlType="button" onClick={() => prev()}>
+                    Previous
                   </Button>
                 </div>
               }

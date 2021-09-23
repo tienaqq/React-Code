@@ -45,7 +45,7 @@ function QuestionForm(props) {
     } else {
       setContent("");
     }
-  }, [update]);
+  }, [modalInfo]);
 
   const getOptions = (values) => {
     const optionsUpdated = values.options;
@@ -101,6 +101,7 @@ function QuestionForm(props) {
     const response = await questionAPI.addQuestionOption(params);
     if (response.status === "Success") {
       Notification("success", response.message);
+      form.resetFields();
       dispatch(setModalInfo({ title: "Add", isVisible: false }));
       props.getData();
     } else {

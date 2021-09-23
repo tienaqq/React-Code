@@ -15,8 +15,8 @@ function FlashcardForm(props) {
 
   useEffect(() => {
     form.resetFields();
-    setContent(update?.flashcardContent);
-  }, [update]);
+    setContent(update ? update?.flashcardContent : "");
+  }, [modalInfo]);
 
   const onFinish = async (values) => {
     const params = {
@@ -38,6 +38,7 @@ function FlashcardForm(props) {
       const res = await flashcardAPI.addFlashcardByLessonId(params);
       if (res.status === "Success") {
         Notification("success", res.message);
+        form.resetFields();
         dispatch(fetchFlashcards());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {

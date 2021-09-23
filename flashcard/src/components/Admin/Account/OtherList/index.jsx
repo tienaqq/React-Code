@@ -1,5 +1,5 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Space, Table, Tag, Typography } from "antd";
+import { Button, Input, Space, Table, Tag, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
@@ -8,7 +8,6 @@ const { Text } = Typography;
 
 function OtherList(props) {
   const { list } = props;
-  const [form] = Form.useForm();
   const [data, setData] = useState([]);
 
   const [searchText, setSearchText] = useState("");

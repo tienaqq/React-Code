@@ -9,13 +9,14 @@ function ModalCreator(props) {
   const dispatch = useDispatch();
   const { modalInfo } = useSelector((state) => state.creator);
 
-  const showModal = () => {
-    dispatch(setModalInfo({ title: "Add", isVisible: true }));
-  };
+  // const showModal = () => {
+  //   dispatch(setModalInfo({ title: "Add", isVisible: true }));
+  // };
 
   const handleCancel = () => {
     dispatch(setModalInfo({ title: "Add", isVisible: false }));
   };
+
   const size = (path) => {
     switch (path) {
       case "/creator/lesson/:post":

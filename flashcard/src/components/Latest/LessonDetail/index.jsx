@@ -1,4 +1,4 @@
-import { SketchOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button, Collapse, Descriptions, Spin, Typography } from "antd";
 import { backStatus } from "constants/backStatus";
 import Moment from "moment";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { setFlashcardDetail, setShowModalLesson } from "redux/reducer/latest";
+import { returnDone } from "../latestFunction";
 
 const { Panel } = Collapse;
 const { Text } = Typography;
@@ -29,7 +30,6 @@ function LessonDetail(props) {
   useEffect(() => {
     let dis = [];
     lessons?.map((item) => {
-      console.log(item);
       if (item.joinStatus === "Join") {
         dis.push(item.lessionId);
       }
@@ -50,6 +50,8 @@ function LessonDetail(props) {
               className="btn--hover"
             >
               {item.flashcardName}
+              {returnDone(item.isComplete)}
+              {item.isComplete === true && "Done"}
             </Button>
           </Descriptions.Item>
         );
@@ -63,7 +65,7 @@ function LessonDetail(props) {
     history.push(`/latest/${post}/flashcard`);
   };
 
-  const enrol = (lesson) => {
+  const enrol = () => {
     dispatch(setShowModalLesson(true));
   };
 
@@ -71,7 +73,7 @@ function LessonDetail(props) {
     <div className="app__first-child">
       <Collapse defaultActiveKey={[1]} className="lesson__wrapper">
         <Panel
-          header={lesson?.lessionName}
+          header={lesson?.lessionName + (lesson?.isComplete === true && " ✔️")}
           key="1"
           extra={backStatus(lesson?.statusId)}
         >
@@ -89,14 +91,27 @@ function LessonDetail(props) {
             <div className="lesson__child-tool">
               <Descriptions size="small" column={3}>
                 <Descriptions.Item label="Publish" span={3}>
-                  {Moment(lesson?.createdDate).format("YYYY-MM-DD")}
+                  <b>{Moment(lesson?.createdDate).format("YYYY-MM-DD")}</b>
                 </Descriptions.Item>
-                {lesson?.joinStatus === "Not join" && (
+
+                {(lesson?.statusId === 1 || lesson?.joinStatus === "Join") && (
                   <Descriptions.Item span={3}>
-                    <SketchOutlined />
-                    {" " + 100}
+                    Joined
+                    <Button
+                      type="text"
+                      shape="circle"
+                      className="icon__joined"
+                      icon={<CheckCircleOutlined />}
+                    />
                   </Descriptions.Item>
                 )}
+
+                {lesson?.joinStatus === "Not join" && (
+                  <Descriptions.Item span={3} label="Point">
+                    100
+                  </Descriptions.Item>
+                )}
+
                 {lesson?.joinStatus === "Not join" && (
                   <Descriptions.Item span={3}>
                     <Button type="primary" onClick={() => enrol(lesson)}>
@@ -104,7 +119,8 @@ function LessonDetail(props) {
                     </Button>
                   </Descriptions.Item>
                 )}
-                {lesson?.joinStatus === "Waiting" && (
+
+                {lesson?.joinStatus === "Waiting from author" && (
                   <Descriptions.Item span={3}>
                     Waiting author accept
                   </Descriptions.Item>

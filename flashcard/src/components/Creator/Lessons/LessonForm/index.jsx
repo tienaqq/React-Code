@@ -19,7 +19,6 @@ function LessonForm(props) {
 
   const onSubmit = async (values) => {
     if (update) {
-      console.log("chay vao update");
       Object.assign(values, { lessionId: update.lessionId });
       const res = await lessonAPI.updateLessonById(values);
       if (res.status === "Success") {
@@ -34,6 +33,7 @@ function LessonForm(props) {
       const res = await lessonAPI.createLessonBySubId(params);
       if (res.status === "Success") {
         Notification("success", res.message);
+        form.resetFields();
         dispatch(fetchLessons());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {

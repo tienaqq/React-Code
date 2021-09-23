@@ -44,6 +44,7 @@ function SubjectForm(props) {
       const res = await subjectAPI.addSubjectByTopicId(params);
       if (res.status === "Success") {
         Notification("success", res.message);
+        form.resetFields();
         dispatch(fetchSubjects());
         dispatch(setModalInfo({ title: "Add", isVisible: false }));
       } else {

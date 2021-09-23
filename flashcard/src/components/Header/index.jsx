@@ -124,7 +124,7 @@ function Header() {
                 <Form.Item name="searchKey" noStyle>
                   <Search
                     allowClear
-                    placeholder="input search text"
+                    placeholder="Input search"
                     onSearch={onSearch}
                     enterButton
                   />
@@ -144,9 +144,11 @@ function Header() {
           )}
           {userLogged?.roleId === 1 && (
             <li className="nav-member__point">
-              <Button icon={<SketchOutlined />} type="primary" ghost>
-                {formatNumberToString(userLogged?.point, 4)}
-              </Button>
+              <Link to="/profile/point">
+                <Button icon={<SketchOutlined />} type="primary" ghost>
+                  {formatNumberToString(userLogged?.point, 4)}
+                </Button>
+              </Link>
             </li>
           )}
           {userLogged && (

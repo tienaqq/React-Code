@@ -30,14 +30,12 @@ export default function showDeleteConfirm(id, type) {
           removeTopic(id);
           break;
         case "subject":
-          console.log(id);
           removeSubject(id);
           break;
         case "lesson":
           removeLesson(id);
           break;
         case "flashcard":
-          console.log(id);
           removeFlashcard(id);
           break;
         default:
@@ -59,7 +57,6 @@ const removeTopic = async (id) => {
 };
 const removeSubject = async (id) => {
   const res = await subjectAPI.removeSubject({ subjectId: id });
-  console.log(res);
   if (res.status === "Success") {
     Notification("success", res.message);
     store.dispatch(fetchSubjects());

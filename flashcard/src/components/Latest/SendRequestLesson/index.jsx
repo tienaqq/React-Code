@@ -15,7 +15,6 @@ function SendRequestLesson() {
   const handleOk = async () => {
     const id = lessonRequest?.lessionId;
     const res = await privateAPI.sentRequestLesson({ lessionId: id });
-    console.log(res);
     if (res.status === "Success") {
       Notification("success", res.message);
     } else {

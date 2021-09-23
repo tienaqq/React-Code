@@ -53,8 +53,6 @@ function ServiceForm(props) {
   const { update } = props;
   const [url, setUrl] = useState(null);
 
-  console.log(update);
-
   useEffect(() => {
     form.resetFields();
     if (update) {

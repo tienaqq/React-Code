@@ -10,6 +10,7 @@ import {
   setLessonRequest,
   setShowModalLesson,
 } from "redux/reducer/latest";
+import { returnDone } from "../latestFunction";
 import "./index.css";
 
 const { Panel } = Collapse;
@@ -21,8 +22,6 @@ function CourseMain() {
   let { post } = useParams();
   const { lessons } = useSelector((state) => state.latest);
   const { flashcards } = useSelector((state) => state.latest);
-
-  console.log(lessons);
 
   const [list, setList] = useState([]);
   let array = Array.from(Array(50).keys());
@@ -50,6 +49,8 @@ function CourseMain() {
               className="btn--hover"
             >
               {item.flashcardName}
+              {returnDone(item.isComplete)}
+              {item.isComplete === true && "Done"}
             </Button>
           </Descriptions.Item>
         );
@@ -78,7 +79,9 @@ function CourseMain() {
             className="lesson__wrapper"
           >
             <Panel
-              header={lesson?.lessionName}
+              header={
+                lesson?.lessionName + (lesson.isComplete === true && " ✔️")
+              }
               key={index}
               extra={backStatus(lesson?.statusId)}
             >
@@ -94,7 +97,7 @@ function CourseMain() {
                 <div className="lesson__child-tool">
                   <Descriptions size="small" column={3}>
                     <Descriptions.Item label="Publish" span={3}>
-                      {Moment(lesson.createdDate).format("YYYY-MM-DD")}
+                      <b>{Moment(lesson.createdDate).format("YYYY-MM-DD")}</b>
                     </Descriptions.Item>
 
                     {(lesson?.statusId === 1 ||

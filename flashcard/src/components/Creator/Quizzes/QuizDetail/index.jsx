@@ -28,7 +28,6 @@ function QuizDetail() {
   useEffect(() => {
     const getDetail = async () => {
       const res = await quizAPI.getQuizDetail({ quizTestId: post });
-      console.log(res);
       if (res.status === "Success") {
         setDetail(res.listQuestion);
         setInfo(res.quiztestInfo);

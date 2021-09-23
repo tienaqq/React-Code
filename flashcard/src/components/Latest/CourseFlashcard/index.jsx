@@ -1,12 +1,13 @@
-import { Button, Divider, Empty } from "antd";
+import { Button, Typography } from "antd";
 import processAPI from "apis/process";
 import Notification from "components/Notification";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import renderHTML from "react-render-html";
-import { useHistory, useParams } from "react-router";
 import { fetchFlashcards } from "redux/reducer/latest";
+import { returnDone } from "../latestFunction";
 import "./index.css";
+
+const { Text } = Typography;
 
 function CourseFlashcard() {
   const { flashcard } = useSelector((state) => state.latest);
@@ -26,20 +27,24 @@ function CourseFlashcard() {
 
   return (
     <div className="detail__container">
-      <Divider orientation="left" plain>
-        Flashcard
-      </Divider>
       <div className="detail__content">
-        <div>{flashcard?.flashcardName}</div>
+        <Text strong>
+          {flashcard?.flashcardName}
+          {returnDone(flashcard?.isComplete)}
+        </Text>
+        <br />
+        <br />
         <div>{renderHTML(flashcard ? flashcard?.flashcardContent : " ")}</div>
       </div>
-      <Button
-        type="primary"
-        className="detail__button"
-        onClick={() => saveProcess()}
-      >
-        Mark as completion
-      </Button>
+      {flashcard?.isComplete === false && (
+        <Button
+          type="primary"
+          className="detail__button"
+          onClick={() => saveProcess()}
+        >
+          Mark as completion
+        </Button>
+      )}
     </div>
   );
 }

@@ -17,16 +17,18 @@ const BottomAds = () => {
   // setTimeout(() => dispatch(isActiveBottom(true)), 300000);
 
   useEffect(() => {
-    gsap.to(ref1.current, 2.5, { backgroundPosition: "50% 52%" });
-    gsap.to(ref2.current, 1, { opacity: 1, delay: 3 });
-    gsap.to(ref3.current, 1, {
-      x: 50,
-      repeat: -1,
-      repeatDelay: 1,
-      yoyo: true,
-    });
-    gsap.to(ref4.current, 3, { opacity: 1, delay: 5.4 });
-  });
+    if (adsData !== null) {
+      gsap.to(ref1.current, 2.5, { backgroundPosition: "50% 52%" });
+      gsap.to(ref2.current, 1, { opacity: 1, delay: 3 });
+      gsap.to(ref3.current, 1, {
+        x: 50,
+        repeat: -1,
+        repeatDelay: 1,
+        yoyo: true,
+      });
+      gsap.to(ref4.current, 3, { opacity: 1, delay: 5.4 });
+    }
+  }, [adsData]);
 
   let img_bg = {
     backgroundImage: `url(${adsData?.imageLink})`,

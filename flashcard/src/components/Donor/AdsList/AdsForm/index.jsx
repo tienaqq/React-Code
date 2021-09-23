@@ -69,7 +69,6 @@ function AdsForm(props) {
 
   const up = async (params) => {
     const res = await adsAPI.updateAds(params);
-    console.log(res);
     if (res.status === "Success") {
       Notification("success", res.message);
       dispatch(fetchAds());

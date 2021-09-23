@@ -70,7 +70,6 @@ const create = (values) => {
 
 export const fetchGifts = () => async (dispatch) => {
   const res = await giftAPI.getGifts();
-  console.log(res);
   let array = create(res.listServices);
   dispatch(addToProducts(array));
 };

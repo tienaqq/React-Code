@@ -20,7 +20,6 @@ const privateAPI = {
     const url = baseS + "/author-denine";
     return axiosClient.post(url, { params });
   },
-
   sentRequestLesson: (params) => {
     const url = baseL + "/send";
     return axiosClient.post(url, { params });

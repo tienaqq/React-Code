@@ -18,7 +18,6 @@ function CourseInfo() {
     <div className="app__first-child">
       <PageHeader
         title={subject?.subjectName}
-        subTitle={`(${subject?.numOfView} views)`}
         className="app--border app--bg app--shadow app--mg20"
       >
         <Descriptions size="small" column={3}>

@@ -14,6 +14,7 @@ import {
   Row,
   Spin,
   Typography,
+  Image,
 } from "antd";
 import subjectAPI from "apis/subject";
 import Notification from "components/Notification";
@@ -52,7 +53,7 @@ function Course() {
       }
     };
     getInterest();
-  }, []);
+  }, [payload]);
 
   const join = (item) => {
     const id = item?.subjectId;
@@ -89,7 +90,7 @@ function Course() {
       <div className="app__container">
         <div className="course__container">
           <div className="course__banner app--shadow">
-            <img src={images.COURSE} alt="photo" />
+            <Image src={images.COURSE} alt="photo" preview={false} />
             <div className="course__info">
               <h3 className="course__title">
                 Recommendations
@@ -101,7 +102,7 @@ function Course() {
         <div className="course__container">
           <Spin spinning={loading}>
             <Collapse
-              defaultActiveKey={["0", "1", "2", "3", "4", "6"]}
+              defaultActiveKey={["0", "1", "2", "3", "4", "6", "7", "8"]}
               ghost
               expandIconPosition="right"
             >
