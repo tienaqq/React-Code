@@ -1,31 +1,50 @@
-import { Tag, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Modal, Tag } from "antd";
 import adsAPI from "apis/ads";
 import Notification from "components/Notification";
 import moment from "moment";
 import { fetchAdsByAdmin } from "redux/reducer/admin";
 import store from "redux/store/store";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
 export const runAds = async (id) => {
-  const res = await adsAPI.runAdsByAdmin({ advertiseId: id });
-  if (res.status === "Success") {
-    Notification("success", res.message);
-    store.dispatch(fetchAdsByAdmin());
-  } else {
-    Notification("error", res.message);
-  }
+  confirm({
+    title: "Notification",
+    icon: <ExclamationCircleOutlined />,
+    content: "Are you sure active this ads?",
+    async onOk() {
+      const res = await adsAPI.runAdsByAdmin({ advertiseId: id });
+      if (res.status === "Success") {
+        Notification("success", res.message);
+        store.dispatch(fetchAdsByAdmin());
+      } else {
+        Notification("error", res.message);
+      }
+    },
+    onCancel() {},
+  });
 };
 
 export const removeAds = async (id) => {
-  const res = await adsAPI.removeAdsByAdmin({ advertiseId: id });
-  if (res.status === "Success") {
-    Notification("success", res.message);
-    store.dispatch(fetchAdsByAdmin());
-  } else {
-    Notification("error", res.message);
-  }
+  confirm({
+    title: "Notification",
+    icon: <ExclamationCircleOutlined />,
+    content: "Are you sure delete this ads?",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    async onOk() {
+      const res = await adsAPI.removeAdsByAdmin({ advertiseId: id });
+      if (res.status === "Success") {
+        Notification("success", res.message);
+        store.dispatch(fetchAdsByAdmin());
+      } else {
+        Notification("error", res.message);
+      }
+    },
+    onCancel() {},
+  });
 };
 
 export const returnStatusType = (statusId) => {
@@ -69,13 +88,21 @@ export const showStop = (item) => {
 };
 
 export const refundPoint = async (id) => {
-  const res = await adsAPI.refundPointByAdmin({ advertiseId: id });
-  if (res.status === "Success") {
-    Notification("success", res.message);
-    store.dispatch(fetchAdsByAdmin());
-  } else {
-    Notification("error", res.message);
-  }
+  confirm({
+    title: "Notification",
+    icon: <ExclamationCircleOutlined />,
+    content: "Do you want to refund point?",
+    async onOk() {
+      const res = await adsAPI.refundPointByAdmin({ advertiseId: id });
+      if (res.status === "Success") {
+        Notification("success", res.message);
+        store.dispatch(fetchAdsByAdmin());
+      } else {
+        Notification("error", res.message);
+      }
+    },
+    onCancel() {},
+  });
 };
 
 export const stopAds = async (id) => {
