@@ -1,25 +1,23 @@
-import { useParams } from "react-router-dom";
 import { FieldTimeOutlined, FileDoneOutlined } from "@ant-design/icons";
 import {
-  Affix,
   Alert,
   Button,
   Checkbox,
   Divider,
-  Empty,
   Form,
   Modal,
   Space,
   Spin,
   Statistic,
 } from "antd";
+import quizAPI from "apis/quiz";
+import Notification from "components/Notification";
+import Paging from "components/Pagination";
 import { useEffect, useState } from "react";
 import renderHTML from "react-render-html";
-import { useHistory, useLocation } from "react-router-dom";
-import Notification from "components/Notification";
+import { useHistory, useParams } from "react-router-dom";
+import ModalResult from "../ModalResult";
 import "./index.css";
-import quizAPI from "apis/quiz";
-import Paging from "components/Pagination";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 const { Countdown } = Statistic;
@@ -28,6 +26,9 @@ function TakeQuiz() {
   let { qid } = useParams();
   const history = useHistory();
   const [form] = Form.useForm();
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [result, setResult] = useState(null);
 
   const [info, setInfo] = useState(null);
   const [quiz, setQuiz] = useState([]);
@@ -77,9 +78,9 @@ function TakeQuiz() {
 
     const response = await quizAPI.submitQuiz(params);
     if (response.status === "Success") {
-      Notification("success", "Submit quiz success.");
-      //   dispatch(saveQuizHistory(response.result));
-      history.push("/quiz/review/new");
+      Notification("success", "Submit quiz success,");
+      setIsModalVisible(true);
+      setResult(response.result);
     } else {
       Notification("error", "Lost connection to server.");
     }
@@ -179,6 +180,11 @@ function TakeQuiz() {
 
   return (
     <div className="quiz__container">
+      <ModalResult
+        result={result}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
       <div className="quiz__wrapper">
         <div className="quiz__content">
           <Spin spinning={loading}>

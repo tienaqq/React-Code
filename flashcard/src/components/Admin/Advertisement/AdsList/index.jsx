@@ -18,6 +18,8 @@ import {
   returnStatusType,
   runAds,
   showRefund,
+  showStop,
+  stopAds,
 } from "components/Admin/functionAds";
 import Moment from "moment";
 import { useEffect, useState } from "react";
@@ -127,17 +129,22 @@ function AdminAdsList(props) {
                 <div className="ads__menu">
                   {item.statusId === 1 && (
                     <Button type="text" onClick={() => runAds(item.id)}>
-                      Active
+                      <b>Active</b>
                     </Button>
                   )}
                   {item.statusId === 1 && (
                     <Button type="text" onClick={() => removeAds(item.id)}>
-                      Remove
+                      <b>Remove</b>
                     </Button>
                   )}
                   {showRefund(item) && (
                     <Button type="text" onClick={() => refundPoint(item.id)}>
-                      Refund
+                      <b>Refund</b>
+                    </Button>
+                  )}
+                  {showStop(item) && (
+                    <Button type="text" onClick={() => stopAds(item.id)}>
+                      <b>Stop</b>
                     </Button>
                   )}
                 </div>

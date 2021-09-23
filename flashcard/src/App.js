@@ -19,6 +19,7 @@ import UnauthenticatedGuard from "guards/UnauthenticatedGuard";
 import history from "helpers/history";
 import OtherUser from "layouts/OtherUser";
 import Profile from "layouts/Profile";
+import RecentLearning from "layouts/RecentLearning";
 import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { fetchAdsInterval } from "services/adsInterval";
@@ -70,6 +71,14 @@ function App() {
           <AuthenticatedGuard>
             <MemberRole>
               <Latest />
+            </MemberRole>
+          </AuthenticatedGuard>
+        </Route>
+
+        <Route path={paths.LEARNING}>
+          <AuthenticatedGuard>
+            <MemberRole>
+              <RecentLearning />
             </MemberRole>
           </AuthenticatedGuard>
         </Route>

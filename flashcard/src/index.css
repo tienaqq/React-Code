@@ -192,3 +192,39 @@ html {
   padding: 0 10px 50px 10px;
   background-color: #f6f7fb;
 }
+
+/* recent learning */
+.recent__main {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+.recent__menu {
+  width: 250px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(calc(100% + 20px), 45px);
+  border: 1px solid #eee;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+.recent_pd {
+  margin-bottom: 15px;
+}
+.record__card {
+  position: relative;
+}
+.record__button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-5px, 5px);
+}
+@media screen and (max-width: 1279px) {
+  .recent__menu {
+    display: none;
+  }
+}

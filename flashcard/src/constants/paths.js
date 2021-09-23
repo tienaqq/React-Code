@@ -14,4 +14,5 @@ export const paths = {
   DONOR: "/donor",
   ADMIN: "/admin",
   NOTFOUND: "/404",
+  LEARNING: "/learning",
 };

@@ -1,7 +1,8 @@
 export const memberList = [
   { name: "Home", url: "/course", key: "/course" },
+  { name: "My course", url: "/learning", key: "/learning" },
   { name: "Creator", url: "/creator", key: "/creator" },
-  { name: "Gift Center", url: "/gift", key: "/gift" },
+  { name: "Gift center", url: "/gift", key: "/gift" },
 ];
 
 export const donorList = [{ name: "Home", url: "/donor", key: "donor" }];

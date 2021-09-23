@@ -1,9 +1,12 @@
-import { Tag } from "antd";
+import { Tag, Modal } from "antd";
 import adsAPI from "apis/ads";
 import Notification from "components/Notification";
 import moment from "moment";
 import { fetchAdsByAdmin } from "redux/reducer/admin";
 import store from "redux/store/store";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
+const { confirm } = Modal;
 
 export const runAds = async (id) => {
   const res = await adsAPI.runAdsByAdmin({ advertiseId: id });
@@ -52,6 +55,18 @@ export const showRefund = (item) => {
   }
   return false;
 };
+export const showStop = (item) => {
+  if (item.statusId === 2) {
+    if (moment().toDate() <= moment(item?.endDate)) {
+      if (item.time_rendering > 0) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+  return false;
+};
 
 export const refundPoint = async (id) => {
   const res = await adsAPI.refundPointByAdmin({ advertiseId: id });
@@ -61,4 +76,22 @@ export const refundPoint = async (id) => {
   } else {
     Notification("error", res.message);
   }
+};
+
+export const stopAds = async (id) => {
+  confirm({
+    title: "Notification",
+    icon: <ExclamationCircleOutlined />,
+    content: "Do you want to stop ads? Stopping ads will not refund",
+    async onOk() {
+      const res = await adsAPI.stopAdsByAdmin({ advertiseId: id });
+      if (res.status === "Success") {
+        Notification("success", res.message);
+        store.dispatch(fetchAdsByAdmin());
+      } else {
+        Notification("error", res.message);
+      }
+    },
+    onCancel() {},
+  });
 };

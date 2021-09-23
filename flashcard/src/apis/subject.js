@@ -49,6 +49,10 @@ const subjectAPI = {
     const url = baseUrl + "/save-relation";
     return axiosClient.post(url, { params });
   },
+  getRecent: (params) => {
+    const url = baseUrl + "/recent-learning";
+    return axiosClient.get(url, { params });
+  },
 };
 
 export default subjectAPI;
