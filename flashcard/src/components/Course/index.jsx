@@ -63,7 +63,7 @@ function Course() {
         confirm({
           title: "Notification",
           icon: <ExclamationCircleOutlined />,
-          content: `Do you agree to use ${point} points to change the course?`,
+          content: `Do you agree to use ${point} points to join the course?`,
           async onOk() {
             const res = await subjectAPI.saveRelation({ subjectId: id });
             if (res.status === "Success") {

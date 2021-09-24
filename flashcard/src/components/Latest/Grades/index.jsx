@@ -29,10 +29,12 @@ function Grades() {
   useEffect(() => {
     const getHistory = async () => {
       const res = await quizAPI.getHistory();
+      if (res.status === "Success") {
+        let obj = filtered(res.listHistory, post);
+        setList(obj);
+        dispatch(setListHistory(obj));
+      }
       setLoading(false);
-      let obj = filtered(res, post);
-      setList(obj);
-      dispatch(setListHistory(obj));
     };
     getHistory();
   }, [post]);

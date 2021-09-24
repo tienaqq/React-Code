@@ -11,10 +11,11 @@ import {
   Space,
   Typography,
 } from "antd";
+import BanModalFeedback from "components/Admin/BanModalFeedback";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFeedbackByAdmin } from "redux/reducer/admin";
+import { fetchFeedbackByAdmin, setShowModal } from "redux/reducer/admin";
 import { returnServiceType } from "services/returnServiceType";
 
 const { Option } = Select;
@@ -24,6 +25,8 @@ function FeedbackList() {
   const dispatch = useDispatch();
   const { feedbacks } = useSelector((state) => state.admin);
   const [list, setList] = useState(null);
+
+  const [banItem, setBanItem] = useState(null);
 
   useEffect(() => {
     dispatch(fetchFeedbackByAdmin());
@@ -48,8 +51,14 @@ function FeedbackList() {
     }
   };
 
+  const ban = (item) => {
+    setBanItem(item);
+    dispatch(setShowModal(true));
+  };
+
   return (
     <div style={{ maxWidth: 1000 }}>
+      <BanModalFeedback banItem={banItem} />
       <List
         grid={{ gutter: 16, column: 1 }}
         header={
@@ -85,7 +94,7 @@ function FeedbackList() {
         }}
         renderItem={(item) => (
           <List.Item key={item.id}>
-            <Card size="small" hoverable>
+            <Card size="small" hoverable className="a__feedback">
               <Row gutter={[16, 16]}>
                 <Col xs={24} xl={4} xxl={4}>
                   <Image
@@ -117,6 +126,15 @@ function FeedbackList() {
                   <Rate disabled defaultValue={item.point} />
                 </Col>
               </Row>
+              {item.point <= 1 && (
+                <Button
+                  type="text"
+                  className="a__button"
+                  onClick={() => ban(item)}
+                >
+                  BAN DONOR
+                </Button>
+              )}
             </Card>
           </List.Item>
         )}

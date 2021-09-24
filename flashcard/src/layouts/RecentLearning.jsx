@@ -178,9 +178,9 @@ function RecentLearning() {
                           <Descriptions.Item label="Completion Flashcard">
                             <Tag color="#87d068">
                               <Text strong>
-                                {item.totalFLashcard +
+                                {item.completeFlashcard +
                                   " / " +
-                                  item.completeFlashcard}
+                                  item.totalFLashcard}
                               </Text>
                             </Tag>
                           </Descriptions.Item>

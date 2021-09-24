@@ -18,6 +18,7 @@ import {
 import donorAPI from "apis/donor";
 import Notification from "components/Notification";
 import Compressor from "compressorjs";
+import { getChangeInfo } from "helpers/me";
 import Moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -129,6 +130,7 @@ function ServiceForm(props) {
       dispatch(fetchServices());
       onReset();
       handleCancel();
+      getChangeInfo();
     } else {
       Notification("error", res.message);
     }

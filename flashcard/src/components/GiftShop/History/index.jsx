@@ -26,8 +26,8 @@ function CartHistory() {
     const res = await giftAPI.getGiftHistory();
     if (res.status === "Success") {
       setHistory(res.listServices);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {

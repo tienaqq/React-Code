@@ -7,6 +7,7 @@ import { fetchServices, fetchTypes } from "redux/reducer/donor";
 import remove from "./remove";
 import ServiceForm from "./ServiceForm";
 import { setShowModal } from "redux/reducer/donor";
+import { randomColor } from "helpers/colors";
 
 function ServiceList() {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ function ServiceList() {
       dataIndex: "type",
       key: "type",
       responsive: ["xl"],
-      render: (type) => <Tag color="green">{type?.typeName}</Tag>,
+      render: (type) => <Tag color={randomColor()}>{type?.typeName}</Tag>,
     },
     {
       title: "Quantity",
@@ -86,6 +87,7 @@ function ServiceList() {
       title: "Time",
       key: "time",
       dataIndex: "time",
+      width: "100px",
       responsive: ["xl"],
       sorter: {
         compare: (a, b) => a.time - b.time,
@@ -117,7 +119,7 @@ function ServiceList() {
   };
 
   return (
-    <div style={{ maxWidth: 1200 }}>
+    <div style={{ maxWidth: 1250 }}>
       <ServiceForm update={update} />
       <Space style={{ marginBottom: 20 }}>
         <Button icon={<PlusOutlined />} onClick={() => showModal()}>

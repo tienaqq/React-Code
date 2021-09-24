@@ -37,7 +37,7 @@ function Point() {
       dataIndex: "type",
       key: "type",
       render: (text) => {
-        if (text === 1 || text === 2 || text === 6) {
+        if (text === 1 || text === 2 || text === 6 || text === 7) {
           return <ArrowDownOutlined style={{ color: "red" }} />;
         } else {
           return <ArrowUpOutlined style={{ color: "blue" }} />;

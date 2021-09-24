@@ -1,5 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Tag, Typography } from "antd";
+import { randomColor } from "helpers/colors";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
@@ -158,15 +159,7 @@ function ActiveList() {
       key: "roleName",
       dataIndex: "roleName",
       responsive: ["lg"],
-      render: (role) => (
-        <Tag
-          color={
-            (role === "Donor" && "blue") || (role === "Member" && "geekblue")
-          }
-        >
-          {role.toUpperCase()}
-        </Tag>
-      ),
+      render: (role) => <Tag color={randomColor()}>{role.toUpperCase()}</Tag>,
       filters: [
         {
           text: "Member",

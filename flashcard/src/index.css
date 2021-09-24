@@ -228,3 +228,18 @@ html {
     display: none;
   }
 }
+
+.a__feedback {
+  position: relative;
+}
+.a__button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-weight: 500;
+  color: red;
+}
+.a__button:hover {
+  color: white;
+  background-color: #2073d4;
+}

@@ -5,7 +5,11 @@ import Moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { setFlashcardDetail, setShowModalLesson } from "redux/reducer/latest";
+import {
+  setFlashcardDetail,
+  setLessonRequest,
+  setShowModalLesson,
+} from "redux/reducer/latest";
 import { returnDone } from "../latestFunction";
 
 const { Panel } = Collapse;
@@ -65,7 +69,8 @@ function LessonDetail(props) {
     history.push(`/latest/${post}/flashcard`);
   };
 
-  const enrol = () => {
+  const enrol = (lesson) => {
+    dispatch(setLessonRequest(lesson));
     dispatch(setShowModalLesson(true));
   };
 

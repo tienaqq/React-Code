@@ -2,11 +2,13 @@ import { Descriptions, Modal, Typography } from "antd";
 import privateAPI from "apis/private";
 import Notification from "components/Notification";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowModalLesson } from "redux/reducer/latest";
+import { useParams } from "react-router";
+import { fetchLessons, setShowModalLesson } from "redux/reducer/latest";
 
 const { Text } = Typography;
 
 function SendRequestLesson() {
+  let { post } = useParams();
   const dispatch = useDispatch();
   const { isRequestLesson, lessonRequest } = useSelector(
     (state) => state.latest
@@ -17,6 +19,7 @@ function SendRequestLesson() {
     const res = await privateAPI.sentRequestLesson({ lessionId: id });
     if (res.status === "Success") {
       Notification("success", res.message);
+      dispatch(fetchLessons(post));
     } else {
       Notification("warning", res.message);
     }
