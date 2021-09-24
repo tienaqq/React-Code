@@ -3,19 +3,14 @@ import React from "react";
 import { useHistory, useParams } from "react-router";
 
 function ModalResult(props) {
-  const { isModalVisible, setIsModalVisible, result } = props;
+  const { isModalVisible, result } = props;
   const history = useHistory();
   let { post } = useParams();
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   return (
     <Modal
       title="Test Result"
       visible={isModalVisible}
-      onCancel={handleCancel}
       footer={false}
       width={800}
     >

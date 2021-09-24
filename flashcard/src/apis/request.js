@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
-const baseS = "http://localhost:9191/request-subject";
-const baseL = "http://localhost:9191/request-lession";
+const baseS = "http://3.0.147.201:9191/request-subject";
+const baseL = "http://3.0.147.201:9191/request-lession";
 
 const requestAPI = {
   requestSubject: (params) => {

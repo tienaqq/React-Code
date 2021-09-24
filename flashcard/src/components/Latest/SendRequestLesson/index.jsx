@@ -38,10 +38,10 @@ function SendRequestLesson() {
       onCancel={handleCancel}
     >
       <Descriptions column={2}>
-        <Descriptions.Item label="Lesson">
+        <Descriptions.Item label="Lesson" span={2}>
           <Text strong>{lessonRequest?.lessionName}</Text>
         </Descriptions.Item>
-        <Descriptions.Item label="Point">
+        <Descriptions.Item label="Point" span={2}>
           <Text strong>100</Text>
         </Descriptions.Item>
         <Descriptions.Item>

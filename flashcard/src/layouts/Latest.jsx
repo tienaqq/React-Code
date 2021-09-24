@@ -17,6 +17,7 @@ import SendRequestLesson from "components/Latest/SendRequestLesson";
 import TakeQuiz from "components/Latest/TakeQuiz";
 import TestList from "components/Latest/TestList";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Route,
   Switch,
@@ -24,12 +25,14 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
+import { clearFlashcards } from "redux/reducer/latest";
 import LayoutWithoutFooter from "./LayoutWithoutFooter";
 
 const { SubMenu } = Menu;
 
 const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   let { path } = useRouteMatch();
   let { post } = useParams();
 
@@ -59,6 +62,16 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
       pri.push(<Menu.Item key={item.lessionId}>{item.lessionName}</Menu.Item>);
     }
   });
+
+  const refresh = () => {
+    history.push(`/latest/${post}`);
+    dispatch(clearFlashcards());
+    fetchLessons(post);
+  };
+
+  const refresh2 = () => {
+    fetchLessons(post);
+  };
 
   const handleClick = (e) => {
     switch (e.key) {
@@ -131,7 +144,7 @@ const Latest = ({ lessons, fetchSubject, fetchLessons, fetchFlashcards }) => {
                 <LessonDetail code={code} />
               </Route>
               <Route path={`${path}/flashcard`}>
-                <CourseFlashcard />
+                <CourseFlashcard refresh={refresh} />
               </Route>
               <Route path={`${path}/test`}>
                 <TestList post={post} />

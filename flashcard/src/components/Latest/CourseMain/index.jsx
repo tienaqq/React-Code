@@ -1,8 +1,14 @@
-import { CheckCircleOutlined } from "@ant-design/icons";
-import { Button, Collapse, Descriptions, Space, Typography } from "antd";
+import {
+  CheckCircleOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import { Button, Collapse, Descriptions, Modal, Space, Typography } from "antd";
+import acceptAPI from "apis/accept";
+import privateAPI from "apis/private";
+import Notification from "components/Notification";
 import { backStatus } from "constants/backStatus";
+import { getChangeInfo } from "helpers/me";
 import Moment from "moment";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import {
@@ -15,37 +21,26 @@ import "./index.css";
 
 const { Panel } = Collapse;
 const { Text } = Typography;
+const { confirm } = Modal;
 
 function CourseMain() {
   const dispatch = useDispatch();
   const history = useHistory();
   let { post } = useParams();
-  const { lessons } = useSelector((state) => state.latest);
-  const { flashcards } = useSelector((state) => state.latest);
-
-  const [list, setList] = useState([]);
+  const { lessons, flashcards, subjectStatus } = useSelector(
+    (state) => state.latest
+  );
   let array = Array.from(Array(50).keys());
-
-  useEffect(() => {
-    let dis = [];
-    lessons?.map((item) => {
-      if (item.joinStatus === "Join") {
-        dis.push(item.lessionId);
-      }
-    });
-    setList(dis);
-  }, [lessons]);
 
   const findFlashcard = (id) => {
     let children = [];
     flashcards.map((item) => {
       if (item.lessionId === id) {
         children.push(
-          <Descriptions.Item key={item.flashcardId}>
+          <Descriptions.Item key={item.flashcardId} span={2}>
             <Button
               type="text"
-              disabled={list.indexOf(item.lessionId) < 0}
-              onClick={() => selected(item)}
+              onClick={() => findStatus(item)}
               className="btn--hover"
             >
               {item.flashcardName}
@@ -59,14 +54,71 @@ function CourseMain() {
     return children;
   };
 
-  const selected = (item) => {
-    dispatch(setFlashcardDetail(item));
-    history.push(`/latest/${post}/flashcard`);
-  };
-
   const enrol = (lesson) => {
     dispatch(setLessonRequest(lesson));
     dispatch(setShowModalLesson(true));
+  };
+
+  const findStatus = (item) => {
+    dispatch(setFlashcardDetail(item));
+    let filtered = lessons?.filter((el) => el.lessionId === item.lessionId);
+    let status = filtered[0]?.statusId;
+    switch (status) {
+      case 1:
+        selected(item);
+        break;
+      case 2:
+        checkApprovePrivate(item);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const selected = (item) => {
+    history.push(`/latest/${post}/flashcard`);
+  };
+
+  const requestLesson = async (id) => {
+    const response = await privateAPI.sentRequestLesson({ lessionId: id });
+    if (response.status === "Success") {
+      Notification("success", response.message);
+    }
+  };
+
+  const checkApprovePrivate = async (item) => {
+    const id = item.lessionId;
+    const response = await acceptAPI.checkAcceptLesson({ lessionId: id });
+    let status = response.status;
+    switch (status) {
+      case "Success": {
+        history.push(`/latest/${post}/flashcard`);
+        getChangeInfo();
+        break;
+      }
+      case "Failed": {
+        Notification("error", response.message);
+        break;
+      }
+      case "Point Unavailable": {
+        Notification("error", response.message);
+        break;
+      }
+      case "Not Found Request": {
+        confirm({
+          title: "Notification",
+          icon: <ExclamationCircleOutlined />,
+          content: `Do you want to sent request to see content?`,
+          onOk() {
+            requestLesson(id);
+          },
+        });
+        break;
+      }
+      default:
+        Notification("error", response.message);
+        break;
+    }
   };
 
   return (
@@ -119,7 +171,7 @@ function CourseMain() {
                       </Descriptions.Item>
                     )}
 
-                    {lesson.joinStatus === "Not join" && (
+                    {lesson.joinStatus === "Not join" && subjectStatus === 1 && (
                       <Descriptions.Item span={3}>
                         <Button type="primary" onClick={() => enrol(lesson)}>
                           Enrol me

@@ -14,6 +14,7 @@ const styled = {
 };
 
 const labelStyle = {
+  width: 110,
   fontWeight: "500",
   color: "#1890FF",
 };
